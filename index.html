@@ -1,4 +1,120 @@
 <!DOCTYPE html>
-<html>
-      <meta http-equiv = "refresh" content = "0; url = https://apps.apple.com/us/app/color-wheel/id1449736609" />
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Download Color Wheel App for iOS, Android, and macOS</title>
+    <meta name="description" content="Digital, abstract, classic - all types of color wheels in one app!" />
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/colors.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+
+</head>
+
+<body class="color-bg">
+
+    <!-- Top Navigation -->
+    <nav style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; height: 50px; width: 100%; background-color: var(--color-text);"
+        class="font-top">
+
+        <!-- Left block -->
+        <div style="display: flex; flex-direction: row; align-items: first baseline">
+            <div>
+                <a href="/tools" style="margin-left: 20px;" class="nav-button">
+                    Tools
+                </a>
+            </div>
+            <div>
+                <a href="/youtube" class="nav-button">
+                    Videos
+                </a>
+            </div>
+            <div>
+                <a href="/support" class="nav-button">
+                    Support
+                </a>
+            </div>
+        </div>
+
+        <!-- Right block -->
+        <div>
+            <a href="/" class="nav-button">
+                Download App
+            </a>
+        </div>
+
+    </nav>
+
+
+    <!-- Download text -->
+    <div
+        style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 40px; padding-left: 5px; padding-right: 5px;">
+
+        <h1>Color Wheel App</h1>
+
+        <h2>Digital, abstract, classic - all types of color wheels in one app!</h2>
+
+        <div id="button-container">
+            <a href="#" onclick="showNewButtons(event)" style="margin-top: 15px;" class="link-button">
+                Download
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- Images -->
+    <div id="image-container"
+        style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 20px; margin-top: 50px;">
+        <img src="images/ios-app-screenshot-1.png" alt="Image 1" style="width: 300px; height: auto;">
+        <img src="images/ios-app-screenshot-2.png" alt="Image 2" style="width: 300px; height: auto;">
+        <img src="images/ios-app-screenshot-3.png" alt="Image 3" style="width: 300px; height: auto;">
+    </div>
+
+
+    <script>
+        // Images adaptation to page size
+        function updateImageLayout() {
+            const container = document.getElementById('image-container');
+            if (window.innerWidth <= 600) {
+                container.style.flexDirection = 'column';
+                container.style.alignItems = 'center';
+            } else {
+                container.style.flexDirection = 'row';
+                container.style.alignItems = 'center';
+            }
+        }
+        // Run on load and resize
+        window.addEventListener('resize', updateImageLayout);
+        window.addEventListener('load', updateImageLayout);
+
+        // Download button to 3 links
+        function showNewButtons(event) {
+            event.preventDefault();
+            const container = document.getElementById('button-container');
+            container.innerHTML = `
+      <a href="https://apps.apple.com/us/app/color-wheel/id1449736609" style="margin-top: 15px;" class="link-button">App Store (iOS)</a>
+      <a href="https://apps.apple.com/us/app/color-wheel/id1453592782" style="margin-top: 15px;" class="link-button">App Store (macOS)</a>
+      <a href="https://play.google.com/store/apps/details?id=io.github.utopiacosmica.color_wheel" style="margin-top: 15px;" class="link-button">Google Play</a>
+    `;
+        }
+    </script>
+
+</body>
+
 </html>
