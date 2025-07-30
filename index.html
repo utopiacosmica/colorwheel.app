@@ -31,8 +31,8 @@
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/colors.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="/css/colors.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
 
 </head>
 
@@ -42,14 +42,14 @@
     <nav class="top-nav">
         <!-- Left block -->
         <div class="top-nav-left-block">
-            <a href="/tools" class="top-nav-button">Tools</a>
-            <a href="/youtube" class="top-nav-button">Videos</a>
-            <a href="/support" class="top-nav-button">Support</a>
+            <a href="/tools" class="top-nav-btn">Tools</a>
+            <a href="/youtube" class="top-nav-btn">Videos</a>
+            <a href="/support" class="top-nav-btn">Support</a>
         </div>
 
         <!-- Right block -->
         <div class="top-nav-right-block">
-            <a href="/" class="top-nav-button">Download App</a>
+            <a href="/" class="top-nav-btn">Download App</a>
         </div>
     </nav>
 
@@ -63,7 +63,7 @@
         <h2>Digital, abstract, classic - all types of color wheels in one app!</h2>
 
         <div id="button-container">
-            <a href="#" onclick="showNewButtons(event)" style="margin-top: 15px;" class="link-button">
+            <a href="#" onclick="showNewButtons(event)" style="margin-top: 15px;" class="link-btn">
                 Download
             </a>
         </div>
@@ -101,9 +101,9 @@
             event.preventDefault();
             const container = document.getElementById('button-container');
             container.innerHTML = `
-      <a href="https://apps.apple.com/us/app/color-wheel/id1449736609" style="margin-top: 15px;" class="link-button">App Store (iOS)</a>
-      <a href="https://apps.apple.com/us/app/color-wheel/id1453592782" style="margin-top: 15px;" class="link-button">App Store (macOS)</a>
-      <a href="https://play.google.com/store/apps/details?id=io.github.utopiacosmica.color_wheel" style="margin-top: 15px;" class="link-button">Google Play</a>
+      <a href="https://apps.apple.com/us/app/color-wheel/id1449736609" style="margin-top: 15px;" class="link-btn">App Store (iOS)</a>
+      <a href="https://apps.apple.com/us/app/color-wheel/id1453592782" style="margin-top: 15px;" class="link-btn">App Store (macOS)</a>
+      <a href="https://play.google.com/store/apps/details?id=io.github.utopiacosmica.color_wheel" style="margin-top: 15px;" class="link-btn">Google Play</a>
     `;
         }
     </script>
