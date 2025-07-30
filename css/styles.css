@@ -105,6 +105,7 @@ p {
 }
 
 .tool-btn {
+    all: unset;
     background-color: white;
     color: var(--color-text);
     padding: 10px 20px;
@@ -114,6 +115,8 @@ p {
     width: 120px;
     transition: background-color 0.2s;
     text-align: center;
+    display: inline-block;
+    border: none;
 }
 
 .tool-btn:hover {

@@ -20,7 +20,7 @@
     <meta name="description"
         content="Our free Color Contrast Checker tool calculates the contrast ratio between two colors to ensure accessibility and readability for your website or design projects." />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
@@ -51,13 +51,6 @@
             .color-section {
                 height: calc(50vh - 40px);
             }
-        }
-
-        .center-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
         }
 
         .slider-container {
@@ -129,7 +122,7 @@
             text-align: center;
             font-size: 19px;
             color: white;
-            max-width: 500px;
+            max-width: 400px;
         }
 
         @media (max-width: 600px) {
@@ -164,15 +157,15 @@
 
         <div id="color-section-1" class="color-section">
 
+            <div id="ratio-text" class="ratio-display tool-btn no-hover ratio-text">
+                <button>1.00:1</button>
+            </div>
+
             <div id="ratio-explain-text" class="ratio-explain-text"></div>
 
             <div class="slider-container">
                 <input type="range" id="saturation-slider-1" min="0" max="1" step="0.01">
                 <input type="range" id="brightness-slider-1" min="0" max="1" step="0.01">
-            </div>
-
-            <div id="ratio-text" class="ratio-display tool-btn no-hover ratio-text">
-                <button>1.00:1</button>
             </div>
 
             <div class="hex-input-container">
