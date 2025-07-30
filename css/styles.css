@@ -64,7 +64,7 @@ p {
 @media (max-width: 600px) {
     .top-nav {
         flex-direction: column;
-        height: auto;
+        height: 80px;
         padding: 10px 0;
     }
 
