@@ -164,23 +164,24 @@
             const hueSlider = document.getElementById('hue-slider');
             const saturationSlider = document.getElementById('saturation-slider');
             const brightnessSlider = document.getElementById('brightness-slider');
-            let currentHsb = { h: 0, s: 0, b: 0 }; // State to hold current HSB
-
+            let currentHsb = { h: 0, s: 0, b: 0 };
 
             // --- CORE LOGIC ---
 
-            /**
-             * Updates all color inputs based on the value of the input that triggered the event.
-             * @param {Event} e - The input event object.
-             */
             function updateAllColors(e) {
                 const sourceInput = e.target;
                 const sourceFormat = sourceInput.dataset.format;
                 const sourceValue = sourceInput.value;
 
+                // ✨ NEW: Validate the input before proceeding.
+                // If the format is invalid, do nothing and wait for the user to finish typing.
+                if (!isValidInput(sourceFormat, sourceValue)) {
+                    return;
+                }
+
                 let rgb = null;
 
-                // Convert the source color to a standard RGB(0-255) format
+                // The try-catch block is kept as a secondary safety net.
                 try {
                     switch (sourceFormat) {
                         case 'hex':
@@ -204,10 +205,10 @@
                             break;
                     }
                 } catch (error) {
-                    return;
+                    return; // Fail silently
                 }
 
-                if (!rgb || rgb.r === null) return; // Exit if conversion failed
+                if (!rgb || rgb.r === null) return;
 
                 document.body.style.backgroundColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
@@ -221,17 +222,14 @@
                     hsl360: rgbToHsl(rgb.r, rgb.g, rgb.b),
                 };
 
-                // Populate all input fields, except the one being typed in
+                const activeElement = document.activeElement;
                 for (const format in inputs) {
-                    const isSliderActive = document.activeElement.classList.contains('slider');
-                    if (format !== sourceFormat || !isSliderActive) {
+                    if (inputs[format] !== activeElement) {
                         inputs[format].value = conversions[format];
                     }
                 }
 
-                // --- Update slider positions from the new color ---
                 updateSliders();
-
                 localStorage.setItem('color-converter-color', conversions.hex);
             }
 
@@ -253,10 +251,6 @@
             }
 
             // --- SLIDER LOGIC ---
-
-            /**
-             * Updates slider positions and current HSB state from the hsb360 input field.
-             */
             function updateSliders() {
                 const hsb360Value = inputs.hsb360.value;
                 const parts = hsb360Value.split(/[\s,:]+/).filter(Boolean).map(Number);
@@ -269,22 +263,12 @@
                 }
             }
 
-            /**
-             * Handles slider input, reconstructs the HSB color, and triggers a global update.
-             */
             function handleSliderChange() {
                 const newHue = hueSlider.value;
                 const newSaturation = saturationSlider.value;
                 const newBrightness = brightnessSlider.value;
-
-                // Construct the new HSB string from all three current slider values
                 const newHsbString = `${newHue} : ${newSaturation} : ${newBrightness}`;
-
-                // Set the HSB input field's value
                 inputs.hsb360.value = newHsbString;
-
-                // Programmatically trigger an 'input' event on the HSB field.
-                // This reuses your existing updateAllColors function to update everything.
                 const event = new Event('input', { bubbles: true, cancelable: true });
                 inputs.hsb360.dispatchEvent(event);
             }
@@ -292,36 +276,95 @@
 
             // --- UTILITY & CONVERSION FUNCTIONS ---
 
+            /**
+             * ✨ NEW: Checks if the input value matches the expected format for its color type.
+             * @param {string} format The color format (e.g., 'hex', 'rgb255').
+             * @param {string} value The user-provided string value.
+             * @returns {boolean} True if the value is valid, false otherwise.
+             */
+            function isValidInput(format, value) {
+                const trimmedValue = value.trim();
+                if (trimmedValue === '') return false;
+
+                switch (format) {
+                    case 'hex':
+                        return /^#?([0-9A-F]{3}){1,2}$/i.test(trimmedValue);
+
+                    case 'rgb255': {
+                        const parts = trimmedValue.split(/[\s,:]+/).filter(Boolean);
+                        if (parts.length !== 3) return false;
+                        return parts.every(nStr => {
+                            const n = Number(nStr);
+                            return !isNaN(n) && n >= 0 && n <= 255 && String(n) === nStr.trim();
+                        });
+                    }
+
+                    case 'rgb01': {
+                        const parts = trimmedValue.split(/[\s,:]+/).filter(Boolean);
+                        if (parts.length !== 3) return false;
+                        return parts.every(nStr => {
+                            const n = Number(nStr);
+                            return !isNaN(n) && n >= 0 && n <= 1;
+                        });
+                    }
+
+                    case 'cmyk': {
+                        const parts = trimmedValue.split(/[\s,:%]+/).filter(Boolean);
+                        if (parts.length !== 4) return false;
+                        return parts.every(nStr => {
+                            const n = Number(nStr);
+                            return !isNaN(n) && n >= 0 && n <= 100 && String(n) === nStr.trim();
+                        });
+                    }
+
+                    case 'hsb360':
+                    case 'hsl360': {
+                        const parts = trimmedValue.split(/[\s,:]+/).filter(Boolean);
+                        if (parts.length !== 3) return false;
+                        const h = Number(parts[0]);
+                        const s = Number(parts[1]);
+                        const l = Number(parts[2]);
+                        if (isNaN(h) || isNaN(s) || isNaN(l)) return false;
+
+                        return (h >= 0 && h <= 360) && (s >= 0 && s <= 100) && (l >= 0 && l <= 100);
+                    }
+
+                    case 'hsb01': {
+                        const parts = trimmedValue.split(/[\s,:]+/).filter(Boolean);
+                        if (parts.length !== 3) return false;
+                        return parts.every(nStr => {
+                            const n = Number(nStr);
+                            return !isNaN(n) && n >= 0 && n <= 1;
+                        });
+                    }
+
+                    default:
+                        return false;
+                }
+            }
+
             function parseRgbString(str) {
                 const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
-                if (parts.length !== 3 || parts.some(isNaN)) return null;
                 return { r: parts[0], g: parts[1], b: parts[2] };
             }
 
             function parseCmykString(str) {
                 const parts = str.split(/[\s,:%]+/).filter(Boolean).map(Number);
-                if (parts.length !== 4 || parts.some(isNaN)) return null;
                 return { c: parts[0], m: parts[1], y: parts[2], k: parts[3] };
             }
 
             function parseHsvHslString(str) {
                 const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
-                if (parts.length !== 3 || parts.some(isNaN)) return null;
                 return { h: parts[0], s: parts[1], v: parts[2] }; // v can be l as well
             }
 
             function hexToRgb(hex) {
                 hex = hex.replace(/^#/, '');
-                if (!/^[0-9A-F]{6}$/i.test(hex) && !/^[0-9A-F]{3}$/i.test(hex)) return null;
                 if (hex.length === 3) {
                     hex = hex.split('').map(char => char + char).join('');
                 }
                 const bigint = parseInt(hex, 16);
-                return {
-                    r: (bigint >> 16) & 255,
-                    g: (bigint >> 8) & 255,
-                    b: bigint & 255
-                };
+                return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
             }
 
             function rgbToHex(r, g, b) {
@@ -331,12 +374,7 @@
 
             function rgb01ToRgb(str) {
                 const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
-                if (parts.length !== 3 || parts.some(isNaN)) return null;
-                return {
-                    r: Math.round(parts[0] * 255),
-                    g: Math.round(parts[1] * 255),
-                    b: Math.round(parts[2] * 255)
-                };
+                return { r: Math.round(parts[0] * 255), g: Math.round(parts[1] * 255), b: Math.round(parts[2] * 255) };
             }
 
             function rgbToRgb01(r, g, b) {
@@ -348,7 +386,6 @@
 
             function cmykToRgb(str) {
                 const cmyk = parseCmykString(str);
-                if (!cmyk) return null;
                 let { c, m, y, k } = cmyk;
                 c /= 100; m /= 100; y /= 100; k /= 100;
                 const r = 255 * (1 - c) * (1 - k);
@@ -362,9 +399,7 @@
                 let m = 1 - (g / 255);
                 let y = 1 - (b / 255);
                 const k = Math.min(c, m, y);
-                if (k === 1) {
-                    c = m = y = 0;
-                } else {
+                if (k === 1) { c = m = y = 0; } else {
                     c = (c - k) / (1 - k);
                     m = (m - k) / (1 - k);
                     y = (y - k) / (1 - k);
@@ -374,42 +409,32 @@
 
             function hsvToRgb(str, format) {
                 const hsv = parseHsvHslString(str);
-                if (!hsv) return null;
                 let { h, s, v } = hsv;
-
-                if (format === 'hsb360') {
-                    h /= 360;
-                    s /= 100;
-                    v /= 100;
-                }
-
+                if (format === 'hsb360') { h /= 360; s /= 100; v /= 100; }
                 let r, g, b;
                 const i = Math.floor(h * 6);
                 const f = h * 6 - i;
                 const p = v * (1 - s);
                 const q = v * (1 - f * s);
                 const t = v * (1 - (1 - f) * s);
-
                 switch (i % 6) {
-                    case 0: r = v; g = t; b = p; break;
-                    case 1: r = q; g = v; b = p; break;
-                    case 2: r = p; g = v; b = t; break;
-                    case 3: r = p; g = q; b = v; break;
-                    case 4: r = t; g = p; b = v; break;
-                    case 5: r = v; g = p; b = q; break;
+                    case 0: r = v, g = t, b = p; break;
+                    case 1: r = q, g = v, b = p; break;
+                    case 2: r = p, g = v, b = t; break;
+                    case 3: r = p, g = q, b = v; break;
+                    case 4: r = t, g = p, b = v; break;
+                    case 5: r = v, g = p, b = q; break;
                 }
                 return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
             }
 
             function rgbToHsv(r, g, b, format) {
-                r /= 255; g /= 255; b /= 255;
+                r /= 255, g /= 255, b /= 255;
                 const max = Math.max(r, g, b), min = Math.min(r, g, b);
                 let h, s, v = max;
                 const d = max - min;
                 s = max === 0 ? 0 : d / max;
-                if (max === min) {
-                    h = 0; // achromatic
-                } else {
+                if (max === min) { h = 0; } else {
                     switch (max) {
                         case r: h = (g - b) / d + (g < b ? 6 : 0); break;
                         case g: h = (b - r) / d + 2; break;
@@ -425,16 +450,11 @@
 
             function hslToRgb(str) {
                 const hsl = parseHsvHslString(str);
-                if (!hsl) return null;
                 let { h, s, l } = { h: hsl.h / 360, s: hsl.s / 100, l: hsl.l / 100 };
-
                 let r, g, b;
-                if (s === 0) {
-                    r = g = b = l; // achromatic
-                } else {
+                if (s === 0) { r = g = b = l; } else {
                     const hue2rgb = (p, q, t) => {
-                        if (t < 0) t += 1;
-                        if (t > 1) t -= 1;
+                        if (t < 0) t += 1; if (t > 1) t -= 1;
                         if (t < 1 / 6) return p + (q - p) * 6 * t;
                         if (t < 1 / 2) return q;
                         if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
@@ -442,20 +462,16 @@
                     };
                     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     const p = 2 * l - q;
-                    r = hue2rgb(p, q, h + 1 / 3);
-                    g = hue2rgb(p, q, h);
-                    b = hue2rgb(p, q, h - 1 / 3);
+                    r = hue2rgb(p, q, h + 1 / 3); g = hue2rgb(p, q, h); b = hue2rgb(p, q, h - 1 / 3);
                 }
                 return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
             }
 
             function rgbToHsl(r, g, b) {
-                r /= 255; g /= 255; b /= 255;
+                r /= 255, g /= 255, b /= 255;
                 const max = Math.max(r, g, b), min = Math.min(r, g, b);
                 let h, s, l = (max + min) / 2;
-                if (max === min) {
-                    h = s = 0; // achromatic
-                } else {
+                if (max === min) { h = s = 0; } else {
                     const d = max - min;
                     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
                     switch (max) {
@@ -471,23 +487,17 @@
             function showToast(message) {
                 toastMessage.textContent = message;
                 toastMessage.style.opacity = 1;
-                setTimeout(() => {
-                    toastMessage.style.opacity = 0;
-                }, 2500);
+                setTimeout(() => { toastMessage.style.opacity = 0; }, 2500);
             }
 
             // --- EVENT LISTENERS ---
             for (const key in inputs) {
                 inputs[key].addEventListener('input', updateAllColors);
             }
-            copyButtons.forEach(button => {
-                button.addEventListener('click', copyToClipboard);
-            });
-            // --- SLIDER EVENT LISTENERS ---
+            copyButtons.forEach(button => button.addEventListener('click', copyToClipboard));
             hueSlider.addEventListener('input', handleSliderChange);
             saturationSlider.addEventListener('input', handleSliderChange);
             brightnessSlider.addEventListener('input', handleSliderChange);
-
 
             // --- INITIALIZATION ---
             function initialize() {
