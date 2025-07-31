@@ -45,7 +45,6 @@ p {
     height: 50px;
     width: 100%;
     background-color: var(--color-text);
-    box-sizing: border-box;
 }
 
 .top-nav-left-block {
@@ -59,29 +58,6 @@ p {
 .top-nav-right-block {
     display: flex;
     margin-right: 20px;
-}
-
-@media (max-width: 600px) {
-    .top-nav {
-        flex-direction: column;
-        height: 80px;
-        padding: 10px 0;
-    }
-
-    .top-nav-left-block {
-        width: 100%;
-        justify-content: flex-start;
-        padding-left: 20px;
-        margin-left: 0;
-    }
-
-    .top-nav-right-block {
-        display: flex;
-        width: 100%;
-        justify-content: flex-start;
-        padding-left: 20px;
-        margin-right: 0;
-    }
 }
 
 .top-nav-btn {
