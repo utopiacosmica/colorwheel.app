@@ -38,7 +38,6 @@
     <style>
         body {
             background-color: white;
-            overflow: hidden;
         }
 
         .color-section {
@@ -52,6 +51,11 @@
             box-sizing: border-box;
         }
 
+        .slider {
+            width: 100%;
+            margin: 20px 0;
+        }
+
         .slider-container {
             width: 70%;
             max-width: 600px;
@@ -61,37 +65,6 @@
             .slider-container {
                 width: 90%;
             }
-        }
-
-        /* --- Slider Track Styling --- */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 2px;
-            background: white;
-            border-radius: 1px;
-            outline: none;
-            margin: 20px 0;
-        }
-
-        /* --- Rectangular Slider Handle Styling --- */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            background: white;
-            cursor: pointer;
-            border-radius: 0px;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            background: white;
-            cursor: pointer;
-            border-radius: 0px;
         }
 
         .hex-input-container {
@@ -156,13 +129,13 @@
             </div>
 
             <div class="slider-container">
-                <input type="range" id="saturation-slider-1" min="0" max="1" step="0.01">
-                <input type="range" id="brightness-slider-1" min="0" max="1" step="0.01">
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01">
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01">
             </div>
 
             <div class="hex-input-container">
                 <input type="text" id="hex-input-1" class="tool-text-field">
-                <button id="copy-btn-1" class="tool-btn">COPY</button>
+                <button id="copy-btn-1" class="tool-button">COPY</button>
             </div>
 
         </div>
@@ -172,13 +145,13 @@
             <div class="ratio-explain-text"></div>
 
             <div class="slider-container">
-                <input type="range" id="saturation-slider-2" min="0" max="1" step="0.01">
-                <input type="range" id="brightness-slider-2" min="0" max="1" step="0.01">
+                <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01">
+                <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01">
             </div>
 
             <div class="hex-input-container">
                 <input type="text" id="hex-input-2" class="tool-text-field">
-                <button id="copy-btn-2" class="tool-btn">COPY</button>
+                <button id="copy-btn-2" class="tool-button">COPY</button>
             </div>
 
         </div>

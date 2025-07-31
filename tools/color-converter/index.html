@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="../../css/styles.css" />
 
     <style>
-
         body {
             background-color: white;
         }
@@ -46,7 +45,15 @@
         }
 
         .tool-text-field.wider {
-            width: 150px;
+            width: 140px;
+        }
+
+        .tool-text-box.shorter {
+            width: 60px;
+        }
+
+        .tool-button.shorter {
+            width: 60px;
         }
 
         .color-row {
@@ -56,48 +63,23 @@
             gap: 20px;
         }
 
+        .slider {
+            width: 90%;
+            max-width: 360px;
+        }
+
         .sliders-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 40px;
             margin-top: 40px;
-        }
-
-        .slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 485px;
-            height: 2px;
-            background: white;
-            border-radius: 1px;
-            outline: none;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            background: white;
-            cursor: pointer;
-            border-radius: 0px;
-        }
-
-        .slider::-moz-range-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            background: white;
-            cursor: pointer;
-            border-radius: 0px;
+            margin-bottom: 20px;
         }
 
         #hue-slider {
             background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
         }
-
     </style>
 
 </head>
@@ -116,48 +98,48 @@
 
     <div class="converter-container">
         <div class="color-row">
-            <div class="tool-text-box">HEX</div>
+            <div class="tool-text-box shorter">HEX</div>
             <input type="text" class="tool-text-field wider" id="hex-input" data-format="hex">
-            <button class="tool-btn copy-btn" data-target="hex-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="hex-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">RGB</div>
+            <div class="tool-text-box shorter">RGB</div>
             <input type="text" class="tool-text-field wider" id="rgb01-input" data-format="rgb01">
-            <button class="tool-btn copy-btn" data-target="rgb01-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="rgb01-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">RGB</div>
+            <div class="tool-text-box shorter">RGB</div>
             <input type="text" class="tool-text-field wider" id="rgb255-input" data-format="rgb255">
-            <button class="tool-btn copy-btn" data-target="rgb255-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="rgb255-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">CMYK</div>
+            <div class="tool-text-box shorter">CMYK</div>
             <input type="text" class="tool-text-field wider" id="cmyk-input" data-format="cmyk">
-            <button class="tool-btn copy-btn" data-target="cmyk-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="cmyk-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">HSB</div>
+            <div class="tool-text-box shorter">HSB</div>
             <input type="text" class="tool-text-field wider" id="hsb01-input" data-format="hsb01">
-            <button class="tool-btn copy-btn" data-target="hsb01-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="hsb01-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">HSB</div>
+            <div class="tool-text-box shorter">HSB</div>
             <input type="text" class="tool-text-field wider" id="hsb360-input" data-format="hsb360">
-            <button class="tool-btn copy-btn" data-target="hsb360-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="hsb360-input">COPY</button>
         </div>
         <div class="color-row">
-            <div class="tool-text-box">HSL</div>
+            <div class="tool-text-box shorter">HSL</div>
             <input type="text" class="tool-text-field wider" id="hsl360-input" data-format="hsl360">
-            <button class="tool-btn copy-btn" data-target="hsl360-input">COPY</button>
+            <button class="tool-button shorter copy-btn" data-target="hsl360-input">COPY</button>
         </div>
     </div>
 
 
     <div class="sliders-container">
-            <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
-            <input type="range" min="0" max="100" value="50" class="slider" id="saturation-slider">
-            <input type="range" min="0" max="100" value="50" class="slider" id="brightness-slider">
-        </div>
+        <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
+        <input type="range" min="0" max="100" value="50" class="slider" id="saturation-slider">
+        <input type="range" min="0" max="100" value="50" class="slider" id="brightness-slider">
+    </div>
 
 
     <div id="toast-message" class="toast">Copied to clipboard!</div>
