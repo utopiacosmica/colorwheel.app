@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Color Converter: HEX, RGB, CMYK, HSB, HSL</title>
+    <meta name="description"
+        content="Convert colors instantly with our free online tool. Easily transform HEX, RGB, CMYK, HSB, and HSL color codes for your design and web projects." />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/colors.css" />
+    <link rel="stylesheet" href="../../css/styles.css" />
+
+    <style>
+
+        body {
+            background-color: white;
+        }
+
+        .converter-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .copy-btn {
+            content: '';
+        }
+
+        .tool-text-field.wider {
+            width: 150px;
+        }
+
+        .color-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sliders-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 485px;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+        }
+
+        .slider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+        }
+
+        #hue-slider {
+            background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <div class="top-nav-left-block">
+            <a href="/tools" class="top-nav-btn">Tools</a>
+        </div>
+
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+    <div class="converter-container">
+        <div class="color-row">
+            <div class="tool-text-box">HEX</div>
+            <input type="text" class="tool-text-field wider" id="hex-input" data-format="hex">
+            <button class="tool-btn copy-btn" data-target="hex-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">RGB</div>
+            <input type="text" class="tool-text-field wider" id="rgb01-input" data-format="rgb01">
+            <button class="tool-btn copy-btn" data-target="rgb01-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">RGB</div>
+            <input type="text" class="tool-text-field wider" id="rgb255-input" data-format="rgb255">
+            <button class="tool-btn copy-btn" data-target="rgb255-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">CMYK</div>
+            <input type="text" class="tool-text-field wider" id="cmyk-input" data-format="cmyk">
+            <button class="tool-btn copy-btn" data-target="cmyk-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">HSB</div>
+            <input type="text" class="tool-text-field wider" id="hsb01-input" data-format="hsb01">
+            <button class="tool-btn copy-btn" data-target="hsb01-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">HSB</div>
+            <input type="text" class="tool-text-field wider" id="hsb360-input" data-format="hsb360">
+            <button class="tool-btn copy-btn" data-target="hsb360-input">COPY</button>
+        </div>
+        <div class="color-row">
+            <div class="tool-text-box">HSL</div>
+            <input type="text" class="tool-text-field wider" id="hsl360-input" data-format="hsl360">
+            <button class="tool-btn copy-btn" data-target="hsl360-input">COPY</button>
+        </div>
+    </div>
+
+
+    <div class="sliders-container">
+            <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
+            <input type="range" min="0" max="100" value="50" class="slider" id="saturation-slider">
+            <input type="range" min="0" max="100" value="50" class="slider" id="brightness-slider">
+        </div>
+
+
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM ELEMENT REFERENCES ---
+            const inputs = {
+                hex: document.getElementById('hex-input'),
+                rgb01: document.getElementById('rgb01-input'),
+                rgb255: document.getElementById('rgb255-input'),
+                cmyk: document.getElementById('cmyk-input'),
+                hsb01: document.getElementById('hsb01-input'),
+                hsb360: document.getElementById('hsb360-input'),
+                hsl360: document.getElementById('hsl360-input'),
+            };
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            const toastMessage = document.getElementById('toast-message');
+
+            // --- SLIDER REFERENCES ---
+            const hueSlider = document.getElementById('hue-slider');
+            const saturationSlider = document.getElementById('saturation-slider');
+            const brightnessSlider = document.getElementById('brightness-slider');
+            let currentHsb = { h: 0, s: 0, b: 0 }; // State to hold current HSB
+
+
+            // --- CORE LOGIC ---
+
+            /**
+             * Updates all color inputs based on the value of the input that triggered the event.
+             * @param {Event} e - The input event object.
+             */
+            function updateAllColors(e) {
+                const sourceInput = e.target;
+                const sourceFormat = sourceInput.dataset.format;
+                const sourceValue = sourceInput.value;
+
+                let rgb = null;
+
+                // Convert the source color to a standard RGB(0-255) format
+                try {
+                    switch (sourceFormat) {
+                        case 'hex':
+                            rgb = hexToRgb(sourceValue);
+                            break;
+                        case 'rgb01':
+                            rgb = rgb01ToRgb(sourceValue);
+                            break;
+                        case 'rgb255':
+                            rgb = parseRgbString(sourceValue);
+                            break;
+                        case 'cmyk':
+                            rgb = cmykToRgb(sourceValue);
+                            break;
+                        case 'hsb01':
+                        case 'hsb360':
+                            rgb = hsvToRgb(sourceValue, sourceFormat);
+                            break;
+                        case 'hsl360':
+                            rgb = hslToRgb(sourceValue);
+                            break;
+                    }
+                } catch (error) {
+                    return;
+                }
+
+                if (!rgb || rgb.r === null) return; // Exit if conversion failed
+
+                document.body.style.backgroundColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+                const conversions = {
+                    hex: rgbToHex(rgb.r, rgb.g, rgb.b),
+                    rgb01: rgbToRgb01(rgb.r, rgb.g, rgb.b),
+                    rgb255: `${rgb.r} : ${rgb.g} : ${rgb.b}`,
+                    cmyk: rgbToCmyk(rgb.r, rgb.g, rgb.b),
+                    hsb01: rgbToHsv(rgb.r, rgb.g, rgb.b, 'hsb01'),
+                    hsb360: rgbToHsv(rgb.r, rgb.g, rgb.b, 'hsb360'),
+                    hsl360: rgbToHsl(rgb.r, rgb.g, rgb.b),
+                };
+
+                // Populate all input fields, except the one being typed in
+                for (const format in inputs) {
+                    const isSliderActive = document.activeElement.classList.contains('slider');
+                    if (format !== sourceFormat || !isSliderActive) {
+                        inputs[format].value = conversions[format];
+                    }
+                }
+
+                // --- Update slider positions from the new color ---
+                updateSliders();
+
+                localStorage.setItem('color-converter-color', conversions.hex);
+            }
+
+            function copyToClipboard(e) {
+                const button = e.target;
+                const targetInputId = button.dataset.target;
+                const inputToCopy = document.getElementById(targetInputId);
+                const textArea = document.createElement('textarea');
+                textArea.value = inputToCopy.value;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(`Copied ${textArea.value}`);
+                } catch (err) {
+                    showToast('Copying failed.');
+                }
+                document.body.removeChild(textArea);
+            }
+
+            // --- SLIDER LOGIC ---
+
+            /**
+             * Updates slider positions and current HSB state from the hsb360 input field.
+             */
+            function updateSliders() {
+                const hsb360Value = inputs.hsb360.value;
+                const parts = hsb360Value.split(/[\s,:]+/).filter(Boolean).map(Number);
+                if (parts.length === 3) {
+                    const [h, s, b] = parts;
+                    currentHsb = { h, s, b };
+                    hueSlider.value = h;
+                    saturationSlider.value = s;
+                    brightnessSlider.value = b;
+                }
+            }
+
+            /**
+             * Handles slider input, reconstructs the HSB color, and triggers a global update.
+             */
+            function handleSliderChange() {
+                const newHue = hueSlider.value;
+                const newSaturation = saturationSlider.value;
+                const newBrightness = brightnessSlider.value;
+
+                // Construct the new HSB string from all three current slider values
+                const newHsbString = `${newHue} : ${newSaturation} : ${newBrightness}`;
+
+                // Set the HSB input field's value
+                inputs.hsb360.value = newHsbString;
+
+                // Programmatically trigger an 'input' event on the HSB field.
+                // This reuses your existing updateAllColors function to update everything.
+                const event = new Event('input', { bubbles: true, cancelable: true });
+                inputs.hsb360.dispatchEvent(event);
+            }
+
+
+            // --- UTILITY & CONVERSION FUNCTIONS ---
+
+            function parseRgbString(str) {
+                const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
+                if (parts.length !== 3 || parts.some(isNaN)) return null;
+                return { r: parts[0], g: parts[1], b: parts[2] };
+            }
+
+            function parseCmykString(str) {
+                const parts = str.split(/[\s,:%]+/).filter(Boolean).map(Number);
+                if (parts.length !== 4 || parts.some(isNaN)) return null;
+                return { c: parts[0], m: parts[1], y: parts[2], k: parts[3] };
+            }
+
+            function parseHsvHslString(str) {
+                const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
+                if (parts.length !== 3 || parts.some(isNaN)) return null;
+                return { h: parts[0], s: parts[1], v: parts[2] }; // v can be l as well
+            }
+
+            function hexToRgb(hex) {
+                hex = hex.replace(/^#/, '');
+                if (!/^[0-9A-F]{6}$/i.test(hex) && !/^[0-9A-F]{3}$/i.test(hex)) return null;
+                if (hex.length === 3) {
+                    hex = hex.split('').map(char => char + char).join('');
+                }
+                const bigint = parseInt(hex, 16);
+                return {
+                    r: (bigint >> 16) & 255,
+                    g: (bigint >> 8) & 255,
+                    b: bigint & 255
+                };
+            }
+
+            function rgbToHex(r, g, b) {
+                const toHex = c => ('0' + Math.round(c).toString(16)).slice(-2);
+                return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+            }
+
+            function rgb01ToRgb(str) {
+                const parts = str.split(/[\s,:]+/).filter(Boolean).map(Number);
+                if (parts.length !== 3 || parts.some(isNaN)) return null;
+                return {
+                    r: Math.round(parts[0] * 255),
+                    g: Math.round(parts[1] * 255),
+                    b: Math.round(parts[2] * 255)
+                };
+            }
+
+            function rgbToRgb01(r, g, b) {
+                const r01 = (r / 255).toFixed(2);
+                const g01 = (g / 255).toFixed(2);
+                const b01 = (b / 255).toFixed(2);
+                return `${r01} : ${g01} : ${b01}`;
+            }
+
+            function cmykToRgb(str) {
+                const cmyk = parseCmykString(str);
+                if (!cmyk) return null;
+                let { c, m, y, k } = cmyk;
+                c /= 100; m /= 100; y /= 100; k /= 100;
+                const r = 255 * (1 - c) * (1 - k);
+                const g = 255 * (1 - m) * (1 - k);
+                const b = 255 * (1 - y) * (1 - k);
+                return { r: Math.round(r), g: Math.round(g), b: Math.round(b) };
+            }
+
+            function rgbToCmyk(r, g, b) {
+                let c = 1 - (r / 255);
+                let m = 1 - (g / 255);
+                let y = 1 - (b / 255);
+                const k = Math.min(c, m, y);
+                if (k === 1) {
+                    c = m = y = 0;
+                } else {
+                    c = (c - k) / (1 - k);
+                    m = (m - k) / (1 - k);
+                    y = (y - k) / (1 - k);
+                }
+                return `${Math.round(c * 100)} : ${Math.round(m * 100)} : ${Math.round(y * 100)} : ${Math.round(k * 100)}`;
+            }
+
+            function hsvToRgb(str, format) {
+                const hsv = parseHsvHslString(str);
+                if (!hsv) return null;
+                let { h, s, v } = hsv;
+
+                if (format === 'hsb360') {
+                    h /= 360;
+                    s /= 100;
+                    v /= 100;
+                }
+
+                let r, g, b;
+                const i = Math.floor(h * 6);
+                const f = h * 6 - i;
+                const p = v * (1 - s);
+                const q = v * (1 - f * s);
+                const t = v * (1 - (1 - f) * s);
+
+                switch (i % 6) {
+                    case 0: r = v; g = t; b = p; break;
+                    case 1: r = q; g = v; b = p; break;
+                    case 2: r = p; g = v; b = t; break;
+                    case 3: r = p; g = q; b = v; break;
+                    case 4: r = t; g = p; b = v; break;
+                    case 5: r = v; g = p; b = q; break;
+                }
+                return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
+            }
+
+            function rgbToHsv(r, g, b, format) {
+                r /= 255; g /= 255; b /= 255;
+                const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                let h, s, v = max;
+                const d = max - min;
+                s = max === 0 ? 0 : d / max;
+                if (max === min) {
+                    h = 0; // achromatic
+                } else {
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                if (format === 'hsb360') {
+                    return `${Math.round(h * 360)} : ${Math.round(s * 100)} : ${Math.round(v * 100)}`;
+                }
+                return `${h.toFixed(2)} : ${s.toFixed(2)} : ${v.toFixed(2)}`;
+            }
+
+            function hslToRgb(str) {
+                const hsl = parseHsvHslString(str);
+                if (!hsl) return null;
+                let { h, s, l } = { h: hsl.h / 360, s: hsl.s / 100, l: hsl.l / 100 };
+
+                let r, g, b;
+                if (s === 0) {
+                    r = g = b = l; // achromatic
+                } else {
+                    const hue2rgb = (p, q, t) => {
+                        if (t < 0) t += 1;
+                        if (t > 1) t -= 1;
+                        if (t < 1 / 6) return p + (q - p) * 6 * t;
+                        if (t < 1 / 2) return q;
+                        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                        return p;
+                    };
+                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    const p = 2 * l - q;
+                    r = hue2rgb(p, q, h + 1 / 3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1 / 3);
+                }
+                return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
+            }
+
+            function rgbToHsl(r, g, b) {
+                r /= 255; g /= 255; b /= 255;
+                const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+                if (max === min) {
+                    h = s = 0; // achromatic
+                } else {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                return `${Math.round(h * 360)} : ${Math.round(s * 100)} : ${Math.round(l * 100)}`;
+            }
+
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toastMessage.style.opacity = 1;
+                setTimeout(() => {
+                    toastMessage.style.opacity = 0;
+                }, 2500);
+            }
+
+            // --- EVENT LISTENERS ---
+            for (const key in inputs) {
+                inputs[key].addEventListener('input', updateAllColors);
+            }
+            copyButtons.forEach(button => {
+                button.addEventListener('click', copyToClipboard);
+            });
+            // --- SLIDER EVENT LISTENERS ---
+            hueSlider.addEventListener('input', handleSliderChange);
+            saturationSlider.addEventListener('input', handleSliderChange);
+            brightnessSlider.addEventListener('input', handleSliderChange);
+
+
+            // --- INITIALIZATION ---
+            function initialize() {
+                const initialHex = localStorage.getItem('color-converter-color') || '#FAECF6';
+                inputs.hex.value = initialHex;
+                const event = new Event('input', { bubbles: true, cancelable: true });
+                inputs.hex.dispatchEvent(event);
+            }
+
+            initialize();
+        });
+    </script>
+
+</body>
+
+</html>

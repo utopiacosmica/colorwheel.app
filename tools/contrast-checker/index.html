@@ -24,6 +24,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
         rel="stylesheet">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../../css/colors.css" />
     <link rel="stylesheet" href="../../css/styles.css" />
@@ -32,7 +39,6 @@
         body {
             background-color: white;
             overflow: hidden;
-            /* Prevents scrolling of the whole page */
         }
 
         .color-section {
@@ -44,12 +50,6 @@
             position: relative;
             padding: 20px;
             box-sizing: border-box;
-        }
-
-        @media (max-width: 600px) {
-            .color-section {
-                height: calc(50vh - 40px);
-            }
         }
 
         .slider-container {
@@ -69,7 +69,6 @@
             appearance: none;
             width: 100%;
             height: 2px;
-            /* Thinner track */
             background: white;
             border-radius: 1px;
             outline: none;
@@ -81,24 +80,18 @@
             -webkit-appearance: none;
             appearance: none;
             width: 24px;
-            /* Rectangle width */
             height: 24px;
-            /* Rectangle height */
             background: white;
             cursor: pointer;
             border-radius: 0px;
-            /* Slightly rounded corners */
         }
 
         input[type="range"]::-moz-range-thumb {
             width: 24px;
-            /* Rectangle width */
             height: 24px;
-            /* Rectangle height */
             background: white;
             cursor: pointer;
-            border-radius: 2px;
-            /* Slightly rounded corners */
+            border-radius: 0px;
         }
 
         .hex-input-container {
@@ -116,10 +109,6 @@
             top: 20px;
             left: 20px;
             text-align: center;
-        }
-
-        .tool-btn.ratio-text {
-            font-weight: 600;
         }
 
         .ratio-explain-text {
@@ -160,11 +149,11 @@
 
         <div id="color-section-1" class="color-section">
 
-            <div id="ratio-text" class="ratio-display tool-btn no-hover ratio-text">
+            <div id="ratio-explain-text" class="ratio-explain-text"></div>
+
+            <div id="ratio-text" class="ratio-display tool-text-box">
                 <button>1.00:1</button>
             </div>
-
-            <div id="ratio-explain-text" class="ratio-explain-text"></div>
 
             <div class="slider-container">
                 <input type="range" id="saturation-slider-1" min="0" max="1" step="0.01">
@@ -172,7 +161,7 @@
             </div>
 
             <div class="hex-input-container">
-                <input type="text" id="hex-input-1" class="tool-btn hex-input">
+                <input type="text" id="hex-input-1" class="tool-text-field">
                 <button id="copy-btn-1" class="tool-btn">COPY</button>
             </div>
 
@@ -188,7 +177,7 @@
             </div>
 
             <div class="hex-input-container">
-                <input type="text" id="hex-input-2" class="tool-btn hex-input">
+                <input type="text" id="hex-input-2" class="tool-text-field">
                 <button id="copy-btn-2" class="tool-btn">COPY</button>
             </div>
 
@@ -326,8 +315,8 @@
             ratioText.textContent = `${ratio.toFixed(2)}:1`;
             ratioExplainText.textContent = getContrastCategoryText(ratio);
 
-            localStorage.setItem('color1', JSON.stringify(color1));
-            localStorage.setItem('color2', JSON.stringify(color2));
+            localStorage.setItem('contrast-checker-color1', JSON.stringify(color1));
+            localStorage.setItem('contrast-checker-color2', JSON.stringify(color2));
         }
 
         function showToast(message) {
@@ -395,8 +384,8 @@
 
         // Initial Load
         window.onload = () => {
-            const savedColor1 = localStorage.getItem('color1');
-            const savedColor2 = localStorage.getItem('color2');
+            const savedColor1 = localStorage.getItem('contrast-checker-color1');
+            const savedColor2 = localStorage.getItem('contrast-checker-color2');
 
             if (savedColor1 && savedColor2) {
                 color1 = JSON.parse(savedColor1);
