@@ -36,10 +36,6 @@
     <link rel="stylesheet" href="../../css/styles.css" />
 
     <style>
-        body {
-            background-color: white;
-        }
-
         .color-section {
             height: calc(50vh - 25px);
             display: flex;
@@ -116,49 +112,45 @@
         </div>
     </nav>
 
-
     <!-- Tool -->
-    <div id="app-container">
+    <div id="color-section-1" class="color-section">
 
-        <div id="color-section-1" class="color-section">
+        <div id="ratio-explain-text" class="ratio-explain-text"></div>
 
-            <div id="ratio-explain-text" class="ratio-explain-text"></div>
-
-            <div id="ratio-text" class="ratio-display tool-text-box">
-                <button>1.00:1</button>
-            </div>
-
-            <div class="slider-container">
-                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01">
-                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01">
-            </div>
-
-            <div class="hex-input-container">
-                <input type="text" id="hex-input-1" class="tool-text-field">
-                <button id="copy-btn-1" class="tool-button">COPY</button>
-            </div>
-
+        <div id="ratio-text" class="ratio-display tool-text-box">
+            <button>1.00:1</button>
         </div>
 
-        <div id="color-section-2" class="color-section">
+        <div class="slider-container">
+            <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01">
+            <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01">
+        </div>
 
-            <div class="ratio-explain-text"></div>
-
-            <div class="slider-container">
-                <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01">
-                <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01">
-            </div>
-
-            <div class="hex-input-container">
-                <input type="text" id="hex-input-2" class="tool-text-field">
-                <button id="copy-btn-2" class="tool-button">COPY</button>
-            </div>
-
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
         </div>
 
     </div>
 
+    <div id="color-section-2" class="color-section">
 
+        <div class="ratio-explain-text"></div>
+
+        <div class="slider-container">
+            <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01">
+            <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01">
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+    
+    <!-- Toast -->
     <div id="toast-message" class="toast">Copied to clipboard!</div>
 
 
