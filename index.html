@@ -20,8 +20,12 @@
     <meta name="description" content="Digital, abstract, classic - all types of color wheels in one app!" />
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
-        rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -30,9 +34,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/css/colors.css" />
-    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/css/styles.css">
 
 </head>
 

@@ -19,10 +19,15 @@
     <meta name="description"
         content="Convert colors instantly with our free online tool. Easily transform HEX, RGB, CMYK, HSB, and HSL color codes for your design and web projects." />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
-        rel="stylesheet">
+    <!-- Font -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
 
-    <link rel="stylesheet" href="../../css/colors.css" />
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/styles.css" />
 
     <style>
@@ -78,7 +83,6 @@
         .history-btn:hover {
             border-color: var(--color-text);
         }
-
     </style>
 
 </head>

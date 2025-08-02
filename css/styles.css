@@ -1,3 +1,10 @@
+/* === Colors === */
+
+:root {
+    --color-bg: #FAECF6;
+    --color-text: #1D1D1F;
+}
+
 /* === Styles === */
 
 body {
