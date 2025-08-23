@@ -267,8 +267,8 @@
                 updateUI();
             });
         });
-
-        input.addEventListener('blur', () => {
+        
+        input.addEventListener('input', () => {
             const value = input.value.toUpperCase();
             const color = hexToRgb(value);
             if (color) {
@@ -283,8 +283,6 @@
                     state.v = hsv.v;
                 }
                 updateUI();
-            } else {
-                input.value = rgbToHex(state.r, state.g, state.b, state.a);
             }
         });
 
