@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Shadow & Highlight Color Generator – Natural Light & Shadow Picker</title>
+    <meta name="description"
+        content="Instantly generate natural shadow and highlight colors for any HEX code. Free color theory shading tool for painters, illustrators, and designers using warm-light/cool-shadow rules." />
+    <link rel="canonical" href="https://colorwheel.app/tools/shadow-highlight-generator/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/shadow-highlight-generator/" />
+    <meta property="og:title" content="Free Shadow & Highlight Color Generator – Natural Light & Shadow Picker" />
+    <meta property="og:description"
+        content="Calculate realistic shadow and highlight HEX colors with natural hue and temperature shifts instead of muddy black or chalky white." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Shadow & Highlight Color Generator",
+          "url": "https://colorwheel.app/tools/shadow-highlight-generator/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Interactive shadow and highlight color calculator for painters, digital artists, and UI designers. Applies warm-light/cool-shadow hue shifts to prevent muddy shading."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do you choose shadow and highlight colors without using black or white?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Instead of only lowering brightness (adding black) or raising brightness (adding white), shift the hue and saturation along with the value. Under warm sunlight, shift highlights warmer toward yellow and shift shadows cooler toward blue-violet to mimic ambient sky light."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does warm light, cool shadow mean in painting?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When a light source is warm (like sunlight or incandescent light), the lit planes of an object take on a warm cast, while the shadow side is illuminated by the cool blue dome of the sky—creating a temperature contrast between warm highlights and cool shadows."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Base Local Color & Lighting Environment -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="base-explain-text" class="ratio-explain-text">
+            Base Local Color under Warm Sunlight — Highlights shift warm toward Yellow; shadows shift cool toward Blue-Violet.
+        </div>
+
+        <div class="ratio-display">
+            <button id="light-mode-btn" class="tool-button" title="Switch between Warm Sunlight and Cool Overcast lighting">WARM LIGHT</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Base Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Base Color Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Base Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Base Color Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Base Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Base Color Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Base Local HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Generated Shadow or Highlight Color -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="shade-explain-text" class="ratio-explain-text">
+            Form Shadow (-55%) — Shifted toward cool ambient sky blue-violet to avoid muddy black.
+        </div>
+
+        <div class="ratio-display">
+            <button id="toggle-shade-btn" class="tool-button" title="Click to toggle between Shadow and Highlight">SHOW HIGHLIGHT</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Shading Step (-100% Deep Shadow &larr; 0% &rarr; +100% Highlight)</span>
+                <input type="range" class="slider" id="step-slider-2" min="-100" max="100" step="1" value="-55" aria-label="Shadow or Highlight Step">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Color Theory Hue Shift (0% Flat Black/White &rarr; 100% Natural Shift)</span>
+                <input type="range" class="slider" id="shift-slider-2" min="0" max="1" step="0.01" value="0.65" aria-label="Hue Shift Intensity">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Generated Shadow or Highlight HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Shadow &amp; Highlight Color Generator for Painters &amp; Designers</h1>
+            <p>
+                Stop shading with pure black and white. Our free <strong>Shadow &amp; Highlight Color Generator</strong> calculates natural, vibrant shadow and highlight HEX codes for any base color using classical painting and digital illustration color theory. Set your local color in the top panel, toggle between <strong>Warm Light</strong> and <strong>Cool Light</strong>, and use the bottom panel to generate rich form shadows, occlusion darks, lit planes, and specular highlights.
+            </p>
+
+            <h2>How to Pick Natural Shadow and Highlight Colors</h2>
+            <p>
+                In nature, light and shadow never change brightness alone—they also shift in <strong>hue</strong> and <strong>chroma (saturation)</strong>:
+            </p>
+            <ul>
+                <li><strong>Warm Light / Cool Shadows (Outdoor Sunlight):</strong> Direct sunlight warms the lit side of an object toward golden yellow (<code>~55°</code>), while the shadow side is lit by the cool blue dome of the sky, shifting shadows toward ultramarine and blue-violet (<code>~235°</code>).</li>
+                <li><strong>Cool Light / Warm Shadows (Overcast or North Light):</strong> Diffused cool sky light shifts highlights toward cool cyan-blue (<code>~205°</code>), causing surrounding warm bounce light to make the shadows appear relatively warm (shifting toward burnt umber/crimson <code>~18°</code>).</li>
+                <li><strong>Saturation Curve in Shading:</strong> Mid-shadows often gain slight chromatic richness before desaturating in deep occlusion crevices, while highlights brighten and gradually desaturate toward the light source color.</li>
+            </ul>
+
+            <h2>Shadow &amp; Highlight Hue Shift Reference Guide</h2>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Shading Zone</th>
+                        <th>Slider Range</th>
+                        <th>Warm Sunlight Behavior</th>
+                        <th>Cool Overcast Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Specular Highlight</strong></td>
+                        <td>+75% to +100%</td>
+                        <td>High brightness, low saturation, warm ivory-yellow cast</td>
+                        <td>High brightness, low saturation, crisp ice-blue cast</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lit Mass / Halftone</strong></td>
+                        <td>+25% to +74%</td>
+                        <td>Hue shifts toward Yellow (55°), vibrant luminous chroma</td>
+                        <td>Hue shifts toward Sky Cyan (205°), clean cool chroma</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Form Shadow</strong></td>
+                        <td>-25% to -70%</td>
+                        <td>Hue shifts toward Blue-Violet (235°), rich ambient chroma</td>
+                        <td>Hue shifts toward Warm Umber/Red (18°), warm undertone</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deep Occlusion</strong></td>
+                        <td>-71% to -100%</td>
+                        <td>Deepest value, cools and desaturates into dark indigo</td>
+                        <td>Deepest value, warms into dark burnt umber</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const stepSlider2 = document.getElementById('step-slider-2');
+        const shiftSlider2 = document.getElementById('shift-slider-2');
+        const lightModeBtn = document.getElementById('light-mode-btn');
+        const toggleShadeBtn = document.getElementById('toggle-shade-btn');
+        const baseExplainText = document.getElementById('base-explain-text');
+        const shadeExplainText = document.getElementById('shade-explain-text');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State
+        let color1 = { h: 18, s: 0.72, v: 0.84 }; // Terracotta / Warm Skin / Coral default
+        let isWarmLight = true;                   // true = Warm Sunlight (Cool Shadows), false = Cool Light (Warm Shadows)
+        let shadeStep = -55;                      // -100 (Deep Shadow) to +100 (Specular Highlight)
+        let hueShiftStrength = 0.65;              // 0 to 1 artist hue shift strength
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        // Shortest angular interpolation toward a target hue attractor
+        function shiftHueToward(baseHue, targetHue, pullFraction) {
+            let diff = ((targetHue - baseHue + 540) % 360) - 180;
+            // Limit maximum hue rotation to ~52 degrees so local color identity stays recognizable
+            const maxPullDeg = 52;
+            const clampedDiff = Math.max(-maxPullDeg, Math.min(maxPullDeg, diff * 0.65));
+            return Math.round((baseHue + clampedDiff * pullFraction + 360) % 360);
+        }
+
+        // Calculate natural Shadow (step < 0) or Highlight (step > 0)
+        function calculateShadedColor(baseHsv, step, shiftStrength, warmLight) {
+            if (step === 0) {
+                return { h: baseHsv.h, s: baseHsv.s, v: baseHsv.v };
+            }
+
+            const amount = Math.abs(step) / 100; // 0 to 1
+            const highlightAttractor = warmLight ? 55 : 202; // 55° Golden Sunlight vs 202° Cool Sky Light
+            const shadowAttractor = warmLight ? 238 : 16;    // 238° Cool Ultramarine Shadow vs 16° Warm Umber Shadow
+
+            if (step < 0) {
+                // SHADOW CALCULATION
+                const newH = shiftHueToward(baseHsv.h, shadowAttractor, amount * shiftStrength);
+                // Brightness drops smoothly toward deep occlusion (minimum 0.05)
+                const newV = Math.max(0.04, baseHsv.v * (1 - amount * 0.88));
+                // In painting, mid-shadows (amount ~0.4-0.6) gain slight chroma boost before deep shadows desaturate
+                const chromaBoost = Math.sin(amount * Math.PI) * 0.18 * shiftStrength;
+                const deepDesat = amount > 0.75 ? (amount - 0.75) * 0.5 : 0;
+                const newS = Math.max(0, Math.min(1, baseHsv.s + chromaBoost - deepDesat));
+                return { h: newH, s: newS, v: newV };
+            } else {
+                // HIGHLIGHT CALCULATION
+                const newH = shiftHueToward(baseHsv.h, highlightAttractor, amount * shiftStrength);
+                // Brightness rises toward 1.0
+                const newV = Math.min(1, baseHsv.v + (1 - baseHsv.v) * Math.pow(amount, 0.75));
+                // Saturation stays lively in early lit planes, then tapers off toward specular white
+                const satTaper = Math.pow(amount, 1.35) * (0.78 - 0.18 * shiftStrength);
+                const newS = Math.max(0.03, Math.min(1, baseHsv.s * (1 - satTaper)));
+                return { h: newH, s: newS, v: newV };
+            }
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+
+            const shadedHsv = calculateShadedColor(color1, shadeStep, hueShiftStrength, isWarmLight);
+            const rgb2 = hsvToRgb(shadedHsv.h / 360, shadedHsv.s, shadedHsv.v);
+            const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            baseExplainText.style.color = textCol1;
+            shadeExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = color1.h;
+            satSlider1.value = color1.s;
+            brightSlider1.value = color1.v;
+
+            stepSlider2.value = shadeStep;
+            shiftSlider2.value = hueShiftStrength;
+
+            if (isWarmLight) {
+                lightModeBtn.textContent = "WARM SUNLIGHT";
+                baseExplainText.textContent = "Warm Sunlight Environment — Highlights shift warm toward Yellow (55°); shadows shift cool toward Blue-Violet (238°).";
+            } else {
+                lightModeBtn.textContent = "COOL OVERCAST";
+                baseExplainText.textContent = "Cool Overcast Environment — Highlights shift cool toward Sky Cyan (202°); shadows shift warm toward Umber (16°).";
+            }
+
+            const shiftPct = Math.round(hueShiftStrength * 100);
+            if (shadeStep < 0) {
+                toggleShadeBtn.textContent = "SWITCH TO HIGHLIGHT";
+                const shadowType = shadeStep < -70 ? "Deep Occlusion Shadow" : shadeStep < -30 ? "Form Shadow" : "Core Halftone Shadow";
+                const tempDir = isWarmLight ? "cool Blue-Violet" : "warm Umber-Red";
+                shadeExplainText.textContent = `${shadowType} (${shadeStep}%) — Hue shifted ${shiftPct}% toward ${tempDir} (${shadedHsv.h}°).`;
+            } else if (shadeStep > 0) {
+                toggleShadeBtn.textContent = "SWITCH TO SHADOW";
+                const lightType = shadeStep > 70 ? "Specular Highlight" : shadeStep > 30 ? "Direct Lit Plane" : "Warm Halftone Light";
+                const tempDir = isWarmLight ? "warm Golden-Yellow" : "cool Sky-Cyan";
+                shadeExplainText.textContent = `${lightType} (+${shadeStep}%) — Hue shifted ${shiftPct}% toward ${tempDir} (${shadedHsv.h}°).`;
+            } else {
+                toggleShadeBtn.textContent = "SHOW SHADOW";
+                shadeExplainText.textContent = "Base Color (0% Shading Step). Drag slider left for Shadow or right for Highlight.";
+            }
+
+            localStorage.setItem('shadow-gen-color1', JSON.stringify(color1));
+            localStorage.setItem('shadow-gen-settings', JSON.stringify({ isWarmLight, shadeStep, hueShiftStrength }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            color1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            color1.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            color1.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        stepSlider2.addEventListener('input', (e) => {
+            shadeStep = parseInt(e.target.value, 10);
+            updateUI();
+        });
+        shiftSlider2.addEventListener('input', (e) => {
+            hueShiftStrength = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        lightModeBtn.addEventListener('click', () => {
+            isWarmLight = !isWarmLight;
+            updateUI();
+        });
+
+        toggleShadeBtn.addEventListener('click', () => {
+            if (shadeStep === 0) {
+                shadeStep = -55;
+            } else {
+                shadeStep = -shadeStep;
+            }
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                shadeStep = -55;
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedColor1 = localStorage.getItem('shadow-gen-color1');
+            const savedSettings = localStorage.getItem('shadow-gen-settings');
+
+            if (savedColor1) {
+                color1 = JSON.parse(savedColor1);
+            }
+            if (savedSettings) {
+                const parsed = JSON.parse(savedSettings);
+                isWarmLight = typeof parsed.isWarmLight === 'boolean' ? parsed.isWarmLight : true;
+                shadeStep = typeof parsed.shadeStep === 'number' ? parsed.shadeStep : -55;
+                hueShiftStrength = typeof parsed.hueShiftStrength === 'number' ? parsed.hueShiftStrength : 0.65;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
