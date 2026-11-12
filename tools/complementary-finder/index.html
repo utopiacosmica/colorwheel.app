@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Complementary Color Finder – RYB Painter & RGB Opposite Color Tool</title>
+    <meta name="description"
+        content="Instantly find the opposite complementary color for any HEX code in both RYB Painter and RGB Digital color wheels. Mute colors and mix chromatic neutrals online." />
+    <link rel="canonical" href="https://colorwheel.app/tools/complementary-finder/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/complementary-finder/" />
+    <meta property="og:title" content="Free Complementary Color Finder – RYB Painter & RGB Opposite Color Tool" />
+    <meta property="og:description"
+        content="Calculate true RYB artist complementary colors or RGB digital opposites, and preview muted chromatic mixes." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Complementary Color Finder (RYB & RGB)",
+          "url": "https://colorwheel.app/tools/complementary-finder/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Free online complementary color calculator supporting both the traditional RYB painter's color wheel and the RGB digital color wheel, complete with chromatic gray neutralizing."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why is the complementary color of red green in painting but cyan in RGB?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Traditional painting uses the subtractive RYB (Red-Yellow-Blue) color wheel, where Red is opposite Green, Yellow is opposite Violet, and Blue is opposite Orange. Digital screens use the additive RGB (Red-Green-Blue) color wheel, where Red is opposite Cyan, Green is opposite Magenta, and Blue is opposite Yellow."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do painters use complementary colors to mute a color?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Adding 10% to 50% of a color's complement neutralizes its chroma without making it lifeless like pure black does, producing rich earth tones and chromatic grays."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Base Color & RYB/RGB Wheel Selector -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="comp-explain-text" class="ratio-explain-text">
+            RYB Painter's Complement — Cobalt Blue paired with Warm Orange for natural pigment balance.
+        </div>
+
+        <div class="ratio-display">
+            <button id="wheel-mode-btn" class="tool-button" title="Click to switch between RYB Painter Wheel and RGB Digital Wheel">RYB PAINTER</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Base Color Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Base Color Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Base Color Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Base HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Complementary Opposite & Chromatic Neutralizer -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="mix-explain-text" class="ratio-explain-text">
+            Pure Opposite Complement (0% Mix). Slide Mute / Neutralize below to mix a chromatic shadow tone.
+        </div>
+
+        <div class="ratio-display">
+            <button id="reset-comp-btn" class="tool-button" title="Reset to 100% Pure Complementary Color">PURE COMPLEMENT</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Mute / Neutralize Mix (0% Pure Complement &rarr; 50% Chromatic Neutral)</span>
+                <input type="range" class="slider" id="mix-slider-2" min="0" max="0.5" step="0.01" value="0" aria-label="Neutralize Mix Ratio">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Complement Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01" aria-label="Complement Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Complementary HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Complementary Color Finder – RYB Painter's Wheel vs. RGB Digital Wheel</h1>
+            <p>
+                Find the exact opposite color of any HEX code using either the <strong>Traditional RYB Painter's Color Wheel</strong> or the <strong>RGB Digital Color Wheel</strong>. Click the top-left <strong>RYB PAINTER / RGB DIGITAL</strong> toggle to switch color wheels, or drag the <strong>Mute / Neutralize Mix</strong> slider to see how mixing two complementary colors creates rich, natural chromatic grays and shadow tones.
+            </p>
+
+            <h2>RYB vs. RGB Complementary Colors: Why Painters &amp; Screens Differ</h2>
+            <p>
+                Most online calculators simply add 180° to the RGB hue angle, which pairs Red with Cyan and Blue with Yellow. While that works for additive light on screens, traditional painters and color theorists work on the <strong>RYB (Red–Yellow–Blue)</strong> wheel where primary pigments oppose secondary mixtures:
+            </p>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Base Color</th>
+                        <th>RYB Painter's Complement</th>
+                        <th>RGB Digital Complement (180°)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Red (0°)</strong></td>
+                        <td><strong>Green</strong> (~120°)</td>
+                        <td>Cyan (180°)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Orange (30°)</strong></td>
+                        <td><strong>Blue</strong> (~215° Cobalt/Ultramarine)</td>
+                        <td>Azure Blue (210°)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Yellow (60°)</strong></td>
+                        <td><strong>Violet / Purple</strong> (~275°)</td>
+                        <td>Pure Blue (240°)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Green (120°)</strong></td>
+                        <td><strong>Red</strong> (0°)</td>
+                        <td>Magenta (300°)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Blue (215°–240°)</strong></td>
+                        <td><strong>Warm Orange</strong> (~30°)</td>
+                        <td>Yellow (60°)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Violet (275°)</strong></td>
+                        <td><strong>Yellow</strong> (60°)</td>
+                        <td>Chartreuse Green (95°)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>How to Use the Mute / Neutralize Slider for Shadows &amp; Earth Tones</h2>
+            <p>
+                In oil, acrylic, watercolor, and digital painting, darkening a color with pure black deadens its saturation. Instead, artists add <strong>10% to 50% of the complementary color</strong> to knock down over-saturated hues into atmospheric mid-tones and natural shadows. Drag the <strong>Mute / Neutralize Mix</strong> slider in the bottom half of the tool to preview and copy the exact muted HEX code.
+            </p>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const mixSlider2 = document.getElementById('mix-slider-2');
+        const brightSlider2 = document.getElementById('brightness-slider-2');
+        const wheelModeBtn = document.getElementById('wheel-mode-btn');
+        const resetCompBtn = document.getElementById('reset-comp-btn');
+        const compExplainText = document.getElementById('comp-explain-text');
+        const mixExplainText = document.getElementById('mix-explain-text');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State
+        let color1 = { h: 215, s: 0.85, v: 0.88 }; // Cobalt Blue default
+        let isRybMode = true; // Default to RYB Painter mode (the underserved high-value niche)
+        let mixRatio = 0;     // 0 = pure complement, 0.5 = 50/50 neutral mix
+        let v2 = 0.92;        // Complement brightness
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        // --- RYB Painter Wheel <-> RGB Hue Mapping ---
+        // Anchor points mapping RGB Hue degrees -> RYB Artist Wheel degrees
+        const rgbToRybAnchors = [
+            [0, 0],     // Red
+            [30, 60],   // Orange
+            [60, 120],  // Yellow
+            [120, 180], // Green
+            [215, 240], // Cobalt/Ultramarine Blue
+            [275, 300], // Violet/Purple
+            [360, 360]  // Red wrap
+        ];
+
+        function rgbHueToRybHue(rgbH) {
+            const h = ((rgbH % 360) + 360) % 360;
+            for (let i = 0; i < rgbToRybAnchors.length - 1; i++) {
+                const [x0, y0] = rgbToRybAnchors[i];
+                const [x1, y1] = rgbToRybAnchors[i + 1];
+                if (h >= x0 && h <= x1) {
+                    const t = (h - x0) / (x1 - x0);
+                    return y0 + t * (y1 - y0);
+                }
+            }
+            return h;
+        }
+
+        function rybHueToRgbHue(rybH) {
+            const h = ((rybH % 360) + 360) % 360;
+            for (let i = 0; i < rgbToRybAnchors.length - 1; i++) {
+                const [x0, y0] = rgbToRybAnchors[i];
+                const [x1, y1] = rgbToRybAnchors[i + 1];
+                if (h >= y0 && h <= y1) {
+                    const t = (h - y0) / (y1 - y0);
+                    return x0 + t * (x1 - x0);
+                }
+            }
+            return h;
+        }
+
+        function getComplementaryHue(rgbHue, useRyb) {
+            if (!useRyb) {
+                return (rgbHue + 180) % 360;
+            }
+            const rybH = rgbHueToRybHue(rgbHue);
+            const oppRybH = (rybH + 180) % 360;
+            return Math.round(rybHueToRgbHue(oppRybH)) % 360;
+        }
+
+        function getHueFamilyName(h) {
+            const deg = ((h % 360) + 360) % 360;
+            if (deg >= 345 || deg < 15) return "Red";
+            if (deg < 42) return "Orange";
+            if (deg < 70) return "Yellow";
+            if (deg < 105) return "Yellow-Green";
+            if (deg < 155) return "Green";
+            if (deg < 195) return "Cyan / Blue-Green";
+            if (deg < 250) return "Blue";
+            if (deg < 295) return "Violet / Purple";
+            return "Magenta / Rose";
+        }
+
+        // Subtractive-inspired perceptual mix between two RGB colors for realistic pigment neutralizing
+        function mixColors(rgbA, rgbB, amountOfA) {
+            // Blend in gamma-corrected space with slight subtractive darkening at mid-mix
+            const t = amountOfA; // 0 = 100% B (Complement), 0.5 = 50/50 Neutral Mix
+            const pinch = 1 - 0.14 * Math.sin(t * Math.PI); // Subtractive pigment absorption curve
+            const r = Math.round(((1 - t) * rgbB.r + t * rgbA.r) * pinch);
+            const g = Math.round(((1 - t) * rgbB.g + t * rgbA.g) * pinch);
+            const b = Math.round(((1 - t) * rgbB.b + t * rgbA.b) * pinch);
+            return {
+                r: Math.max(0, Math.min(255, r)),
+                g: Math.max(0, Math.min(255, g)),
+                b: Math.max(0, Math.min(255, b))
+            };
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+
+            const compHue = getComplementaryHue(color1.h, isRybMode);
+            const pureCompRgb = hsvToRgb(compHue / 360, color1.s, v2);
+            const rgb2 = mixColors(rgb1, pureCompRgb, mixRatio);
+            const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            compExplainText.style.color = textCol1;
+            mixExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = color1.h;
+            satSlider1.value = color1.s;
+            brightSlider1.value = color1.v;
+
+            mixSlider2.value = mixRatio;
+            brightSlider2.value = v2;
+
+            const name1 = getHueFamilyName(color1.h);
+            const name2 = getHueFamilyName(compHue);
+
+            if (isRybMode) {
+                wheelModeBtn.textContent = "RYB PAINTER (CLICK FOR RGB)";
+                compExplainText.textContent = `RYB Painter's Complement — ${name1} (${Math.round(color1.h)}°) paired with ${name2} (${compHue}°) for traditional pigment harmony.`;
+            } else {
+                wheelModeBtn.textContent = "RGB DIGITAL (CLICK FOR RYB)";
+                compExplainText.textContent = `RGB Digital Complement — ${name1} (${Math.round(color1.h)}°) paired with ${name2} (${compHue}°) at 180° screen opposition.`;
+            }
+
+            const mixPercent = Math.round(mixRatio * 100);
+            if (mixPercent === 0) {
+                resetCompBtn.textContent = `PURE ${name2.toUpperCase()}`;
+                mixExplainText.textContent = "100% Pure Complementary Color. Drag Mute / Neutralize below to mix a desaturated chromatic shadow.";
+            } else {
+                resetCompBtn.textContent = "RESET PURE";
+                mixExplainText.textContent = `Muted Chromatic Mix (${100 - mixPercent}% Complement + ${mixPercent}% Base Color) — Ideal for natural shadows and earth tones.`;
+            }
+
+            localStorage.setItem('comp-finder-color1', JSON.stringify(color1));
+            localStorage.setItem('comp-finder-settings', JSON.stringify({ isRybMode, mixRatio, v2 }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            color1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            color1.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            color1.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        mixSlider2.addEventListener('input', (e) => {
+            mixRatio = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider2.addEventListener('input', (e) => {
+            v2 = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        wheelModeBtn.addEventListener('click', () => {
+            isRybMode = !isRybMode;
+            updateUI();
+        });
+
+        resetCompBtn.addEventListener('click', () => {
+            mixRatio = 0;
+            v2 = color1.v;
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                v2 = color1.v;
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                // Reverse calculate base color from pasted complement
+                color1.h = getComplementaryHue(hsv.h, isRybMode);
+                color1.s = hsv.s;
+                v2 = hsv.v;
+                mixRatio = 0;
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedColor1 = localStorage.getItem('comp-finder-color1');
+            const savedSettings = localStorage.getItem('comp-finder-settings');
+
+            if (savedColor1) {
+                color1 = JSON.parse(savedColor1);
+            }
+            if (savedSettings) {
+                const parsed = JSON.parse(savedSettings);
+                isRybMode = typeof parsed.isRybMode === 'boolean' ? parsed.isRybMode : true;
+                mixRatio = typeof parsed.mixRatio === 'number' ? parsed.mixRatio : 0;
+                v2 = typeof parsed.v2 === 'number' ? parsed.v2 : color1.v;
+            } else {
+                v2 = color1.v;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
