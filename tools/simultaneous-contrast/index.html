@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Simultaneous Contrast Tool – Color Relativity & Optical Shift Calculator</title>
+    <meta name="description"
+        content="Simulate simultaneous contrast and compensate for background color illusions. Free Josef Albers & Chevreul color relativity tool for painters and designers." />
+    <link rel="canonical" href="https://colorwheel.app/tools/simultaneous-contrast/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/simultaneous-contrast/" />
+    <meta property="og:title" content="Free Simultaneous Contrast Tool – Color Relativity & Optical Shift Calculator" />
+    <meta property="og:description"
+        content="See how a background color optically shifts your subject color and calculate the exact HEX needed to compensate for simultaneous contrast." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Simultaneous Contrast & Color Relativity Compensator",
+          "url": "https://colorwheel.app/tools/simultaneous-contrast/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Interactive simultaneous contrast simulator and color relativity compensator for painters, illustrators, and UI designers."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is simultaneous contrast in color theory?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Simultaneous contrast is an optical phenomenon identified by Michel Eugène Chevreul and Josef Albers in which a surrounding background color alters the perceived hue, value, and saturation of an adjacent color—pushing it toward the background's complementary hue and opposite lightness."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do painters and designers compensate for simultaneous contrast?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "To keep a subject color looking consistent against a strong background, shift the subject color slightly toward the background's own hue and lightness. This cancels out the retina's opponent afterimage push."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Surrounding Background Context Color -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="bg-explain-text" class="ratio-explain-text">
+            Surrounding Background — Pushes adjacent colors toward its opposite hue and value.
+        </div>
+
+        <div class="ratio-display">
+            <button id="mode-btn" class="tool-button" title="Switch between Compensate Mode and Optical Illusion Mode">COMPENSATE MODE</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Background Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Background Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Background Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Background Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Background Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Background Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Background HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Subject Color & Simultaneous Contrast Compensator -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="target-explain-text" class="ratio-explain-text">
+            50% Counter-Compensated Subject — Shifted toward the background to cancel out optical distortion.
+        </div>
+
+        <div class="ratio-display">
+            <button id="strength-badge" class="tool-button" title="Click to toggle between 0% Unadjusted and 50% Adjusted">50% ADJUSTED</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Subject Base Hue</span>
+                <input type="range" class="slider" id="hue-slider-2" min="0" max="360" step="1" aria-label="Subject Base Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Subject Base Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01" aria-label="Subject Base Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Relativity Adjustment (0% Original Subject &rarr; 100% Full Shift)</span>
+                <input type="range" class="slider" id="strength-slider-2" min="0" max="1" step="0.01" value="0.50" aria-label="Relativity Adjustment Strength">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Subject HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Simultaneous Contrast &amp; Color Relativity Compensator</h1>
+            <p>
+                Every color in painting and design is seen in relation to its surroundings. Our free <strong>Simultaneous Contrast &amp; Color Relativity Compensator</strong> helps painters, illustrators, and UI designers predict how a dominant background color distorts an adjacent subject color—and calculates the exact counter-adjusted HEX code required to keep your color looking true.
+            </p>
+
+            <h2>How Simultaneous Contrast Distorts Color (Chevreul &amp; Josef Albers)</h2>
+            <p>
+                When you stare at a strong background color, the photoreceptors in your retina fatigue and project a <strong>complementary opponent afterimage</strong> onto neighboring shapes. This creates three predictable optical shifts:
+            </p>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Background Property</th>
+                        <th>Optical Illusion on Subject Color</th>
+                        <th>How to Counter-Compensate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Dark Background</strong></td>
+                        <td>Subject appears <strong>lighter and chalkier</strong> than it truly is</td>
+                        <td>Lower the subject's brightness slightly toward the dark background</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Light Background</strong></td>
+                        <td>Subject appears <strong>darker and heavier</strong> than it truly is</td>
+                        <td>Raise the subject's brightness slightly toward the light background</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Warm Red / Orange BG</strong></td>
+                        <td>Subject shifts <strong>cooler toward Cyan / Blue-Green</strong></td>
+                        <td>Warm the subject slightly toward Red-Orange to neutralize the cool push</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cool Blue / Green BG</strong></td>
+                        <td>Subject shifts <strong>warmer toward Orange / Magenta-Red</strong></td>
+                        <td>Cool the subject slightly toward the background hue</td>
+                    </tr>
+                    <tr>
+                        <td><strong>High-Chroma Vivid BG</strong></td>
+                        <td>Muted subject colors look <strong>grayed-out and lifeless</strong></td>
+                        <td>Boost subject saturation by 10%–20% to hold its chroma</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Using Compensate Mode vs. Illusion Mode</h2>
+            <ul>
+                <li><strong>COMPENSATE MODE (Default):</strong> Calculates the counter-shifted pigment or HEX code you should actually apply so that when placed against the top background color, the human eye perceives your intended target color.</li>
+                <li><strong>ILLUSION MODE:</strong> Simulates the optical afterimage shift itself, showing how an unadjusted subject color will falsely appear to the viewer when surrounded by the top background color.</li>
+            </ul>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/munsell-converter/" class="link-button">Munsell Converter</a>
+                <a href="/tools/atmospheric-perspective/" class="link-button">Atmospheric Perspective</a>
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/shadow-highlight-generator/" class="link-button">Shadow &amp; Highlight</a>
+                <a href="/tools/tint-tone-shade/" class="link-button">Tint, Tone &amp; Shade</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const hueSlider2 = document.getElementById('hue-slider-2');
+        const satSlider2 = document.getElementById('saturation-slider-2');
+        const strengthSlider2 = document.getElementById('strength-slider-2');
+        const modeBtn = document.getElementById('mode-btn');
+        const strengthBadge = document.getElementById('strength-badge');
+        const bgExplainText = document.getElementById('bg-explain-text');
+        const targetExplainText = document.getElementById('target-explain-text');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State
+        let bgColor = { h: 152, s: 0.82, v: 0.58 };      // Vivid Emerald/Viridian Background
+        let subjectBase = { h: 28, s: 0.36, v: 0.78 };   // Warm Neutral Ochre / Portrait Mid-Tone
+        let isCompensateMode = true;                     // true = Compensate Mode, false = Illusion Simulator Mode
+        let shiftStrength = 0.50;                        // 0.0 to 1.0 adjustment strength
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        function getHueName(deg) {
+            const h = ((deg % 360) + 360) % 360;
+            if (h >= 345 || h < 15) return "Red";
+            if (h < 42) return "Orange";
+            if (h < 70) return "Yellow";
+            if (h < 155) return "Green";
+            if (h < 200) return "Cyan";
+            if (h < 255) return "Blue";
+            if (h < 305) return "Violet";
+            return "Magenta";
+        }
+
+        // Calculate Simultaneous Contrast Illusion or Counter-Compensation in RGB + HSB space
+        function calculateRelativityColor(bgHsv, subjHsv, strength, compensate) {
+            if (strength <= 0.005) {
+                return { ...subjHsv };
+            }
+
+            const bgRgb = hsvToRgb(bgHsv.h / 360, bgHsv.s, bgHsv.v);
+            const subjRgb = hsvToRgb(subjHsv.h / 360, subjHsv.s, subjHsv.v);
+
+            // Opponent complement of background
+            const oppRgb = {
+                r: 255 - bgRgb.r,
+                g: 255 - bgRgb.g,
+                b: 255 - bgRgb.b
+            };
+
+            // Scale induction by background saturation and value difference
+            const inductionWeight = strength * 0.34 * (0.35 + 0.65 * bgHsv.s);
+
+            let outR, outG, outB;
+            if (compensate) {
+                // COMPENSATE MODE: Pull subject slightly toward the background to neutralize the retina's opponent push
+                outR = Math.round(subjRgb.r + (bgRgb.r - oppRgb.r) * inductionWeight * 0.55);
+                outG = Math.round(subjRgb.g + (bgRgb.g - oppRgb.g) * inductionWeight * 0.55);
+                outB = Math.round(subjRgb.b + (bgRgb.b - oppRgb.b) * inductionWeight * 0.55);
+            } else {
+                // ILLUSION MODE: Push subject toward the background's opponent afterimage (how the eye falsely perceives it)
+                outR = Math.round(subjRgb.r + (oppRgb.r - bgRgb.r) * inductionWeight * 0.55);
+                outG = Math.round(subjRgb.g + (oppRgb.g - bgRgb.g) * inductionWeight * 0.55);
+                outB = Math.round(subjRgb.b + (oppRgb.b - bgRgb.b) * inductionWeight * 0.55);
+            }
+
+            outR = Math.max(0, Math.min(255, outR));
+            outG = Math.max(0, Math.min(255, outG));
+            outB = Math.max(0, Math.min(255, outB));
+
+            return rgbToHsv(outR, outG, outB);
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(bgColor.h / 360, bgColor.s, bgColor.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+
+            const resultHsv = calculateRelativityColor(bgColor, subjectBase, shiftStrength, isCompensateMode);
+            const rgb2 = hsvToRgb(resultHsv.h / 360, resultHsv.s, resultHsv.v);
+            const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            bgExplainText.style.color = textCol1;
+            targetExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = bgColor.h;
+            satSlider1.value = bgColor.s;
+            brightSlider1.value = bgColor.v;
+
+            hueSlider2.value = subjectBase.h;
+            satSlider2.value = subjectBase.s;
+            strengthSlider2.value = shiftStrength;
+
+            const bgName = getHueName(bgColor.h);
+            const oppName = getHueName((bgColor.h + 180) % 360);
+            const valPush = bgColor.v < 0.45 ? "lighter" : "darker";
+            const pct = Math.round(shiftStrength * 100);
+
+            bgExplainText.textContent = `${bgName} Background — Optically pushes adjacent colors toward ${oppName} and makes them look ${valPush}.`;
+
+            if (isCompensateMode) {
+                modeBtn.textContent = "COMPENSATE MODE";
+                strengthBadge.textContent = pct === 0 ? "0% ORIGINAL" : `${pct}% COMPENSATED`;
+                if (pct === 0) {
+                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag Relativity Adjustment slider right to counter-compensate for the background.";
+                } else {
+                    targetExplainText.textContent = `${pct}% Counter-Compensated Subject — Shifted toward ${bgName} so it resists the background's ${oppName} afterimage push.`;
+                }
+            } else {
+                modeBtn.textContent = "ILLUSION MODE";
+                strengthBadge.textContent = pct === 0 ? "0% ORIGINAL" : `${pct}% ILLUSION`;
+                if (pct === 0) {
+                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag slider right to see how the eye falsely perceives this color.";
+                } else {
+                    targetExplainText.textContent = `${pct}% Simultaneous Contrast Illusion — Simulates how the ${bgName} background pushes this color toward ${oppName}.`;
+                }
+            }
+
+            localStorage.setItem('sim-contrast-bg', JSON.stringify(bgColor));
+            localStorage.setItem('sim-contrast-subj', JSON.stringify(subjectBase));
+            localStorage.setItem('sim-contrast-settings', JSON.stringify({ isCompensateMode, shiftStrength }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            bgColor.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            bgColor.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            bgColor.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        hueSlider2.addEventListener('input', (e) => {
+            subjectBase.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider2.addEventListener('input', (e) => {
+            subjectBase.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        strengthSlider2.addEventListener('input', (e) => {
+            shiftStrength = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        modeBtn.addEventListener('click', () => {
+            isCompensateMode = !isCompensateMode;
+            updateUI();
+        });
+
+        // Quick A/B toggle between 0% Original and 50% Adjusted
+        strengthBadge.addEventListener('click', () => {
+            shiftStrength = shiftStrength > 0.02 ? 0.0 : 0.50;
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                bgColor = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                subjectBase = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedBg = localStorage.getItem('sim-contrast-bg');
+            const savedSubj = localStorage.getItem('sim-contrast-subj');
+            const savedSettings = localStorage.getItem('sim-contrast-settings');
+
+            if (savedBg) bgColor = JSON.parse(savedBg);
+            if (savedSubj) subjectBase = JSON.parse(savedSubj);
+            if (savedSettings) {
+                const parsed = JSON.parse(savedSettings);
+                isCompensateMode = typeof parsed.isCompensateMode === 'boolean' ? parsed.isCompensateMode : true;
+                shiftStrength = typeof parsed.shiftStrength === 'number' ? parsed.shiftStrength : 0.50;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
