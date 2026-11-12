@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Color Temperature Checker – Warm vs. Cool Color Finder</title>
+    <meta name="description"
+        content="Instantly check if any HEX color is warm or cool. Free online Color Temperature Checker for painters and designers to analyze warm/cool undertones and shift color temperature." />
+    <link rel="canonical" href="https://colorwheel.app/tools/temperature-checker/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/temperature-checker/" />
+    <meta property="og:title" content="Free Color Temperature Checker – Warm vs. Cool Color Finder" />
+    <meta property="og:description"
+        content="Check whether any color is warm or cool, inspect its relative pigment undertone, and generate warmer or cooler variations." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Color Temperature Checker (Warm vs. Cool Finder)",
+          "url": "https://colorwheel.app/tools/temperature-checker/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Interactive tool to check if a color is warm or cool, identify relative warm/cool undertones within any hue family, and shift color temperature."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do you tell if a color is warm or cool?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Warm colors (reds, oranges, yellows) are associated with sunlight and heat, sitting roughly between 330° and 120° on the hue wheel. Cool colors (greens, cyans, blues, violets) sit between 120° and 330°. Additionally, every individual hue has a relative warm or cool undertone depending on which neighbor it leans toward."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can a blue be warm or a red be cool?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. In painting and color theory, relative temperature compares a color to others in the same hue family. A red leaning toward violet (like Alizarin Crimson) is a cool red, while a red leaning toward orange (like Cadmium Red) is a warm red."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Source Color Temperature & Undertone Analysis -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="temp-explain-text" class="ratio-explain-text">
+            Warm Color — Red-Orange bias with strong advancing warmth.
+        </div>
+
+        <div id="temp-text" class="ratio-display tool-text-box">
+            <button type="button">Warm (+85%)</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Source Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Source Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Source Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Source HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Relative Temperature Shifter (Cooler <-> Warmer Companion) -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="shift-explain-text" class="ratio-explain-text">
+            Temperature Shift Preview. Drag slider left for Cooler or right for Warmer bias.
+        </div>
+
+        <div class="ratio-display">
+            <button id="flip-temp-btn" class="tool-button" title="Toggle Cooler or Warmer Shift">FLIP WARM / COOL</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Temperature Shift (Cooler &larr; &rarr; Warmer)</span>
+                <input type="range" class="slider" id="shift-slider-2" min="-100" max="100" step="1" value="-45" aria-label="Temperature Shift">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Companion Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01" aria-label="Companion Saturation">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Shifted Temperature HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Color Temperature Checker – Find Warm vs. Cool Colors &amp; Undertones</h1>
+            <p>
+                Not sure if a color is warm or cool? Use our free <strong>Color Temperature Checker</strong> to analyze any HEX code or HSB color. Instantly see its <strong>absolute temperature rating</strong> (from -100% Cool to +100% Warm), identify its <strong>relative pigment undertone</strong>, and generate warmer or cooler companion colors for painting, illustration, branding, or UI design.
+            </p>
+
+            <h2>Absolute vs. Relative Color Temperature in Painting &amp; Design</h2>
+            <p>
+                Artists and designers use two layers of color temperature:
+            </p>
+            <ul>
+                <li><strong>Absolute Temperature:</strong> Divides the color wheel into the Warm hemisphere (Reds, Oranges, Yellows, peaking near Red-Orange at ~15°) and the Cool hemisphere (Greens, Cyans, Blues, Violets, peaking near Cyan-Blue at ~195°).</li>
+                <li><strong>Relative Undertone (Hue Bias):</strong> Compares a color to its immediate neighbors within the same hue family. For example, <em>Lemon Yellow</em> is a cool yellow because it leans slightly toward green, whereas <em>Cadmium Yellow Deep</em> is a warm yellow because it leans toward orange.</li>
+            </ul>
+
+            <h2>Warm vs. Cool Pigment &amp; Hue Undertone Reference</h2>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Hue Family</th>
+                        <th>Warm Undertone Bias</th>
+                        <th>Cool Undertone Bias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Yellows</strong></td>
+                        <td>Leans toward Orange (Cadmium Yellow, Golden Ochre)</td>
+                        <td>Leans toward Green (Lemon Yellow, Hansa Yellow Light)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reds</strong></td>
+                        <td>Leans toward Orange (Cadmium Red, Vermilion)</td>
+                        <td>Leans toward Violet/Blue (Alizarin Crimson, Quinacridone Magenta)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Blues</strong></td>
+                        <td>Leans toward Red-Violet (Ultramarine Blue)</td>
+                        <td>Leans toward Cyan/Ice (Cerulean, Manganese Blue)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Greens</strong></td>
+                        <td>Leans toward Yellow (Sap Green, Olive Green)</td>
+                        <td>Leans toward Blue (Viridian, Phthalo Green)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Neutrals &amp; Grays</strong></td>
+                        <td>Beige, Taupe, Umber, Warm Greige</td>
+                        <td>Slate Gray, Steel Gray, Payne's Gray</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const shiftSlider2 = document.getElementById('shift-slider-2');
+        const satSlider2 = document.getElementById('saturation-slider-2');
+        const tempText = document.getElementById('temp-text');
+        const tempExplainText = document.getElementById('temp-explain-text');
+        const shiftExplainText = document.getElementById('shift-explain-text');
+        const flipTempBtn = document.getElementById('flip-temp-btn');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State
+        let color1 = { h: 14, s: 0.86, v: 0.94 }; // Warm Vermilion default
+        let shiftAmount = -45; // Shift cooler by default so user sees contrast
+        let sat2 = 0.80;
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        // --- Temperature & Undertone Calculation ---
+        // Warmest pole on artist/perceptual wheel: ~15 deg (Red-Orange)
+        // Coolest pole: ~195 deg (Cyan-Blue)
+        function getTemperatureAnalysis(h, s, v) {
+            if (v < 0.06) {
+                return {
+                    badge: "Neutral Black (0%)",
+                    explain: "Near-Black Neutral — Too dark for chromatic warmth; acts as a cool-neutral anchor unless tinted."
+                };
+            }
+            if (s < 0.04) {
+                return {
+                    badge: "Neutral Gray (0%)",
+                    explain: "Achromatic Neutral — Pure gray/white with zero hue bias. Will take on the opposite temperature of surrounding colors."
+                };
+            }
+
+            const radians = ((h - 15) * Math.PI) / 180;
+            const rawCos = Math.cos(radians); // +1 at 15 deg (Warmest), -1 at 195 deg (Coolest)
+            const chromaWeight = Math.min(1, Math.pow(s, 0.55));
+            const score = Math.round(rawCos * chromaWeight * 100);
+
+            let absCategory = "";
+            if (score >= 45) absCategory = "Warm Color";
+            else if (score >= 12) absCategory = "Warm-Leaning";
+            else if (score > -12) absCategory = "Borderline Neutral Temp";
+            else if (score > -45) absCategory = "Cool-Leaning";
+            else absCategory = "Cool Color";
+
+            // Relative Undertone within each Hue family
+            let undertone = "";
+            if (h >= 345 || h < 12) {
+                undertone = h >= 345 ? "Cool Red undertone (leans toward Crimson/Violet)." : "Warm Red undertone (leans toward Scarlet/Orange).";
+            } else if (h >= 12 && h < 45) {
+                undertone = h < 26 ? "Red-Orange warmth (peak advancing thermal hue)." : "Golden-Orange undertone (leans toward Amber/Yellow).";
+            } else if (h >= 45 && h < 72) {
+                undertone = h < 57 ? "Warm Yellow (leans toward Cadmium Orange/Gold)." : "Cool Yellow (leans toward Lemon/Greenish bias).";
+            } else if (h >= 72 && h < 165) {
+                undertone = h < 120 ? "Warm Yellow-Green (Sap/Chartreuse undertone)." : "Cool Blue-Green (Viridian/Emerald undertone).";
+            } else if (h >= 165 && h < 255) {
+                undertone = h < 215 ? "Cool Cyan-Blue (Cerulean/Ice undertone)." : "Warm-Biased Blue (Ultramarine/Violet undertone).";
+            } else if (h >= 255 && h < 345) {
+                undertone = h < 300 ? "Cool Violet (Blue-Violet shadow bias)." : "Warm Magenta-Violet (Red-Violet/Quinacridone bias).";
+            }
+
+            const sign = score > 0 ? `+${score}%` : `${score}%`;
+            const poleLabel = score > 8 ? `Warm (${sign})` : score < -8 ? `Cool (${sign})` : `Neutral (${sign})`;
+
+            return {
+                badge: poleLabel,
+                explain: `${absCategory} — ${undertone}`
+            };
+        }
+
+        // Shift hue toward Warm pole (15 deg) when shift > 0, or toward Cool pole (195 deg) when shift < 0
+        function getShiftedHue(baseHue, shift) {
+            const targetPole = shift >= 0 ? 15 : 195;
+            const amount = Math.abs(shift) / 100; // 0 to 1
+
+            // Shortest angular distance from baseHue to targetPole
+            let diff = ((targetPole - baseHue + 540) % 360) - 180;
+            // If baseHue is directly opposite the target pole, pick a natural path
+            if (Math.abs(diff) > 175) {
+                diff = shift >= 0 ? 175 : -175;
+            }
+            const newHue = (baseHue + diff * amount + 360) % 360;
+            return Math.round(newHue);
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+
+            const shiftedHue = getShiftedHue(color1.h, shiftAmount);
+            const rgb2 = hsvToRgb(shiftedHue / 360, sat2, color1.v);
+            const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            tempExplainText.style.color = textCol1;
+            shiftExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = color1.h;
+            satSlider1.value = color1.s;
+            brightSlider1.value = color1.v;
+
+            shiftSlider2.value = shiftAmount;
+            satSlider2.value = sat2;
+
+            const analysis1 = getTemperatureAnalysis(color1.h, color1.s, color1.v);
+            tempText.textContent = analysis1.badge;
+            tempExplainText.textContent = analysis1.explain;
+
+            const analysis2 = getTemperatureAnalysis(shiftedHue, sat2, color1.v);
+            if (shiftAmount === 0) {
+                shiftExplainText.textContent = "No Temperature Shift (0). Drag slider left for Cooler or right for Warmer companion.";
+            } else if (shiftAmount > 0) {
+                shiftExplainText.textContent = `Warmer Variation (+${shiftAmount}% shift toward Red-Orange) — Now ${analysis2.badge}.`;
+            } else {
+                shiftExplainText.textContent = `Cooler Variation (${shiftAmount}% shift toward Cyan-Blue) — Now ${analysis2.badge}.`;
+            }
+
+            localStorage.setItem('temp-checker-color1', JSON.stringify(color1));
+            localStorage.setItem('temp-checker-shift', JSON.stringify({ shift: shiftAmount, s: sat2 }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            color1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            color1.s = parseFloat(e.target.value);
+            sat2 = color1.s;
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            color1.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        shiftSlider2.addEventListener('input', (e) => {
+            shiftAmount = parseInt(e.target.value, 10);
+            updateUI();
+        });
+        satSlider2.addEventListener('input', (e) => {
+            sat2 = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        flipTempBtn.addEventListener('click', () => {
+            shiftAmount = shiftAmount <= 0 ? 55 : -55;
+            if (sat2 < 0.2) sat2 = Math.max(0.6, color1.s);
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                sat2 = color1.s;
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                sat2 = color1.s;
+                shiftAmount = 0;
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedColor1 = localStorage.getItem('temp-checker-color1');
+            const savedShift = localStorage.getItem('temp-checker-shift');
+
+            if (savedColor1) {
+                color1 = JSON.parse(savedColor1);
+            }
+            if (savedShift) {
+                const parsed = JSON.parse(savedShift);
+                shiftAmount = typeof parsed.shift === 'number' ? parsed.shift : -45;
+                sat2 = typeof parsed.s === 'number' ? parsed.s : color1.s;
+            } else {
+                sat2 = color1.s;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
