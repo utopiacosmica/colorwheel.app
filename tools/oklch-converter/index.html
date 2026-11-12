@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free OKLCH to HEX Color Converter – Perceptual OKLCH Color Picker</title>
+    <meta name="description"
+        content="Instantly convert between OKLCH and HEX colors. Free interactive OKLCH perceptual color picker with uniform lightness (L), chroma (C), and hue (H) sliders for designers and artists." />
+    <link rel="canonical" href="https://colorwheel.app/tools/oklch-converter/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/oklch-converter/" />
+    <meta property="og:title" content="Free OKLCH to HEX Color Converter – Perceptual OKLCH Color Picker" />
+    <meta property="og:description"
+        content="Convert HEX to OKLCH and explore uniform perceptual lightness and chroma with live sliders." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free OKLCH to HEX Color Converter & Perceptual Picker",
+          "url": "https://colorwheel.app/tools/oklch-converter/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Free online OKLCH to HEX converter and perceptual color picker. Adjust OKLCH Lightness (L), Chroma (C), and Hue (H) with automatic sRGB gamut mapping."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why is OKLCH better than HSL and HSB for design and color theory?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In HSL and HSB, changing the hue angle drastically changes perceived brightness (for example, yellow looks much lighter than blue at 50% lightness). OKLCH is perceptually uniform, meaning rotating the Hue slider keeps the exact same perceived lightness and contrast ratio."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What do L, C, and H stand for in OKLCH?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "L stands for Perceptual Lightness (0% pure black to 100% pure white), C stands for Chroma (color purity from 0 neutral gray up to ~0.37 max sRGB/P3 intensity), and H stands for Hue angle (0° to 360°)."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: OKLCH <-> HEX Primary Editor -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="oklch-explain-1" class="ratio-explain-text">
+            oklch(68.0% 0.170 35.0) — Perceptually Uniform Lightness, Chroma &amp; Hue.
+        </div>
+
+        <div class="ratio-display">
+            <button id="copy-oklch-1" class="tool-button" title="Click to copy oklch(...) CSS code">COPY OKLCH</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">OKLCH Lightness (L: 0% Black &rarr; 100% White)</span>
+                <input type="range" class="slider" id="l-slider-1" min="0" max="1" step="0.005" value="0.68" aria-label="OKLCH Lightness">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">OKLCH Chroma (C: 0 Neutral Gray &rarr; 0.32 Vivid)</span>
+                <input type="range" class="slider" id="c-slider-1" min="0" max="0.32" step="0.002" value="0.17" aria-label="OKLCH Chroma">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">OKLCH Hue (H: 0° &rarr; 360°)</span>
+                <input type="range" class="slider" id="h-slider-1" min="0" max="360" step="1" value="35" aria-label="OKLCH Hue">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Primary HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Constant-Lightness OKLCH Companion Finder -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="oklch-explain-2" class="ratio-explain-text">
+            Equal-Lightness Companion (L locked at 68.0%) — Rotate Hue without changing perceived brightness.
+        </div>
+
+        <div class="ratio-display">
+            <button id="copy-oklch-2" class="tool-button" title="Click to copy companion oklch(...) CSS code">COPY OKLCH</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Companion OKLCH Hue (Same Perceived Lightness L)</span>
+                <input type="range" class="slider" id="h-slider-2" min="0" max="360" step="1" value="235" aria-label="Companion OKLCH Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Companion OKLCH Chroma</span>
+                <input type="range" class="slider" id="c-slider-2" min="0" max="0.32" step="0.002" value="0.14" aria-label="Companion OKLCH Chroma">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Companion HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free OKLCH to HEX Converter &amp; Perceptual Color Picker</h1>
+            <p>
+                Convert any <strong>HEX code to OKLCH</strong> or build perceptually uniform color palettes with live <strong>Lightness (L)</strong>, <strong>Chroma (C)</strong>, and <strong>Hue (H)</strong> sliders. Click <strong>COPY OKLCH</strong> on the left to grab the modern CSS Color 4 <code>oklch()</code> string, or click <strong>COPY</strong> on the right to copy the sRGB <code>#HEX</code> code.
+            </p>
+
+            <h2>Why Designers and Painters Are Switching from HSL/HSB to OKLCH</h2>
+            <p>
+                Traditional HSL and HSB color pickers distort human lightness perception: pure Yellow (<code>#FFFF00</code>) and pure Blue (<code>#0000FF</code>) both claim to have <code>50% Lightness</code> in HSL, even though Yellow is nearly as bright as white and Blue is dark. <strong>OKLCH</strong> solves this by modeling how human eyes actually perceive lightness and chroma:
+            </p>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>OKLCH Channel</th>
+                        <th>Value Range</th>
+                        <th>How It Works in Design &amp; Painting</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>L (Perceptual Lightness)</strong></td>
+                        <td><code>0%</code> to <code>100%</code> (or <code>0.0</code> to <code>1.0</code>)</td>
+                        <td>Controls true tonal value. Any two colors with <code>L = 68%</code> have the exact same perceived lightness and contrast ratio.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C (Chroma)</strong></td>
+                        <td><code>0.00</code> to <code>~0.37</code></td>
+                        <td>Controls perceived saturation intensity from neutral gray (<code>0</code>) to maximum pigment/screen vividness.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H (Perceptual Hue)</strong></td>
+                        <td><code>0°</code> to <code>360°</code></td>
+                        <td>Rotates around the perceptual color wheel (~29° Red, ~90° Yellow, ~145° Green, ~260° Blue, ~320° Purple).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Automatic sRGB Gamut Mapping for HEX Export</h2>
+            <p>
+                Because OKLCH encompasses wide-gamut Display P3 and Rec.2020 colors, certain high-chroma combinations exceed standard sRGB HEX limits. When you push Chroma beyond the sRGB boundary for a given Hue and Lightness, our converter automatically finds the closest in-gamut sRGB Chroma while keeping your exact <strong>Lightness (L)</strong> and <strong>Hue (H)</strong> intact.
+            </p>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/zorn-palette-mixer/" class="link-button">Zorn Palette Mixer</a>
+                <a href="/tools/munsell-converter/" class="link-button">Munsell Converter</a>
+                <a href="/tools/atmospheric-perspective/" class="link-button">Atmospheric Perspective</a>
+                <a href="/tools/simultaneous-contrast/" class="link-button">Simultaneous Contrast</a>
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/shadow-highlight-generator/" class="link-button">Shadow &amp; Highlight</a>
+                <a href="/tools/tint-tone-shade/" class="link-button">Tint, Tone &amp; Shade</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const lSlider1 = document.getElementById('l-slider-1');
+        const cSlider1 = document.getElementById('c-slider-1');
+        const hSlider1 = document.getElementById('h-slider-1');
+        const hSlider2 = document.getElementById('h-slider-2');
+        const cSlider2 = document.getElementById('c-slider-2');
+        const copyOklch1 = document.getElementById('copy-oklch-1');
+        const copyOklch2 = document.getElementById('copy-oklch-2');
+        const oklchExplain1 = document.getElementById('oklch-explain-1');
+        const oklchExplain2 = document.getElementById('oklch-explain-2');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State (L in [0,1], C in [0, 0.32], H in [0, 360])
+        let oklch1 = { l: 0.68, c: 0.17, h: 35 };
+        let oklch2 = { c: 0.14, h: 235 }; // Shares oklch1.l for constant-lightness comparison
+
+        // --- Exact Oklab / OKLCH <-> sRGB Math (Björn Ottosson public domain) ---
+        function srgbToLinear(x) {
+            return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+        }
+
+        function linearToSrgb(x) {
+            return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
+        }
+
+        function rgbToOklch(r255, g255, b255) {
+            const r = srgbToLinear(r255 / 255);
+            const g = srgbToLinear(g255 / 255);
+            const b = srgbToLinear(b255 / 255);
+
+            const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+            const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+            const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+
+            const l_ = Math.cbrt(l);
+            const m_ = Math.cbrt(m);
+            const s_ = Math.cbrt(s);
+
+            const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+            const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+            const b_ = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+            const C = Math.sqrt(a * a + b_ * b_);
+            let H = (Math.atan2(b_, a) * 180) / Math.PI;
+            if (H < 0) H += 360;
+
+            return {
+                l: Math.max(0, Math.min(1, L)),
+                c: C < 0.0005 ? 0 : C,
+                h: C < 0.0005 ? 0 : Math.round(H)
+            };
+        }
+
+        function oklchToLinearRgb(L, C, H) {
+            const hRad = (H * Math.PI) / 180;
+            const a = C * Math.cos(hRad);
+            const b = C * Math.sin(hRad);
+
+            const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+            const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+            const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+
+            const l = l_ * l_ * l_;
+            const m = m_ * m_ * m_;
+            const s = s_ * s_ * s_;
+
+            return {
+                r: +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+                g: -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+                b: -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+            };
+        }
+
+        function isInSrgbGamut(lin) {
+            const eps = 0.0005;
+            return lin.r >= -eps && lin.r <= 1 + eps &&
+                   lin.g >= -eps && lin.g <= 1 + eps &&
+                   lin.b >= -eps && lin.b <= 1 + eps;
+        }
+
+        // Convert OKLCH to sRGB with binary-search Chroma gamut clamping so L and H remain 100% accurate
+        function oklchToGamutSrgb(L, C, H) {
+            if (L <= 0.001) return { r: 0, g: 0, b: 0, actualC: 0, clamped: false };
+            if (L >= 0.999) return { r: 255, g: 255, b: 255, actualC: 0, clamped: false };
+
+            const direct = oklchToLinearRgb(L, C, H);
+            let actualC = C;
+            let clamped = false;
+            let finalLin = direct;
+
+            if (!isInSrgbGamut(direct)) {
+                clamped = true;
+                let low = 0, high = C, mid = C / 2;
+                for (let i = 0; i < 16; i++) {
+                    mid = (low + high) / 2;
+                    const testLin = oklchToLinearRgb(L, mid, H);
+                    if (isInSrgbGamut(testLin)) {
+                        low = mid;
+                    } else {
+                        high = mid;
+                    }
+                }
+                actualC = low;
+                finalLin = oklchToLinearRgb(L, actualC, H);
+            }
+
+            const r = Math.max(0, Math.min(255, Math.round(linearToSrgb(Math.max(0, Math.min(1, finalLin.r))) * 255)));
+            const g = Math.max(0, Math.min(255, Math.round(linearToSrgb(Math.max(0, Math.min(1, finalLin.g))) * 255)));
+            const b = Math.max(0, Math.min(255, Math.round(linearToSrgb(Math.max(0, Math.min(1, finalLin.b))) * 255)));
+
+            return { r, g, b, actualC, clamped };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function formatOklchCss(L, C, H) {
+            return `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${Math.round(H)})`;
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const srgb1 = oklchToGamutSrgb(oklch1.l, oklch1.c, oklch1.h);
+            const hex1 = rgbToHex(srgb1.r, srgb1.g, srgb1.b);
+            const css1 = formatOklchCss(oklch1.l, srgb1.actualC, oklch1.h);
+
+            const srgb2 = oklchToGamutSrgb(oklch1.l, oklch2.c, oklch2.h);
+            const hex2 = rgbToHex(srgb2.r, srgb2.g, srgb2.b);
+            const css2 = formatOklchCss(oklch1.l, srgb2.actualC, oklch2.h);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol = oklch1.l > 0.60 ? '#000000' : '#FFFFFF';
+            oklchExplain1.style.color = textCol;
+            oklchExplain2.style.color = textCol;
+            hexInput1.style.borderColor = textCol;
+            hexInput2.style.borderColor = textCol;
+
+            lSlider1.value = oklch1.l;
+            cSlider1.value = oklch1.c;
+            hSlider1.value = oklch1.h;
+
+            hSlider2.value = oklch2.h;
+            cSlider2.value = oklch2.c;
+
+            const gamutNote1 = srgb1.clamped ? ` (sRGB max chroma ${srgb1.actualC.toFixed(3)})` : " (In sRGB Gamut)";
+            oklchExplain1.textContent = `${css1}${gamutNote1} — Artist Value ${(oklch1.l * 10).toFixed(1)} / 10.`;
+
+            const gamutNote2 = srgb2.clamped ? ` (sRGB max chroma ${srgb2.actualC.toFixed(3)})` : "";
+            oklchExplain2.textContent = `${css2}${gamutNote2} — Equal Perceptual Lightness (${(oklch1.l * 100).toFixed(1)}%) at Hue ${Math.round(oklch2.h)}°.`;
+
+            copyOklch1.dataset.css = css1;
+            copyOklch2.dataset.css = css2;
+
+            localStorage.setItem('oklch-converter-1', JSON.stringify(oklch1));
+            localStorage.setItem('oklch-converter-2', JSON.stringify(oklch2));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        lSlider1.addEventListener('input', (e) => {
+            oklch1.l = parseFloat(e.target.value);
+            updateUI();
+        });
+        cSlider1.addEventListener('input', (e) => {
+            oklch1.c = parseFloat(e.target.value);
+            updateUI();
+        });
+        hSlider1.addEventListener('input', (e) => {
+            oklch1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        hSlider2.addEventListener('input', (e) => {
+            oklch2.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        cSlider2.addEventListener('input', (e) => {
+            oklch2.c = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                oklch1 = rgbToOklch(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                const parsed = rgbToOklch(rgb.r, rgb.g, rgb.b);
+                oklch1.l = parsed.l;
+                oklch2.c = parsed.c;
+                oklch2.h = parsed.h;
+            }
+            updateUI();
+        });
+
+        copyOklch1.addEventListener('click', () => copyToClipboard(copyOklch1.dataset.css));
+        copyOklch2.addEventListener('click', () => copyToClipboard(copyOklch2.dataset.css));
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const saved1 = localStorage.getItem('oklch-converter-1');
+            const saved2 = localStorage.getItem('oklch-converter-2');
+
+            if (saved1) oklch1 = JSON.parse(saved1);
+            if (saved2) oklch2 = JSON.parse(saved2);
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
