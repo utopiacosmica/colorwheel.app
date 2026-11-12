@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free HEX to Munsell Converter – Munsell Hue, Value & Chroma Finder</title>
+    <meta name="description"
+        content="Instantly convert any HEX color into Munsell notation (Hue Value/Chroma). Free online Munsell color calculator for painters, ateliers, and designers." />
+    <link rel="canonical" href="https://colorwheel.app/tools/munsell-converter/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/munsell-converter/" />
+    <meta property="og:title" content="Free HEX to Munsell Converter – Munsell Hue, Value & Chroma Finder" />
+    <meta property="og:description"
+        content="Translate any HEX code into Munsell Hue, Value (0–10), and Chroma, and step through equal-hue Munsell chips." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free HEX to Munsell Color Converter",
+          "url": "https://colorwheel.app/tools/munsell-converter/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Free interactive converter that translates HEX and RGB colors into perceptual Munsell Hue, Value, and Chroma notation (H V/C) for painters and designers."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do you read Munsell color notation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Munsell notation is written as Hue Value/Chroma (for example, 5R 4/14). Hue identifies the color family on a 10-band wheel (R, YR, Y, GY, G, BG, B, PB, P, RP), Value measures perceptual lightness from 0 (pure black) to 10 (pure white), and Chroma measures saturation strength starting from 0 (neutral gray) outward."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How are neutral grays written in the Munsell system?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Achromatic neutrals have zero chroma and are written with the prefix N followed by their perceptual value step, such as N 5.0/ for middle gray or N 9.0/ for off-white."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Source Color & Munsell Notation Readout -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="munsell-explain-text" class="ratio-explain-text">
+            Munsell Hue: 5R (Red) — Value: 4.8 / 10 — Chroma: 14 (High-Chroma Pigment).
+        </div>
+
+        <div class="ratio-display">
+            <button id="munsell-badge-1" class="tool-button" title="Click to copy Munsell Notation">5R 4.8/14</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Source Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Source Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Source Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Source Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Source Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Source Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Source HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Munsell Value & Chroma Step Explorer -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="step-explain-text" class="ratio-explain-text">
+            Munsell Chip Explorer — Adjust perceptual Value (1–9) and Chroma (0–16) while keeping Hue locked.
+        </div>
+
+        <div class="ratio-display">
+            <button id="munsell-badge-2" class="tool-button" title="Click to reset to top color">5R 6.0/8</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Target Munsell Value (0.5 Dark &rarr; 9.5 Light)</span>
+                <input type="range" class="slider" id="value-slider-2" min="0.5" max="9.5" step="0.1" value="6.0" aria-label="Target Munsell Value">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Target Munsell Chroma (0 Neutral &rarr; 16 Max Chroma)</span>
+                <input type="range" class="slider" id="chroma-slider-2" min="0" max="16" step="0.5" value="8" aria-label="Target Munsell Chroma">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Munsell Chip HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free HEX to Munsell Converter – Find Munsell Hue, Value &amp; Chroma</h1>
+            <p>
+                Translate any digital HEX code into classical <strong>Munsell Color Notation (Hue Value/Chroma)</strong>. Painters, realist ateliers, industrial designers, and colorists rely on Albert Munsell's three-dimensional color space because it separates <strong>perceptual lightness (Value)</strong> from <strong>pigment intensity (Chroma)</strong> across 10 balanced hue families.
+            </p>
+
+            <h2>How the 10 Munsell Hue Families Map to the Color Wheel</h2>
+            <p>
+                Unlike standard RGB wheels with 3 primaries, the Munsell system divides the hue circle into <strong>5 Principal Hues</strong> and <strong>5 Intermediate Hues</strong>, each graded from <code>2.5</code> to <code>10</code> (with <code>5</code> representing the pure center of each family):
+            </p>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Munsell Code</th>
+                        <th>Hue Family Name</th>
+                        <th>Representative Artist Pigments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>R (5R)</strong></td>
+                        <td>Red</td>
+                        <td>Cadmium Red Medium, Pyrrole Red, Naphthol Red</td>
+                    </tr>
+                    <tr>
+                        <td><strong>YR (5YR)</strong></td>
+                        <td>Yellow-Red (Orange)</td>
+                        <td>Cadmium Orange, Burnt Sienna, Raw Sienna</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Y (5Y)</strong></td>
+                        <td>Yellow</td>
+                        <td>Cadmium Yellow Light, Yellow Ochre, Hansa Yellow</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GY (5GY)</strong></td>
+                        <td>Green-Yellow</td>
+                        <td>Sap Green, Terre Verte, Chromium Oxide Green</td>
+                    </tr>
+                    <tr>
+                        <td><strong>G &amp; BG</strong></td>
+                        <td>Green &amp; Blue-Green</td>
+                        <td>Viridian, Phthalo Green, Cobalt Teal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>B &amp; PB</strong></td>
+                        <td>Blue &amp; Purple-Blue</td>
+                        <td>Cerulean Blue (B), Ultramarine Blue (PB), Cobalt Blue</td>
+                    </tr>
+                    <tr>
+                        <td><strong>P &amp; RP</strong></td>
+                        <td>Purple &amp; Red-Purple</td>
+                        <td>Dioxazine Purple (P), Quinacridone Magenta, Alizarin Crimson (RP)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Stepping Through Munsell Value and Chroma</h2>
+            <p>
+                Once you enter a base color in the top section, use the bottom section's <strong>Target Munsell Value</strong> and <strong>Target Munsell Chroma</strong> sliders to preview how that exact Munsell Hue looks at a lighter value or softer chroma—without shifting its perceptual hue family. Click either top-left Munsell badge to copy the notation string directly to your clipboard.
+            </p>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/shadow-highlight-generator/" class="link-button">Shadow &amp; Highlight</a>
+                <a href="/tools/tint-tone-shade/" class="link-button">Tint, Tone &amp; Shade</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const valueSlider2 = document.getElementById('value-slider-2');
+        const chromaSlider2 = document.getElementById('chroma-slider-2');
+        const munsellBadge1 = document.getElementById('munsell-badge-1');
+        const munsellBadge2 = document.getElementById('munsell-badge-2');
+        const munsellExplainText = document.getElementById('munsell-explain-text');
+        const stepExplainText = document.getElementById('step-explain-text');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Initial State
+        let color1 = { h: 8, s: 0.86, v: 0.84 }; // Cadmium Red / Vermilion default
+        let targetValue = 6.0;
+        let targetChroma = 8.0;
+
+        // 10 Munsell Hue Bands mapped around perceptual hue wheel
+        const munsellBands = [
+            { code: "R", name: "Red", start: 345, end: 18 },
+            { code: "YR", name: "Yellow-Red", start: 18, end: 46 },
+            { code: "Y", name: "Yellow", start: 46, end: 76 },
+            { code: "GY", name: "Green-Yellow", start: 76, end: 118 },
+            { code: "G", name: "Green", start: 118, end: 162 },
+            { code: "BG", name: "Blue-Green", start: 162, end: 196 },
+            { code: "B", name: "Blue", start: 196, end: 230 },
+            { code: "PB", name: "Purple-Blue", start: 230, end: 268 },
+            { code: "P", name: "Purple", start: 268, end: 308 },
+            { code: "RP", name: "Red-Purple", start: 308, end: 345 }
+        ];
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getRelativeLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        function luminanceToMunsellValue(Y) {
+            const lStar = Y <= 0.008856 ? Y * 903.3 : 116 * Math.pow(Y, 1 / 3) - 16;
+            return Math.max(0, Math.min(10, lStar / 10));
+        }
+
+        function munsellValueToLuminance(val10) {
+            const L = Math.max(0, Math.min(100, val10 * 10));
+            if (L <= 8) return L / 903.3;
+            return Math.pow((L + 16) / 116, 3);
+        }
+
+        function getMunsellHueDescriptor(deg) {
+            const h = ((deg % 360) + 360) % 360;
+            for (const band of munsellBands) {
+                let inBand = false;
+                let span = 0;
+                let offset = 0;
+                if (band.start > band.end) {
+                    // Wraps across 360 (Red)
+                    span = (360 - band.start) + band.end;
+                    if (h >= band.start) {
+                        inBand = true;
+                        offset = h - band.start;
+                    } else if (h < band.end) {
+                        inBand = true;
+                        offset = (360 - band.start) + h;
+                    }
+                } else if (h >= band.start && h < band.end) {
+                    inBand = true;
+                    span = band.end - band.start;
+                    offset = h - band.start;
+                }
+                if (inBand) {
+                    const rawStep = (offset / span) * 10;
+                    // Snap to standard Munsell 2.5, 5, 7.5, 10 increments
+                    const steps = [2.5, 5, 7.5, 10];
+                    let closest = 5;
+                    let minDiff = 99;
+                    for (const st of steps) {
+                        const d = Math.abs(rawStep - st);
+                        if (d < minDiff) {
+                            minDiff = d;
+                            closest = st;
+                        }
+                    }
+                    return { prefix: `${closest}${band.code}`, familyName: band.name };
+                }
+            }
+            return { prefix: "5R", familyName: "Red" };
+        }
+
+        function calculateMunsellNotation(hsv) {
+            const rgb = hsvToRgb(hsv.h / 360, hsv.s, hsv.v);
+            const Y = getRelativeLuminance(rgb.r, rgb.g, rgb.b);
+            const val = luminanceToMunsellValue(Y);
+            const valStr = val.toFixed(1).replace(/\.0$/, '');
+
+            // Estimate perceptual Munsell Chroma (0 to 16) from HSV saturation and value bell curve
+            const valueEnvelope = Math.sin(Math.min(1, Math.max(0.08, val / 10)) * Math.PI);
+            const rawChroma = hsv.s * (6 + 10 * Math.pow(valueEnvelope, 0.55));
+            const chroma = Math.round(rawChroma * 2) / 2;
+
+            if (chroma < 0.8 || val < 0.3 || val > 9.8) {
+                return {
+                    notation: `N ${valStr}/`,
+                    huePrefix: "N",
+                    familyName: "Neutral Gray",
+                    value: val,
+                    chroma: 0
+                };
+            }
+
+            const hueDesc = getMunsellHueDescriptor(hsv.h);
+            return {
+                notation: `${hueDesc.prefix} ${valStr}/${Math.round(chroma)}`,
+                huePrefix: hueDesc.prefix,
+                familyName: hueDesc.familyName,
+                value: val,
+                chroma: Math.round(chroma)
+            };
+        }
+
+        // Synthesize an RGB color matching the source Hue, target Munsell Value (0.5-9.5), and target Munsell Chroma (0-16)
+        function synthesizeMunsellChip(hDeg, mVal, mChroma) {
+            const targetY = munsellValueToLuminance(mVal);
+            const desiredS = Math.max(0, Math.min(1, mChroma / 15));
+
+            if (desiredS <= 0.01) {
+                const srgb = targetY <= 0.0031308 ? 12.92 * targetY : 1.055 * Math.pow(targetY, 1 / 2.4) - 0.055;
+                const byte = Math.max(0, Math.min(255, Math.round(srgb * 255)));
+                return { r: byte, g: byte, b: byte, actualS: 0 };
+            }
+
+            const hNorm = (hDeg % 360) / 360;
+            const maxRgbAtS = hsvToRgb(hNorm, desiredS, 1);
+            const maxLumAtS = getRelativeLuminance(maxRgbAtS.r, maxRgbAtS.g, maxRgbAtS.b);
+
+            if (targetY <= maxLumAtS) {
+                let low = 0, high = 1, mid = 0.5;
+                for (let i = 0; i < 18; i++) {
+                    mid = (low + high) / 2;
+                    const rgb = hsvToRgb(hNorm, desiredS, mid);
+                    const lum = getRelativeLuminance(rgb.r, rgb.g, rgb.b);
+                    if (lum < targetY) low = mid;
+                    else high = mid;
+                }
+                const finalRgb = hsvToRgb(hNorm, desiredS, mid);
+                return { ...finalRgb, actualS: desiredS };
+            } else {
+                // Gamut boundary reached at high value: reduce saturation to achieve target Munsell Value
+                let low = 0, high = desiredS, mid = desiredS / 2;
+                for (let i = 0; i < 18; i++) {
+                    mid = (low + high) / 2;
+                    const rgb = hsvToRgb(hNorm, mid, 1);
+                    const lum = getRelativeLuminance(rgb.r, rgb.g, rgb.b);
+                    if (lum < targetY) high = mid;
+                    else low = mid;
+                }
+                const finalRgb = hsvToRgb(hNorm, mid, 1);
+                return { ...finalRgb, actualS: mid };
+            }
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getRelativeLuminance(rgb1.r, rgb1.g, rgb1.b);
+            const m1 = calculateMunsellNotation(color1);
+
+            const chip2 = synthesizeMunsellChip(color1.h, targetValue, targetChroma);
+            const hex2 = rgbToHex(chip2.r, chip2.g, chip2.b);
+            const lum2 = getRelativeLuminance(chip2.r, chip2.g, chip2.b);
+            const hsv2 = rgbToHsv(chip2.r, chip2.g, chip2.b);
+            hsv2.h = color1.h;
+            const m2 = calculateMunsellNotation(hsv2);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            munsellExplainText.style.color = textCol1;
+            stepExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = color1.h;
+            satSlider1.value = color1.s;
+            brightSlider1.value = color1.v;
+
+            valueSlider2.value = targetValue;
+            chromaSlider2.value = targetChroma;
+
+            munsellBadge1.textContent = m1.notation;
+            if (m1.chroma === 0) {
+                munsellExplainText.textContent = `Munsell Neutral (${m1.notation}) — Achromatic value ${m1.value.toFixed(1)} / 10 with 0 Chroma.`;
+            } else {
+                const chromaStrength = m1.chroma >= 12 ? "High-Chroma Vivid" : m1.chroma >= 6 ? "Moderate-Chroma" : "Muted Low-Chroma";
+                munsellExplainText.textContent = `Munsell ${m1.notation} — ${m1.familyName} (${m1.huePrefix}), Value ${m1.value.toFixed(1)}/10, ${chromaStrength} (${m1.chroma}).`;
+            }
+
+            munsellBadge2.textContent = m2.notation;
+            stepExplainText.textContent = `Munsell Chip ${m2.notation} — Same ${m1.familyName} Hue stepped to Value ${targetValue.toFixed(1)} & Chroma ${m2.chroma}.`;
+
+            localStorage.setItem('munsell-color1', JSON.stringify(color1));
+            localStorage.setItem('munsell-target', JSON.stringify({ targetValue, targetChroma }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            color1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            color1.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            color1.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        valueSlider2.addEventListener('input', (e) => {
+            targetValue = parseFloat(e.target.value);
+            updateUI();
+        });
+        chromaSlider2.addEventListener('input', (e) => {
+            targetChroma = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        munsellBadge1.addEventListener('click', () => copyToClipboard(munsellBadge1.textContent));
+        munsellBadge2.addEventListener('click', () => {
+            const m1 = calculateMunsellNotation(color1);
+            targetValue = Math.max(0.5, Math.min(9.5, parseFloat(m1.value.toFixed(1))));
+            targetChroma = m1.chroma;
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                const m1 = calculateMunsellNotation(color1);
+                targetValue = Math.max(0.5, Math.min(9.5, parseFloat(m1.value.toFixed(1))));
+                targetChroma = m1.chroma;
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedColor1 = localStorage.getItem('munsell-color1');
+            const savedTarget = localStorage.getItem('munsell-target');
+
+            if (savedColor1) {
+                color1 = JSON.parse(savedColor1);
+            }
+            if (savedTarget) {
+                const parsed = JSON.parse(savedTarget);
+                targetValue = typeof parsed.targetValue === 'number' ? parsed.targetValue : 6.0;
+                targetChroma = typeof parsed.targetChroma === 'number' ? parsed.targetChroma : 8.0;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
