@@ -249,28 +249,28 @@
     </nav>
 
 
-    <!-- Section 1: OKLCH <-> HEX Primary Editor -->
+    <!-- Section 1: Base OKLCH <-> HEX Color -->
     <div id="color-section-1" class="color-section">
 
         <div id="oklch-explain-1" class="ratio-explain-text">
-            oklch(68.0% 0.170 35.0) — Perceptually Uniform Lightness, Chroma &amp; Hue.
+            oklch(68.0% 0.170 35) — Perceptually Uniform Lightness, Chroma &amp; Hue.
         </div>
 
         <div class="ratio-display">
-            <button id="copy-oklch-1" class="tool-button" title="Click to copy oklch(...) CSS code">COPY OKLCH</button>
+            <button id="copy-oklch-1" class="tool-button" title="Click to copy oklch(...) CSS string">COPY OKLCH</button>
         </div>
 
         <div class="slider-container">
             <div class="slider-group">
-                <span class="slider-label">OKLCH Lightness (L: 0% Black &rarr; 100% White)</span>
+                <span class="slider-label" id="label-l1">OKLCH Lightness (68%)</span>
                 <input type="range" class="slider" id="l-slider-1" min="0" max="1" step="0.005" value="0.68" aria-label="OKLCH Lightness">
             </div>
             <div class="slider-group">
-                <span class="slider-label">OKLCH Chroma (C: 0 Neutral Gray &rarr; 0.32 Vivid)</span>
+                <span class="slider-label" id="label-c1">OKLCH Chroma (0.170)</span>
                 <input type="range" class="slider" id="c-slider-1" min="0" max="0.32" step="0.002" value="0.17" aria-label="OKLCH Chroma">
             </div>
             <div class="slider-group">
-                <span class="slider-label">OKLCH Hue (H: 0° &rarr; 360°)</span>
+                <span class="slider-label" id="label-h1">OKLCH Hue (35°)</span>
                 <input type="range" class="slider" id="h-slider-1" min="0" max="360" step="1" value="35" aria-label="OKLCH Hue">
             </div>
         </div>
@@ -283,30 +283,30 @@
     </div>
 
 
-    <!-- Section 2: Constant-Lightness OKLCH Companion Finder -->
+    <!-- Section 2: Derived OKLCH Harmony & Lightness Step -->
     <div id="color-section-2" class="color-section">
 
         <div id="oklch-explain-2" class="ratio-explain-text">
-            Equal-Lightness Companion (L locked at 68.0%) — Rotate Hue without changing perceived brightness.
+            oklch(68.0% 0.140 215) — Equal Perceived Lightness (68.0%) at +180° Hue Offset.
         </div>
 
         <div class="ratio-display">
-            <button id="copy-oklch-2" class="tool-button" title="Click to copy companion oklch(...) CSS code">COPY OKLCH</button>
+            <button id="preset-mode-btn" class="tool-button" title="Click to cycle OKLCH Harmony & Lightness presets">OPPOSITE (+180°)</button>
         </div>
 
         <div class="slider-container">
             <div class="slider-group">
-                <span class="slider-label">Companion OKLCH Hue (Same Perceived Lightness L)</span>
-                <input type="range" class="slider" id="h-slider-2" min="0" max="360" step="1" value="235" aria-label="Companion OKLCH Hue">
+                <span class="slider-label" id="label-hoffset">Hue Shift from Top Color (+180°)</span>
+                <input type="range" class="slider" id="hoffset-slider-2" min="0" max="360" step="1" value="180" aria-label="OKLCH Hue Offset">
             </div>
             <div class="slider-group">
-                <span class="slider-label">Companion OKLCH Chroma</span>
-                <input type="range" class="slider" id="c-slider-2" min="0" max="0.32" step="0.002" value="0.14" aria-label="Companion OKLCH Chroma">
+                <span class="slider-label" id="label-loffset">Lightness Shift from Top Color (0% Equal Lightness)</span>
+                <input type="range" class="slider" id="loffset-slider-2" min="-0.5" max="0.5" step="0.01" value="0" aria-label="OKLCH Lightness Offset">
             </div>
         </div>
 
         <div class="hex-input-container">
-            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Companion HEX Color">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Derived Companion HEX Color">
             <button id="copy-btn-2" class="tool-button">COPY</button>
         </div>
 
@@ -322,12 +322,12 @@
         <div class="seo-container">
             <h1>Free OKLCH to HEX Converter &amp; Perceptual Color Picker</h1>
             <p>
-                Convert any <strong>HEX code to OKLCH</strong> or build perceptually uniform color palettes with live <strong>Lightness (L)</strong>, <strong>Chroma (C)</strong>, and <strong>Hue (H)</strong> sliders. Click <strong>COPY OKLCH</strong> on the left to grab the modern CSS Color 4 <code>oklch()</code> string, or click <strong>COPY</strong> on the right to copy the sRGB <code>#HEX</code> code.
+                Convert any <strong>HEX code to OKLCH</strong> or build perceptually uniform color pairings with live <strong>Lightness (L)</strong>, <strong>Chroma (C)</strong>, and <strong>Hue (H)</strong> sliders. Adjust your primary color in the top section, and use the bottom section to generate <strong>equal-lightness harmonies</strong> or <strong>pure lightness steps</strong> with zero hue distortion.
             </p>
 
             <h2>Why Designers and Painters Are Switching from HSL/HSB to OKLCH</h2>
             <p>
-                Traditional HSL and HSB color pickers distort human lightness perception: pure Yellow (<code>#FFFF00</code>) and pure Blue (<code>#0000FF</code>) both claim to have <code>50% Lightness</code> in HSL, even though Yellow is nearly as bright as white and Blue is dark. <strong>OKLCH</strong> solves this by modeling how human eyes actually perceive lightness and chroma:
+                Traditional HSL and HSB color pickers distort human lightness perception: pure Yellow (<code>#FFFF00</code>) and pure Blue (<code>#0000FF</code>) both claim to have <code>50% Lightness</code> in HSL, even though Yellow looks nearly white and Blue looks dark. <strong>OKLCH</strong> models how the human eye actually perceives lightness and chroma:
             </p>
             <table class="seo-table">
                 <thead>
@@ -390,19 +390,34 @@
         const lSlider1 = document.getElementById('l-slider-1');
         const cSlider1 = document.getElementById('c-slider-1');
         const hSlider1 = document.getElementById('h-slider-1');
-        const hSlider2 = document.getElementById('h-slider-2');
-        const cSlider2 = document.getElementById('c-slider-2');
+        const hOffsetSlider2 = document.getElementById('hoffset-slider-2');
+        const lOffsetSlider2 = document.getElementById('loffset-slider-2');
+        const labelL1 = document.getElementById('label-l1');
+        const labelC1 = document.getElementById('label-c1');
+        const labelH1 = document.getElementById('label-h1');
+        const labelHOffset = document.getElementById('label-hoffset');
+        const labelLOffset = document.getElementById('label-loffset');
         const copyOklch1 = document.getElementById('copy-oklch-1');
-        const copyOklch2 = document.getElementById('copy-oklch-2');
+        const presetModeBtn = document.getElementById('preset-mode-btn');
         const oklchExplain1 = document.getElementById('oklch-explain-1');
         const oklchExplain2 = document.getElementById('oklch-explain-2');
         const copyBtn1 = document.getElementById('copy-btn-1');
         const copyBtn2 = document.getElementById('copy-btn-2');
         const toastMessage = document.getElementById('toast-message');
 
-        // Initial State (L in [0,1], C in [0, 0.32], H in [0, 360])
-        let oklch1 = { l: 0.68, c: 0.17, h: 35 };
-        let oklch2 = { c: 0.14, h: 235 }; // Shares oklch1.l for constant-lightness comparison
+        // Presets for bottom OKLCH companion
+        const OKLCH_PRESETS = [
+            { name: "OPPOSITE (+180°)", hOffset: 180, lOffset: 0.00 },
+            { name: "ANALOGOUS (+45°)", hOffset: 45,  lOffset: 0.00 },
+            { name: "TRIADIC (+120°)",  hOffset: 120, lOffset: 0.00 },
+            { name: "LIGHTER (+20% L)", hOffset: 0,   lOffset: 0.20 },
+            { name: "DARKER (-20% L)",  hOffset: 0,   lOffset: -0.20 }
+        ];
+
+        let presetIdx = 0;
+        let baseOklch = { l: 0.68, c: 0.17, h: 35 };
+        let hOffset = 180;
+        let lOffset = 0.00;
 
         // --- Exact Oklab / OKLCH <-> sRGB Math (Björn Ottosson public domain) ---
         function srgbToLinear(x) {
@@ -525,13 +540,19 @@
 
         // --- Update UI ---
         function updateUI() {
-            const srgb1 = oklchToGamutSrgb(oklch1.l, oklch1.c, oklch1.h);
+            // Top Color (Primary OKLCH)
+            const srgb1 = oklchToGamutSrgb(baseOklch.l, baseOklch.c, baseOklch.h);
             const hex1 = rgbToHex(srgb1.r, srgb1.g, srgb1.b);
-            const css1 = formatOklchCss(oklch1.l, srgb1.actualC, oklch1.h);
+            const css1 = formatOklchCss(baseOklch.l, srgb1.actualC, baseOklch.h);
 
-            const srgb2 = oklchToGamutSrgb(oklch1.l, oklch2.c, oklch2.h);
+            // Bottom Color (Derived directly from baseOklch + offsets so all 3 top sliders always affect bottom)
+            const compL = Math.max(0.02, Math.min(0.98, baseOklch.l + lOffset));
+            const compC = baseOklch.c;
+            const compH = Math.round((baseOklch.h + hOffset + 360) % 360);
+
+            const srgb2 = oklchToGamutSrgb(compL, compC, compH);
             const hex2 = rgbToHex(srgb2.r, srgb2.g, srgb2.b);
-            const css2 = formatOklchCss(oklch1.l, srgb2.actualC, oklch2.h);
+            const css2 = formatOklchCss(compL, srgb2.actualC, compH);
 
             colorSection1.style.backgroundColor = hex1;
             colorSection2.style.backgroundColor = hex2;
@@ -539,30 +560,40 @@
             if (document.activeElement !== hexInput1) hexInput1.value = hex1;
             if (document.activeElement !== hexInput2) hexInput2.value = hex2;
 
-            const textCol = oklch1.l > 0.60 ? '#000000' : '#FFFFFF';
-            oklchExplain1.style.color = textCol;
-            oklchExplain2.style.color = textCol;
-            hexInput1.style.borderColor = textCol;
-            hexInput2.style.borderColor = textCol;
+            const textCol1 = baseOklch.l > 0.60 ? '#000000' : '#FFFFFF';
+            const textCol2 = compL > 0.60 ? '#000000' : '#FFFFFF';
 
-            lSlider1.value = oklch1.l;
-            cSlider1.value = oklch1.c;
-            hSlider1.value = oklch1.h;
+            oklchExplain1.style.color = textCol1;
+            oklchExplain2.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
 
-            hSlider2.value = oklch2.h;
-            cSlider2.value = oklch2.c;
+            lSlider1.value = baseOklch.l;
+            cSlider1.value = baseOklch.c;
+            hSlider1.value = baseOklch.h;
 
-            const gamutNote1 = srgb1.clamped ? ` (sRGB max chroma ${srgb1.actualC.toFixed(3)})` : " (In sRGB Gamut)";
-            oklchExplain1.textContent = `${css1}${gamutNote1} — Artist Value ${(oklch1.l * 10).toFixed(1)} / 10.`;
+            hOffsetSlider2.value = hOffset;
+            lOffsetSlider2.value = lOffset;
 
-            const gamutNote2 = srgb2.clamped ? ` (sRGB max chroma ${srgb2.actualC.toFixed(3)})` : "";
-            oklchExplain2.textContent = `${css2}${gamutNote2} — Equal Perceptual Lightness (${(oklch1.l * 100).toFixed(1)}%) at Hue ${Math.round(oklch2.h)}°.`;
+            labelL1.textContent = `OKLCH Lightness (${(baseOklch.l * 100).toFixed(1)}%)`;
+            labelC1.textContent = `OKLCH Chroma (${baseOklch.c.toFixed(3)})`;
+            labelH1.textContent = `OKLCH Hue (${Math.round(baseOklch.h)}°)`;
+
+            const lPctDelta = Math.round(lOffset * 100);
+            const lSign = lPctDelta > 0 ? `+${lPctDelta}% Lighter` : lPctDelta < 0 ? `${lPctDelta}% Darker` : "0% Equal Lightness";
+            labelHOffset.textContent = `Hue Shift from Top Color (+${Math.round(hOffset)}° → ${compH}°)`;
+            labelLOffset.textContent = `Lightness Shift from Top Color (${lSign} → ${(compL * 100).toFixed(1)}%)`;
+
+            const gamutNote1 = srgb1.clamped ? ` (max sRGB chroma ${srgb1.actualC.toFixed(3)})` : "";
+            oklchExplain1.textContent = `${css1}${gamutNote1} — Click COPY OKLCH to copy CSS string.`;
+
+            const gamutNote2 = srgb2.clamped ? ` (max sRGB chroma ${srgb2.actualC.toFixed(3)})` : "";
+            oklchExplain2.textContent = `${css2}${gamutNote2} — Derived from top color (+${Math.round(hOffset)}° Hue, ${lSign}).`;
 
             copyOklch1.dataset.css = css1;
-            copyOklch2.dataset.css = css2;
 
-            localStorage.setItem('oklch-converter-1', JSON.stringify(oklch1));
-            localStorage.setItem('oklch-converter-2', JSON.stringify(oklch2));
+            localStorage.setItem('oklch-base', JSON.stringify(baseOklch));
+            localStorage.setItem('oklch-offsets', JSON.stringify({ hOffset, lOffset }));
         }
 
         function showToast(message) {
@@ -591,31 +622,43 @@
 
         // --- Event Listeners ---
         lSlider1.addEventListener('input', (e) => {
-            oklch1.l = parseFloat(e.target.value);
+            baseOklch.l = parseFloat(e.target.value);
             updateUI();
         });
         cSlider1.addEventListener('input', (e) => {
-            oklch1.c = parseFloat(e.target.value);
+            baseOklch.c = parseFloat(e.target.value);
             updateUI();
         });
         hSlider1.addEventListener('input', (e) => {
-            oklch1.h = parseFloat(e.target.value);
+            baseOklch.h = parseFloat(e.target.value);
             updateUI();
         });
 
-        hSlider2.addEventListener('input', (e) => {
-            oklch2.h = parseFloat(e.target.value);
+        hOffsetSlider2.addEventListener('input', (e) => {
+            hOffset = parseFloat(e.target.value);
+            presetModeBtn.textContent = `HUE +${Math.round(hOffset)}°`;
             updateUI();
         });
-        cSlider2.addEventListener('input', (e) => {
-            oklch2.c = parseFloat(e.target.value);
+        lOffsetSlider2.addEventListener('input', (e) => {
+            lOffset = parseFloat(e.target.value);
+            const pct = Math.round(lOffset * 100);
+            presetModeBtn.textContent = pct === 0 ? `HUE +${Math.round(hOffset)}°` : `L ${pct > 0 ? '+' : ''}${pct}%`;
+            updateUI();
+        });
+
+        presetModeBtn.addEventListener('click', () => {
+            presetIdx = (presetIdx + 1) % OKLCH_PRESETS.length;
+            const p = OKLCH_PRESETS[presetIdx];
+            hOffset = p.hOffset;
+            lOffset = p.lOffset;
+            presetModeBtn.textContent = p.name;
             updateUI();
         });
 
         hexInput1.addEventListener('change', (e) => {
             const rgb = hexToRgb(e.target.value);
             if (rgb) {
-                oklch1 = rgbToOklch(rgb.r, rgb.g, rgb.b);
+                baseOklch = rgbToOklch(rgb.r, rgb.g, rgb.b);
             }
             updateUI();
         });
@@ -624,25 +667,28 @@
             const rgb = hexToRgb(e.target.value);
             if (rgb) {
                 const parsed = rgbToOklch(rgb.r, rgb.g, rgb.b);
-                oklch1.l = parsed.l;
-                oklch2.c = parsed.c;
-                oklch2.h = parsed.h;
+                hOffset = Math.round((parsed.h - baseOklch.h + 360) % 360);
+                lOffset = Math.max(-0.5, Math.min(0.5, parsed.l - baseOklch.l));
+                baseOklch.c = parsed.c;
             }
             updateUI();
         });
 
         copyOklch1.addEventListener('click', () => copyToClipboard(copyOklch1.dataset.css));
-        copyOklch2.addEventListener('click', () => copyToClipboard(copyOklch2.dataset.css));
         copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
         copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
 
         // Initial Load
         window.onload = () => {
-            const saved1 = localStorage.getItem('oklch-converter-1');
-            const saved2 = localStorage.getItem('oklch-converter-2');
+            const savedBase = localStorage.getItem('oklch-base');
+            const savedOffsets = localStorage.getItem('oklch-offsets');
 
-            if (saved1) oklch1 = JSON.parse(saved1);
-            if (saved2) oklch2 = JSON.parse(saved2);
+            if (savedBase) baseOklch = JSON.parse(savedBase);
+            if (savedOffsets) {
+                const parsed = JSON.parse(savedOffsets);
+                hOffset = typeof parsed.hOffset === 'number' ? parsed.hOffset : 180;
+                lOffset = typeof parsed.lOffset === 'number' ? parsed.lOffset : 0;
+            }
 
             updateUI();
         };
