@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MGSKM9BJX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7MGSKM9BJX');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Atmospheric Perspective Color Calculator – Landscape Depth & Haze Tool</title>
+    <meta name="description"
+        content="Calculate how any color changes with distance in landscape painting and illustration. Free Atmospheric Perspective Color Calculator for painters and concept artists." />
+    <link rel="canonical" href="https://colorwheel.app/tools/atmospheric-perspective/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/atmospheric-perspective/" />
+    <meta property="og:title" content="Free Atmospheric Perspective Color Calculator – Landscape Depth & Haze Tool" />
+    <meta property="og:description"
+        content="Simulate aerial perspective, value compression, and warm-to-cool wavelength decay from foreground to far horizon." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Atmospheric Perspective Color Calculator",
+          "url": "https://colorwheel.app/tools/atmospheric-perspective/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Interactive aerial and atmospheric perspective calculator for landscape painters, digital illustrators, and environment designers."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How does atmospheric perspective affect color in painting?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "As objects recede into the distance, the volume of air and moisture between the viewer and the object increases. This causes four color shifts: value contrast compresses toward the sky's lightness, saturation decreases, warm wavelengths (reds and yellows) drop out first, and hues shift toward the ambient sky or fog color."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do distant mountains look blue or violet?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Due to Rayleigh scattering, airborne particles scatter short blue wavelengths across your line of sight between you and the distant dark mass. Against a dark mountain shadow, this illuminated veil of air reads as cool blue or violet-gray."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Color Wheel" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/styles.v1.css" />
+
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
+
+    <style>
+        .color-section {
+            height: calc(50vh - 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slider-container {
+            width: 100%;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 6px 0;
+        }
+
+        .hex-input-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ratio-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+        }
+
+        .ratio-explain-text {
+            top: 20px;
+            text-align: center;
+            font-size: 19px;
+            color: white;
+            max-width: 460px;
+            line-height: 1.35;
+        }
+
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .ratio-explain-text {
+                padding-top: 110px;
+                font-size: 16px;
+            }
+
+            .slider-group {
+                margin: 6px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <!-- Left block -->
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+
+        <!-- Right block -->
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+
+    <!-- Section 1: Foreground Local Color & Sky Atmosphere Selector -->
+    <div id="color-section-1" class="color-section">
+
+        <div id="fg-explain-text" class="ratio-explain-text">
+            Foreground Local Color (0% Distance) — Click top-left button to cycle Sky Atmosphere.
+        </div>
+
+        <div class="ratio-display">
+            <button id="sky-mode-btn" class="tool-button" title="Click to switch Sky Atmosphere">DAYLIGHT SKY</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Foreground Hue</span>
+                <input type="range" class="slider" id="hue-slider-1" min="0" max="360" step="1" aria-label="Foreground Hue">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Foreground Saturation</span>
+                <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Foreground Saturation">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Foreground Brightness</span>
+                <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Foreground Brightness">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Foreground HEX Color">
+            <button id="copy-btn-1" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Section 2: Receding Distance & Aerial Haze Result -->
+    <div id="color-section-2" class="color-section">
+
+        <div id="dist-explain-text" class="ratio-explain-text">
+            Mid-Distance Plane (55% Depth) — Warm wavelengths drop out first; darks lift toward sky haze.
+        </div>
+
+        <div class="ratio-display">
+            <button id="plane-preset-btn" class="tool-button" title="Click to cycle Midground, Far Ridge, and Horizon">55% DEPTH</button>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">Receding Distance (0% Foreground &rarr; 50% Midground &rarr; 100% Far Horizon)</span>
+                <input type="range" class="slider" id="distance-slider-2" min="0" max="1" step="0.01" value="0.55" aria-label="Receding Distance">
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Atmosphere Haze Density (0.2 Crisp Mountain Air &rarr; 1.0 Dense Mist)</span>
+                <input type="range" class="slider" id="haze-slider-2" min="0.2" max="1" step="0.01" value="0.65" aria-label="Haze Density">
+            </div>
+        </div>
+
+        <div class="hex-input-container">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Distant Plane HEX Color">
+            <button id="copy-btn-2" class="tool-button">COPY</button>
+        </div>
+
+    </div>
+
+
+    <!-- Toast -->
+    <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Atmospheric Perspective Color Calculator – Depth &amp; Aerial Haze Tool</h1>
+            <p>
+                Create convincing depth in landscape paintings, background illustrations, and environment concept art. Our free <strong>Atmospheric Perspective Color Calculator</strong> simulates how any foreground color transforms as it recedes through the atmosphere toward the horizon under <strong>Daylight Sky</strong>, <strong>Golden Hour</strong>, <strong>Overcast Fog</strong>, or <strong>Twilight Dusk</strong>.
+            </p>
+
+            <h2>How Aerial Perspective Changes Color Across Distance Planes</h2>
+            <p>
+                Leonardo da Vinci called atmospheric perspective <em>"the perspective of disappearance."</em> Rather than simply mixing white into distant objects, real optical scattering changes colors in three stages:
+            </p>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Depth Plane</th>
+                        <th>Distance Slider</th>
+                        <th>Wavelength &amp; Value Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Foreground</strong></td>
+                        <td>0% – 15%</td>
+                        <td>Full local saturation, deepest dark shadows, and full warm red/yellow wavelengths.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Near Midground</strong></td>
+                        <td>20% – 45%</td>
+                        <td>Yellow and orange warmth begins to soften; darkest shadows lift by 15%–25% toward sky value.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Far Midground / Ridges</strong></td>
+                        <td>50% – 75%</td>
+                        <td>Foliage greens shift toward cool blue-green or slate violet; contrast compresses into a narrow mid-high value band.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Distant Horizon</strong></td>
+                        <td>80% – 100%</td>
+                        <td>Local color is almost completely replaced by the illuminated atmospheric veil near the horizon sky.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/munsell-converter/" class="link-button">Munsell Converter</a>
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/shadow-highlight-generator/" class="link-button">Shadow &amp; Highlight</a>
+                <a href="/tools/tint-tone-shade/" class="link-button">Tint, Tone &amp; Shade</a>
+                <a href="/tools/contrast-checker/" class="link-button">Contrast Checker</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // DOM Elements
+        const colorSection1 = document.getElementById('color-section-1');
+        const colorSection2 = document.getElementById('color-section-2');
+        const hexInput1 = document.getElementById('hex-input-1');
+        const hexInput2 = document.getElementById('hex-input-2');
+        const hueSlider1 = document.getElementById('hue-slider-1');
+        const satSlider1 = document.getElementById('saturation-slider-1');
+        const brightSlider1 = document.getElementById('brightness-slider-1');
+        const distanceSlider2 = document.getElementById('distance-slider-2');
+        const hazeSlider2 = document.getElementById('haze-slider-2');
+        const skyModeBtn = document.getElementById('sky-mode-btn');
+        const planePresetBtn = document.getElementById('plane-preset-btn');
+        const fgExplainText = document.getElementById('fg-explain-text');
+        const distExplainText = document.getElementById('dist-explain-text');
+        const copyBtn1 = document.getElementById('copy-btn-1');
+        const copyBtn2 = document.getElementById('copy-btn-2');
+        const toastMessage = document.getElementById('toast-message');
+
+        // 4 Atmospheric Sky Presets
+        const skyModes = [
+            {
+                label: "DAYLIGHT SKY",
+                desc: "Clear Daylight Sky — Distant planes cool toward azure-violet and lift toward high-key horizon light.",
+                horizonRgb: { r: 196, g: 218, b: 242 } // #C4DAF2 cool horizon sky
+            },
+            {
+                label: "GOLDEN HOUR",
+                desc: "Golden Hour Sunset — Distant planes warm into hazy amber-rose and luminous peach.",
+                horizonRgb: { r: 244, g: 198, b: 168 } // #F4C6A8 warm golden haze
+            },
+            {
+                label: "OVERCAST FOG",
+                desc: "Overcast Mist — Distant planes rapidly desaturate into cool-neutral silver fog.",
+                horizonRgb: { r: 216, g: 222, b: 226 } // #D8DEE2 neutral-cool mist
+            },
+            {
+                label: "TWILIGHT DUSK",
+                desc: "Twilight Blue Hour — Distant planes merge into deep indigo-slate evening atmosphere.",
+                horizonRgb: { r: 78, g: 98, b: 138 }   // #4E628A twilight horizon
+            }
+        ];
+
+        // Initial State
+        let color1 = { h: 108, s: 0.72, v: 0.46 }; // Deep Forest Foliage Green default
+        let skyIndex = 0;
+        let distance = 0.55;
+        let hazeDensity = 0.65;
+
+        // --- Color Conversion Functions ---
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            let i = Math.floor(h * 6);
+            let f = h * 6 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: s, v: v };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const cleaned = hex.trim().replace(/^#/, '');
+            if (/^[a-f\d]{3}$/i.test(cleaned)) {
+                const expanded = cleaned.split('').map(c => c + c).join('');
+                return hexToRgb(expanded);
+            }
+            const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleaned);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        // Wavelength-dependent Rayleigh scattering + exponential optical depth
+        function calculateAtmosphericColor(fgRgb, dist, density, skyRgb) {
+            if (dist <= 0.005) return { ...fgRgb };
+
+            // Optical depth factor (Beer-Lambert law inspired)
+            const opticalDepth = 1 - Math.exp(-2.6 * dist * (0.45 + 0.75 * density));
+            const t = Math.min(0.96, opticalDepth);
+
+            // Warm Red/Green channels scatter/attenuate slightly faster than Blue in clear air
+            const rWeight = Math.min(0.98, t * 1.06);
+            const gWeight = t;
+            const bWeight = Math.max(0, t * 0.92);
+
+            return {
+                r: Math.round((1 - rWeight) * fgRgb.r + rWeight * skyRgb.r),
+                g: Math.round((1 - gWeight) * fgRgb.g + gWeight * skyRgb.g),
+                b: Math.round((1 - bWeight) * fgRgb.b + bWeight * skyRgb.b)
+            };
+        }
+
+        function getPlaneDescription(distPct, skyLabel) {
+            if (distPct < 15) return `Foreground Plane (${distPct}% Depth) — Full local chroma and high contrast.`;
+            if (distPct < 45) return `Near Midground (${distPct}% Depth) — Warm yellow/red notes soften; dark shadows lift.`;
+            if (distPct < 78) return `Far Midground Ridge (${distPct}% Depth) — Shifted into ${skyLabel.toLowerCase()} haze with compressed value.`;
+            return `Distant Horizon (${distPct}% Depth) — Nearly merged into the ambient horizon veil.`;
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
+            const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+
+            const sky = skyModes[skyIndex];
+            const rgb2 = calculateAtmosphericColor(rgb1, distance, hazeDensity, sky.horizonRgb);
+            const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+
+            colorSection1.style.backgroundColor = hex1;
+            colorSection2.style.backgroundColor = hex2;
+
+            if (document.activeElement !== hexInput1) hexInput1.value = hex1;
+            if (document.activeElement !== hexInput2) hexInput2.value = hex2;
+
+            const textCol1 = lum1 > 0.24 ? '#000000' : '#FFFFFF';
+            const textCol2 = lum2 > 0.24 ? '#000000' : '#FFFFFF';
+
+            fgExplainText.style.color = textCol1;
+            distExplainText.style.color = textCol2;
+            hexInput1.style.borderColor = textCol1;
+            hexInput2.style.borderColor = textCol2;
+
+            hueSlider1.value = color1.h;
+            satSlider1.value = color1.s;
+            brightSlider1.value = color1.v;
+
+            distanceSlider2.value = distance;
+            hazeSlider2.value = hazeDensity;
+
+            const distPct = Math.round(distance * 100);
+            skyModeBtn.textContent = sky.label;
+            fgExplainText.textContent = sky.desc;
+
+            planePresetBtn.textContent = `${distPct}% DEPTH`;
+            distExplainText.textContent = getPlaneDescription(distPct, sky.label);
+
+            localStorage.setItem('atmo-color1', JSON.stringify(color1));
+            localStorage.setItem('atmo-settings', JSON.stringify({ skyIndex, distance, hazeDensity }));
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastMessage.style.opacity = 1;
+            setTimeout(() => {
+                toastMessage.style.opacity = 0;
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Copied ${text}`);
+            } catch (err) {
+                showToast('Copying failed.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Event Listeners ---
+        hueSlider1.addEventListener('input', (e) => {
+            color1.h = parseFloat(e.target.value);
+            updateUI();
+        });
+        satSlider1.addEventListener('input', (e) => {
+            color1.s = parseFloat(e.target.value);
+            updateUI();
+        });
+        brightSlider1.addEventListener('input', (e) => {
+            color1.v = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        distanceSlider2.addEventListener('input', (e) => {
+            distance = parseFloat(e.target.value);
+            updateUI();
+        });
+        hazeSlider2.addEventListener('input', (e) => {
+            hazeDensity = parseFloat(e.target.value);
+            updateUI();
+        });
+
+        skyModeBtn.addEventListener('click', () => {
+            skyIndex = (skyIndex + 1) % skyModes.length;
+            updateUI();
+        });
+
+        // Cycle through 3 classic landscape planes on click: 30% Near Midground -> 60% Far Ridge -> 85% Horizon
+        planePresetBtn.addEventListener('click', () => {
+            if (distance < 0.45) distance = 0.60;
+            else if (distance < 0.75) distance = 0.85;
+            else distance = 0.30;
+            updateUI();
+        });
+
+        hexInput1.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            }
+            updateUI();
+        });
+
+        hexInput2.addEventListener('change', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) {
+                color1 = rgbToHsv(rgb.r, rgb.g, rgb.b);
+                distance = 0.55;
+            }
+            updateUI();
+        });
+
+        copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
+        copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
+
+        // Initial Load
+        window.onload = () => {
+            const savedColor1 = localStorage.getItem('atmo-color1');
+            const savedSettings = localStorage.getItem('atmo-settings');
+
+            if (savedColor1) {
+                color1 = JSON.parse(savedColor1);
+            }
+            if (savedSettings) {
+                const parsed = JSON.parse(savedSettings);
+                skyIndex = typeof parsed.skyIndex === 'number' ? parsed.skyIndex % skyModes.length : 0;
+                distance = typeof parsed.distance === 'number' ? parsed.distance : 0.55;
+                hazeDensity = typeof parsed.hazeDensity === 'number' ? parsed.hazeDensity : 0.65;
+            }
+
+            updateUI();
+        };
+    </script>
+
+</body>
+
+</html>
