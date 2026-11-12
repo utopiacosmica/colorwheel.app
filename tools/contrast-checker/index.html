@@ -18,7 +18,51 @@
 
     <title>Free Color Contrast Checker – Instantly Compare Two Colors</title>
     <meta name="description"
-        content="Quickly test the contrast between any two colors. Our free tool helps you find perfect color pairings for design, UI, or branding. Try it now!" />
+        content="Quickly test the contrast between any two colors. Our free WCAG color contrast checker helps designers and painters find readable, high-impact color pairings." />
+    <link rel="canonical" href="https://colorwheel.app/tools/contrast-checker/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colorwheel.app/tools/contrast-checker/" />
+    <meta property="og:title" content="Free Color Contrast Checker – Instantly Compare Two Colors" />
+    <meta property="og:description"
+        content="Test the contrast ratio between any two HEX colors and check WCAG AA and AAA readability standards." />
+    <meta property="og:site_name" content="Color Wheel" />
+
+    <!-- Structured Data for Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Color Contrast Checker",
+          "url": "https://colorwheel.app/tools/contrast-checker/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Free online color contrast checker to compare two HEX colors and calculate their WCAG luminance contrast ratio from 1:1 to 21:1."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is a good color contrast ratio?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A contrast ratio of at least 4.5:1 meets WCAG AA accessibility standards for normal text, 3.0:1 meets AA for large text and UI graphics, and 7.0:1 or higher meets WCAG AAA for maximum readability."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
     <!-- Fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap"
@@ -39,7 +83,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/styles.v1.css" />
 
-    <!-- Copyright Roman Sevastianov 2025. All rights reserved.-->
+    <!-- Copyright Roman Sevastianov 2026. All rights reserved.-->
 
     <style>
         .color-section {
@@ -87,6 +131,70 @@
             max-width: 400px;
         }
 
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
         @media (max-width: 600px) {
             .ratio-explain-text {
                 padding-top: 120px;
@@ -115,19 +223,19 @@
     <!-- Tool -->
     <div id="color-section-1" class="color-section">
 
-        <div id="ratio-explain-text" class="ratio-explain-text"></div>
+        <div id="ratio-explain-text" class="ratio-explain-text">High contrast, ideal for maximum readability.</div>
 
         <div id="ratio-text" class="ratio-display tool-text-box">
-            <button>1.00:1</button>
+            <button>10.28:1</button>
         </div>
 
         <div class="slider-container">
-            <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01">
-            <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01">
+            <input type="range" class="slider" id="saturation-slider-1" min="0" max="1" step="0.01" aria-label="Top Color Saturation">
+            <input type="range" class="slider" id="brightness-slider-1" min="0" max="1" step="0.01" aria-label="Top Color Brightness">
         </div>
 
         <div class="hex-input-container">
-            <input type="text" id="hex-input-1" class="tool-text-field">
+            <input type="text" id="hex-input-1" class="tool-text-field" aria-label="Top HEX Color">
             <button id="copy-btn-1" class="tool-button">COPY</button>
         </div>
 
@@ -138,12 +246,12 @@
         <div class="ratio-explain-text"></div>
 
         <div class="slider-container">
-            <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01">
-            <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01">
+            <input type="range" class="slider" id="saturation-slider-2" min="0" max="1" step="0.01" aria-label="Bottom Color Saturation">
+            <input type="range" class="slider" id="brightness-slider-2" min="0" max="1" step="0.01" aria-label="Bottom Color Brightness">
         </div>
 
         <div class="hex-input-container">
-            <input type="text" id="hex-input-2" class="tool-text-field">
+            <input type="text" id="hex-input-2" class="tool-text-field" aria-label="Bottom HEX Color">
             <button id="copy-btn-2" class="tool-button">COPY</button>
         </div>
 
@@ -152,6 +260,59 @@
 
     <!-- Toast -->
     <div id="toast-message" class="toast">Copied to clipboard!</div>
+
+
+    <!-- Below-the-Fold SEO Content -->
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Color Contrast Checker – Compare Two HEX Colors Instantly</h1>
+            <p>
+                Test the luminance contrast ratio between any two colors in real time. Paste two HEX codes or drag the saturation and brightness sliders to see how your foreground and background colors perform for typography, UI accessibility, focal-point composition, and branding.
+            </p>
+
+            <h2>Contrast Ratio Benchmarks (WCAG 2.1 &amp; Visual Hierarchy)</h2>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Contrast Ratio</th>
+                        <th>Readability &amp; WCAG Rating</th>
+                        <th>Best Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1.0:1 – 2.9:1</strong></td>
+                        <td>Low Contrast (Fail)</td>
+                        <td>Subtle background textures, atmospheric fog, or inactive UI states</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3.0:1 – 4.4:1</strong></td>
+                        <td>Moderate Contrast (AA Large)</td>
+                        <td>Large headlines (18pt+), icons, and mid-ground graphic shapes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4.5:1 – 6.9:1</strong></td>
+                        <td>Good Contrast (WCAG AA)</td>
+                        <td>Standard body text, buttons, and clear visual separation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>7.0:1 – 21.0:1</strong></td>
+                        <td>High Contrast (WCAG AAA)</td>
+                        <td>Maximum legibility for small text and strong focal-point accents</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/temperature-checker/" class="link-button">Temperature Checker</a>
+                <a href="/tools/color-converter/" class="link-button">Color Converter</a>
+                <a href="/tools/hex-editor/" class="link-button">HEX Editor</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
 
 
     <script>
@@ -171,10 +332,9 @@
         const toastMessage = document.getElementById('toast-message');
 
         // Initial Colors
-        let color1 = { h: 346, s: 1, v: 1 }; // HSB for #FF275D
-        let color2 = { h: 165, s: 1, v: 1 }; // HSB for #00FFC0
+        let color1 = { h: 346, s: 1, v: 1 };
+        let color2 = { h: 165, s: 1, v: 1 };
 
-        // --- Color Conversion Functions ---
         function hsvToRgb(h, s, v) {
             let r, g, b;
             let i = Math.floor(h * 6);
@@ -204,7 +364,7 @@
             let d = max - min;
             s = max == 0 ? 0 : d / max;
             if (max == min) {
-                h = 0; // achromatic
+                h = 0;
             } else {
                 switch (max) {
                     case r: h = (g - b) / d + (g < b ? 6 : 0); break;
@@ -229,7 +389,6 @@
             } : null;
         }
 
-        // --- Contrast Ratio Logic ---
         function getLuminance(r, g, b) {
             const a = [r, g, b].map(function (v) {
                 v /= 255;
@@ -253,7 +412,6 @@
             return "High contrast, ideal for maximum readability.";
         }
 
-        // --- Update UI ---
         function updateUI() {
             const rgb1 = hsvToRgb(color1.h / 360, color1.s, color1.v);
             const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
@@ -292,7 +450,6 @@
             }, 2500);
         }
 
-        // --- Clipboard Functions ---
         function copyToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -309,7 +466,6 @@
             document.body.removeChild(textArea);
         }
 
-        // --- Event Listeners ---
         satSlider1.addEventListener('input', (e) => {
             color1.s = parseFloat(e.target.value);
             updateUI();
@@ -344,10 +500,8 @@
         });
 
         copyBtn1.addEventListener('click', () => copyToClipboard(hexInput1.value));
-
         copyBtn2.addEventListener('click', () => copyToClipboard(hexInput2.value));
 
-        // Initial Load
         window.onload = () => {
             const savedColor1 = localStorage.getItem('contrast-checker-color1');
             const savedColor2 = localStorage.getItem('contrast-checker-color2');
@@ -365,7 +519,6 @@
 
             updateUI();
         };
-
     </script>
 
 </body>
