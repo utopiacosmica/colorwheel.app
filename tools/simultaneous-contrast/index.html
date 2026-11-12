@@ -287,11 +287,11 @@
     <div id="color-section-2" class="color-section">
 
         <div id="target-explain-text" class="ratio-explain-text">
-            50% Counter-Compensated Subject — Shifted toward the background to cancel out optical distortion.
+            60% Counter-Compensated Subject — Shifted toward the background to cancel out optical distortion.
         </div>
 
         <div class="ratio-display">
-            <button id="strength-badge" class="tool-button" title="Click to toggle between 0% Unadjusted and 50% Adjusted">50% ADJUSTED</button>
+            <button id="strength-badge" class="tool-button" title="Click to toggle between 0% Unadjusted and 60% Adjusted">60% COMPENSATED</button>
         </div>
 
         <div class="slider-container">
@@ -305,7 +305,7 @@
             </div>
             <div class="slider-group">
                 <span class="slider-label">Relativity Adjustment (0% Original Subject &rarr; 100% Full Shift)</span>
-                <input type="range" class="slider" id="strength-slider-2" min="0" max="1" step="0.01" value="0.50" aria-label="Relativity Adjustment Strength">
+                <input type="range" class="slider" id="strength-slider-2" min="0" max="1" step="0.01" value="0.60" aria-label="Relativity Adjustment Strength">
             </div>
         </div>
 
@@ -345,27 +345,27 @@
                     <tr>
                         <td><strong>Dark Background</strong></td>
                         <td>Subject appears <strong>lighter and chalkier</strong> than it truly is</td>
-                        <td>Lower the subject's brightness slightly toward the dark background</td>
+                        <td>Lower the subject's brightness toward the dark background</td>
                     </tr>
                     <tr>
                         <td><strong>Light Background</strong></td>
                         <td>Subject appears <strong>darker and heavier</strong> than it truly is</td>
-                        <td>Raise the subject's brightness slightly toward the light background</td>
+                        <td>Raise the subject's brightness toward the light background</td>
                     </tr>
                     <tr>
                         <td><strong>Warm Red / Orange BG</strong></td>
                         <td>Subject shifts <strong>cooler toward Cyan / Blue-Green</strong></td>
-                        <td>Warm the subject slightly toward Red-Orange to neutralize the cool push</td>
+                        <td>Warm the subject toward Red-Orange to neutralize the cool push</td>
                     </tr>
                     <tr>
                         <td><strong>Cool Blue / Green BG</strong></td>
                         <td>Subject shifts <strong>warmer toward Orange / Magenta-Red</strong></td>
-                        <td>Cool the subject slightly toward the background hue</td>
+                        <td>Cool the subject toward the background hue</td>
                     </tr>
                     <tr>
                         <td><strong>High-Chroma Vivid BG</strong></td>
                         <td>Muted subject colors look <strong>grayed-out and lifeless</strong></td>
-                        <td>Boost subject saturation by 10%–20% to hold its chroma</td>
+                        <td>Boost subject saturation to hold its chroma against the vivid field</td>
                     </tr>
                 </tbody>
             </table>
@@ -415,10 +415,10 @@
         const toastMessage = document.getElementById('toast-message');
 
         // Initial State
-        let bgColor = { h: 152, s: 0.82, v: 0.58 };      // Vivid Emerald/Viridian Background
-        let subjectBase = { h: 28, s: 0.36, v: 0.78 };   // Warm Neutral Ochre / Portrait Mid-Tone
+        let bgColor = { h: 152, s: 0.85, v: 0.35 };      // Deep Vivid Viridian Background
+        let subjectBase = { h: 28, s: 0.45, v: 0.72 };   // Warm Ochre / Portrait Mid-Tone
         let isCompensateMode = true;                     // true = Compensate Mode, false = Illusion Simulator Mode
-        let shiftStrength = 0.50;                        // 0.0 to 1.0 adjustment strength
+        let shiftStrength = 0.60;                        // 0.0 to 1.0 adjustment strength
 
         // --- Color Conversion Functions ---
         function hsvToRgb(h, s, v) {
@@ -500,43 +500,49 @@
             return "Magenta";
         }
 
-        // Calculate Simultaneous Contrast Illusion or Counter-Compensation in RGB + HSB space
+        // Independent HSB Simultaneous Contrast & Relativity Engine
+        // Directly responds to Background Hue (bgHsv.h), Background Saturation (bgHsv.s), and Background Brightness (bgHsv.v)
         function calculateRelativityColor(bgHsv, subjHsv, strength, compensate) {
             if (strength <= 0.005) {
-                return { ...subjHsv };
+                return { h: subjHsv.h, s: subjHsv.s, v: subjHsv.v, dH: 0, dS: 0, dV: 0 };
             }
 
-            const bgRgb = hsvToRgb(bgHsv.h / 360, bgHsv.s, bgHsv.v);
-            const subjRgb = hsvToRgb(subjHsv.h / 360, subjHsv.s, subjHsv.v);
+            const dir = compensate ? 1 : -1;
 
-            // Opponent complement of background
-            const oppRgb = {
-                r: 255 - bgRgb.r,
-                g: 255 - bgRgb.g,
-                b: 255 - bgRgb.b
+            // 1. VALUE (BRIGHTNESS) RELATIVITY — Driven by Background Brightness (bgHsv.v)
+            // A dark background (bgHsv.v < 0.5) makes the subject look lighter (Illusion = +V)
+            // so in Compensate Mode (dir = +1) we pull the subject darker toward bgHsv.v.
+            const vContrast = bgHsv.v - 0.5; // -0.5 (black bg) to +0.5 (white bg)
+            const vDelta = dir * vContrast * 0.68 * strength;
+            const newV = Math.max(0.04, Math.min(0.98, subjHsv.v + vDelta));
+
+            // 2. CHROMA (SATURATION) RELATIVITY — Driven by Background Saturation (bgHsv.s)
+            // A high-chroma background (bgHsv.s > 0.5) drains perceived saturation from the subject (Illusion = -S)
+            // so in Compensate Mode (dir = +1) we boost subject saturation to hold its own against a vivid background.
+            const sContrast = bgHsv.s - 0.35; // -0.35 (gray bg) to +0.65 (vivid bg)
+            const sDelta = dir * sContrast * 0.55 * strength;
+            const newS = Math.max(0.02, Math.min(1.0, subjHsv.s + sDelta));
+
+            // 3. HUE RELATIVITY — Driven by BOTH Background Hue (bgHsv.h) and Background Saturation (bgHsv.s)
+            // In Compensate Mode, pull subject hue toward bgHsv.h. In Illusion Mode, pull toward (bgHsv.h + 180).
+            const targetAttractorHue = compensate ? bgHsv.h : (bgHsv.h + 180) % 360;
+            let angularDiff = ((targetAttractorHue - subjHsv.h + 540) % 360) - 180;
+            if (Math.abs(angularDiff) > 172) {
+                angularDiff = compensate ? 160 : -160;
+            }
+            // Background saturation scales how strongly the background hue pulls the subject hue (up to 48 deg shift)
+            const maxHuePull = 48 * (0.15 + 0.85 * bgHsv.s) * strength;
+            const hDelta = Math.sign(angularDiff) * Math.min(Math.abs(angularDiff) * 0.55 * strength * (0.2 + 0.8 * bgHsv.s), maxHuePull);
+            const newH = Math.round((subjHsv.h + hDelta + 360) % 360);
+
+            return {
+                h: newH,
+                s: newS,
+                v: newV,
+                dH: Math.round(hDelta),
+                dS: Math.round((newS - subjHsv.s) * 100),
+                dV: Math.round((newV - subjHsv.v) * 100)
             };
-
-            // Scale induction by background saturation and value difference
-            const inductionWeight = strength * 0.34 * (0.35 + 0.65 * bgHsv.s);
-
-            let outR, outG, outB;
-            if (compensate) {
-                // COMPENSATE MODE: Pull subject slightly toward the background to neutralize the retina's opponent push
-                outR = Math.round(subjRgb.r + (bgRgb.r - oppRgb.r) * inductionWeight * 0.55);
-                outG = Math.round(subjRgb.g + (bgRgb.g - oppRgb.g) * inductionWeight * 0.55);
-                outB = Math.round(subjRgb.b + (bgRgb.b - oppRgb.b) * inductionWeight * 0.55);
-            } else {
-                // ILLUSION MODE: Push subject toward the background's opponent afterimage (how the eye falsely perceives it)
-                outR = Math.round(subjRgb.r + (oppRgb.r - bgRgb.r) * inductionWeight * 0.55);
-                outG = Math.round(subjRgb.g + (oppRgb.g - bgRgb.g) * inductionWeight * 0.55);
-                outB = Math.round(subjRgb.b + (oppRgb.b - bgRgb.b) * inductionWeight * 0.55);
-            }
-
-            outR = Math.max(0, Math.min(255, outR));
-            outG = Math.max(0, Math.min(255, outG));
-            outB = Math.max(0, Math.min(255, outB));
-
-            return rgbToHsv(outR, outG, outB);
         }
 
         // --- Update UI ---
@@ -545,8 +551,8 @@
             const hex1 = rgbToHex(rgb1.r, rgb1.g, rgb1.b);
             const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
 
-            const resultHsv = calculateRelativityColor(bgColor, subjectBase, shiftStrength, isCompensateMode);
-            const rgb2 = hsvToRgb(resultHsv.h / 360, resultHsv.s, resultHsv.v);
+            const res = calculateRelativityColor(bgColor, subjectBase, shiftStrength, isCompensateMode);
+            const rgb2 = hsvToRgb(res.h / 360, res.s, res.v);
             const hex2 = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
             const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
 
@@ -574,26 +580,29 @@
 
             const bgName = getHueName(bgColor.h);
             const oppName = getHueName((bgColor.h + 180) % 360);
-            const valPush = bgColor.v < 0.45 ? "lighter" : "darker";
+            const valPush = bgColor.v < 0.5 ? "lighter" : "darker";
             const pct = Math.round(shiftStrength * 100);
 
-            bgExplainText.textContent = `${bgName} Background — Optically pushes adjacent colors toward ${oppName} and makes them look ${valPush}.`;
+            bgExplainText.textContent = `${bgName} Background (Sat ${Math.round(bgColor.s * 100)}%, Bright ${Math.round(bgColor.v * 100)}%) — Pushes subject toward ${oppName} and makes it look ${valPush}.`;
+
+            const fmtSign = (n) => (n >= 0 ? `+${n}` : `${n}`);
+            const deltaSummary = `(Hue ${fmtSign(res.dH)}°, Sat ${fmtSign(res.dS)}%, Bright ${fmtSign(res.dV)}%)`;
 
             if (isCompensateMode) {
                 modeBtn.textContent = "COMPENSATE MODE";
                 strengthBadge.textContent = pct === 0 ? "0% ORIGINAL" : `${pct}% COMPENSATED`;
                 if (pct === 0) {
-                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag Relativity Adjustment slider right to counter-compensate for the background.";
+                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag Relativity Adjustment slider right to counter-compensate.";
                 } else {
-                    targetExplainText.textContent = `${pct}% Counter-Compensated Subject — Shifted toward ${bgName} so it resists the background's ${oppName} afterimage push.`;
+                    targetExplainText.textContent = `Counter-Compensated Subject ${deltaSummary} — Cancels out the background's optical push.`;
                 }
             } else {
                 modeBtn.textContent = "ILLUSION MODE";
                 strengthBadge.textContent = pct === 0 ? "0% ORIGINAL" : `${pct}% ILLUSION`;
                 if (pct === 0) {
-                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag slider right to see how the eye falsely perceives this color.";
+                    targetExplainText.textContent = "Unadjusted Subject Color (0%). Drag slider right to preview the optical afterimage shift.";
                 } else {
-                    targetExplainText.textContent = `${pct}% Simultaneous Contrast Illusion — Simulates how the ${bgName} background pushes this color toward ${oppName}.`;
+                    targetExplainText.textContent = `Perceived Optical Illusion ${deltaSummary} — How the eye falsely sees your subject on this background.`;
                 }
             }
 
@@ -658,9 +667,9 @@
             updateUI();
         });
 
-        // Quick A/B toggle between 0% Original and 50% Adjusted
+        // Quick A/B toggle between 0% Original and 60% Adjusted
         strengthBadge.addEventListener('click', () => {
-            shiftStrength = shiftStrength > 0.02 ? 0.0 : 0.50;
+            shiftStrength = shiftStrength > 0.02 ? 0.0 : 0.60;
             updateUI();
         });
 
@@ -694,7 +703,7 @@
             if (savedSettings) {
                 const parsed = JSON.parse(savedSettings);
                 isCompensateMode = typeof parsed.isCompensateMode === 'boolean' ? parsed.isCompensateMode : true;
-                shiftStrength = typeof parsed.shiftStrength === 'number' ? parsed.shiftStrength : 0.50;
+                shiftStrength = typeof parsed.shiftStrength === 'number' ? parsed.shiftStrength : 0.60;
             }
 
             updateUI();
