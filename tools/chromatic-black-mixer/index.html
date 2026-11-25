@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromatic Black Mixer – Rich Dark Neutrals &amp; Undertones</title>
+    <meta name="description" content="Mix rich Chromatic Blacks from classic artist pigment pairs (Ultramarine + Burnt Umber, Phthalo + Crimson) and test 6-step white tint undertones and UI darks.">
+    <link rel="canonical" href="https://colorwheel.app/tools/chromatic-black-mixer/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://colorwheel.app/tools/chromatic-black-mixer/">
+    <meta property="og:title" content="Chromatic Black Mixer – Rich Dark Neutrals &amp; Undertones">
+    <meta property="og:description" content="Blend two complementary pigments into deep Chromatic Blacks, pull a 6-step Titanium White tint drawdown, and export dark-mode UI neutral ramps.">
+    <meta property="og:site_name" content="Color Wheel">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Chromatic Black Mixer – Rich Dark Neutrals &amp; Undertones">
+    <meta name="twitter:description" content="Interactive chromatic black calculator and white-drawdown undertone tester for painters and dark-mode UI designers.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Chromatic Black & Rich Dark Neutral Mixer",
+          "url": "https://colorwheel.app/tools/chromatic-black-mixer/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Free interactive Chromatic Black mixer simulating classic complementary artist pigment darks (Ultramarine Blue + Burnt Umber, Phthalo Green + Crimson, Purple + Gold) with a 6-step Titanium White undertone drawdown and UI dark-mode ramp export."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Color Wheel",
+              "item": "https://colorwheel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Tools",
+              "item": "https://colorwheel.app/tools/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Chromatic Black Mixer",
+              "item": "https://colorwheel.app/tools/chromatic-black-mixer/"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is chromatic black in painting?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A chromatic black is a deep, near-black dark mixed from two high-tinting complementary pigments—such as French Ultramarine (PB29) and Burnt Umber (PBr7), or Phthalo Green (PG7) and Alizarin/Perylene Crimson (PR179)—instead of single-pigment carbon black. Chromatic blacks stay transparent in shadows and shift smoothly between warm and cool grays."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do UI designers use tinted rich blacks instead of #000000?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pure #000000 creates harsh halation against white text and feels disconnected from brand colors. Tinted dark neutrals (#0F1218 cool slate or #161311 warm espresso) harmonize dark-mode elevations with your brand hue—using the exact same warm/cool undertone logic as artist chromatic blacks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why add Titanium White to test a chromatic black?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In deep masstone (Value 0.5–1.2), warm and cool blacks look nearly identical to the naked eye. Pulling a Titanium White (PW6) tint drawdown immediately reveals whether the mixture leans sapphire blue, emerald green, violet, or warm taupe."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Color Wheel">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        /* === Global ColorWheel.app Styles (Inlined styles.v1.css) === */
+        :root {
+            --color-bg: #FAECF6;
+            --color-text: #1D1D1F;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--color-bg);
+            padding-top: 50px;
+        }
+
+        .top-nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            width: 100%;
+            background-color: var(--color-text);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .top-nav-left-block {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: 20px;
+            margin-left: 20px;
+        }
+
+        .top-nav-right-block {
+            display: flex;
+            margin-right: 20px;
+        }
+
+        .top-nav-btn {
+            font-size: 18px;
+            font-weight: 300;
+            color: white;
+            text-decoration: none;
+        }
+
+        .link-button {
+            font-size: 20px;
+            font-weight: 300;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--color-text);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tool-button {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 8px 11px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            min-width: 96px;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+            user-select: none;
+        }
+
+        .tool-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tool-button.is-active {
+            background-color: white;
+            color: #1D1D1F;
+            box-shadow: inset 0 0 0 2px #1D1D1F;
+            font-weight: 600;
+        }
+
+        .tool-text-box {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 8px 10px;
+            cursor: default;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 112px;
+            text-align: center;
+        }
+
+        .tool-text-field {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 7px 8px;
+            font-weight: 500;
+            font-size: 13px;
+            width: 100px;
+            text-align: center;
+            cursor: text;
+        }
+
+        .tool-text-field:focus {
+            box-shadow: 0 0 0 2px var(--color-text);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-text);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.35s;
+            pointer-events: none;
+            font-size: 14px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+            outline: none;
+            margin: 4px 0;
+            display: block;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+        }
+
+        .slider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+            border: none;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        /* === Chromatic Black Exact 100vh - 50px Workspace === */
+        .cblack-workspace {
+            height: calc(100vh - 50px);
+            height: calc(100dvh - 50px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Deep Masstone Canvas */
+        .masstone-stage {
+            flex: 1 1 0;
+            min-height: 0;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .masstone-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .recipe-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .masstone-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .masstone-explain {
+            text-align: center;
+            font-size: 18px;
+            color: white;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.35;
+        }
+
+        .masstone-sliders {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 2px 0;
+        }
+
+        /* Middle 6-Step Titanium White Drawdown Strip */
+        .drawdown-strip {
+            flex: 0 0 112px;
+            height: 112px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            width: 100%;
+        }
+
+        .drawdown-cell {
+            all: unset;
+            box-sizing: border-box;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .dd-tag {
+            background: white;
+            color: #1D1D1F;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 6px;
+            user-select: none;
+            box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.14);
+        }
+
+        /* Bottom Parent Pigment Pair Wells */
+        .parents-bar {
+            flex: 0 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+        }
+
+        .parent-well {
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .parent-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .parent-controls {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* === Below-the-fold SEO Content === */
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 22px;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-container code {
+            background: #27272a;
+            padding: 2px 6px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 840px), (max-height: 580px) {
+            .cblack-workspace {
+                height: auto;
+                min-height: calc(100vh - 50px);
+                overflow: visible;
+            }
+            .masstone-sliders,
+            .parents-bar {
+                grid-template-columns: 1fr;
+            }
+            .drawdown-strip {
+                height: auto;
+                min-height: 136px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+    <main class="cblack-workspace">
+        <!-- Top Deep Chromatic Dark Masstone -->
+        <section id="masstone-stage" class="masstone-stage" aria-label="Chromatic Black Masstone">
+            <div class="masstone-top">
+                <div class="recipe-btns" role="group" aria-label="Studio Chromatic Black Recipes">
+                    <button class="tool-button pair-btn is-active" data-pair="0" type="button">PB29 + UMBER</button>
+                    <button class="tool-button pair-btn" data-pair="1" type="button">PG7 + CRIMSON</button>
+                    <button class="tool-button pair-btn" data-pair="2" type="button">PRUSSIAN + RED</button>
+                    <button class="tool-button pair-btn" data-pair="3" type="button">PV23 + AZO GOLD</button>
+                    <button class="tool-button pair-btn" data-pair="4" type="button">PHTHALO + SIENNA</button>
+                </div>
+
+                <div class="masstone-actions">
+                    <div id="masstone-hex" class="tool-text-box">#14161A</div>
+                    <button id="copy-masstone" class="tool-button" type="button">COPY</button>
+                    <button id="snap-neutral-btn" class="tool-button" type="button">SNAP NEUTRAL</button>
+                    <button id="copy-ui-css" class="tool-button" type="button">COPY DARK UI CSS</button>
+                </div>
+            </div>
+
+            <div id="masstone-explain" class="masstone-explain"></div>
+
+            <div class="masstone-sliders">
+                <div class="slider-group">
+                    <span id="balance-label" class="slider-label">Pigment Temperature Balance: 50% Cool / 50% Warm</span>
+                    <input type="range" class="slider" id="balance-slider" min="10" max="90" step="1" value="48" aria-label="Cool vs Warm Pigment Balance">
+                </div>
+                <div class="slider-group">
+                    <span id="depth-label" class="slider-label">Masstone Concentration (Darkness): 88% Deep Velvet</span>
+                    <input type="range" class="slider" id="depth-slider" min="45" max="96" step="1" value="88" aria-label="Masstone Concentration">
+                </div>
+            </div>
+        </section>
+
+        <!-- Middle 6-Step Titanium White Undertone Drawdown -->
+        <section id="drawdown-strip" class="drawdown-strip" aria-label="Titanium White Undertone Drawdown"></section>
+
+        <!-- Bottom Cool & Warm Parent Pigments -->
+        <div class="parents-bar">
+            <section id="cool-well" class="parent-well" aria-label="Cool Parent Pigment">
+                <div class="parent-row">
+                    <span id="cool-label" class="slider-label">Cool Parent: PB29 French Ultramarine</span>
+                    <div class="parent-controls">
+                        <input type="text" id="cool-hex" class="tool-text-field" value="#1836B2" aria-label="Cool Pigment HEX">
+                        <button id="copy-cool" class="tool-button" type="button">COPY</button>
+                    </div>
+                </div>
+                <input type="range" class="slider" id="cool-hue" min="0" max="360" step="1" aria-label="Cool Pigment Hue">
+            </section>
+
+            <section id="warm-well" class="parent-well" aria-label="Warm Counter Pigment">
+                <div class="parent-row">
+                    <span id="warm-label" class="slider-label">Warm Counter: PBr7 Burnt Umber</span>
+                    <div class="parent-controls">
+                        <input type="text" id="warm-hex" class="tool-text-field" value="#4E3322" aria-label="Warm Pigment HEX">
+                        <button id="copy-warm" class="tool-button" type="button">COPY</button>
+                    </div>
+                </div>
+                <input type="range" class="slider" id="warm-hue" min="0" max="360" step="1" aria-label="Warm Pigment Hue">
+            </section>
+        </div>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">Copied</div>
+
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Chromatic Black Mixer – Studio Dark Recipes, Undertones &amp; Dark-Mode Ramps</h1>
+            <p>
+                Single-pigment carbon blacks like Lamp Black or Mars Black often deaden oil, watercolor, and acrylic paintings—just as pure <code>#000000</code> looks harsh and artificial in modern dark-mode UI design. Our free <strong>Chromatic Black Mixer</strong> blends classic complementary artist pigment pairs into deep, living darks and pulls a <strong>6-step Titanium White (PW6) drawdown</strong> so you see the exact hidden sapphire, emerald, plum, or espresso undertone.
+            </p>
+
+            <h2>Classic Two-Pigment Chromatic Black Recipes</h2>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Pigment Pairing</th>
+                        <th>Colour Index</th>
+                        <th>Undertone Character</th>
+                        <th>Best Studio &amp; Design Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ultramarine + Burnt Umber</strong></td>
+                        <td><code>PB29 + PBr7</code></td>
+                        <td>Steers smoothly from warm walnut to cool slate</td>
+                        <td>All-purpose oil/acrylic studio black &amp; UI slate-grays</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phthalo Green + Crimson</strong></td>
+                        <td><code>PG7 + PR179</code></td>
+                        <td>Ultra-deep velvet jet black; plum or emerald bias</td>
+                        <td>Deepest cast shadows, botanicals, luxury dark themes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prussian Blue + Venetian Red</strong></td>
+                        <td><code>PB27 + PR101</code></td>
+                        <td>Dense, high-tinting storm cloud gray</td>
+                        <td>Seascapes, atmospheric skies, editorial typography</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dioxazine Purple + Azo Gold</strong></td>
+                        <td><code>PV23 + PY150</code></td>
+                        <td>Glowing smoky aubergine-amber dark</td>
+                        <td>Portrait shadow glazes, warm nocturnal interiors</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phthalo Blue + Burnt Sienna</strong></td>
+                        <td><code>PB15:3 + PBr7</code></td>
+                        <td>Crisp steel-teal to rust neutral</td>
+                        <td>Watercolor washes, architectural metal &amp; stone</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Why Artists &amp; UI Designers Test Dark Neutrals with White Tint</h2>
+            <p>
+                At Value <code>0.8 / 10</code>, human cones barely distinguish hue—making three completely different dark mixtures appear identical in the pile. As soon as your brush touches a lighter passage (or a UI designer builds elevated card surfaces <code>--surface-900</code> through <code>--surface-500</code>), the hidden undertone emerges. Click <strong>SNAP NEUTRAL</strong> above to find the exact dead-neutral optical cancelation point between any two pigments, or slide left and right to deliberately cool or warm your shadows.
+            </p>
+
+            <h2>Frequently Asked Questions</h2>
+            <h3>What is the easiest chromatic black to mix for beginners?</h3>
+            <p>
+                <strong>French Ultramarine (PB29) + Burnt Umber (PBr7)</strong> is the most forgiving studio pairing because both pigments dry quickly in oil, share medium tinting strength, and shift effortlessly between cool blue-gray and warm earth brown without turning green.
+            </p>
+
+            <h3>How do I export a cohesive dark-mode UI palette from this tool?</h3>
+            <p>
+                Tune your desired cool-slate or warm-obsidian bias and click <strong>COPY DARK UI CSS</strong> to copy all 6 tonal steps (from deep background masstone to muted mid-gray border tokens) as ready-to-use CSS custom properties.
+            </p>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/zorn-palette-mixer/" class="link-button">Zorn Palette Mixer</a>
+                <a href="/tools/paint-color-mixer/" class="link-button">Paint Color Mixer</a>
+                <a href="/tools/pigment-finder/" class="link-button">Pigment &amp; RAL Finder</a>
+                <a href="/tools/kelvin-light-calculator/" class="link-button">Kelvin &amp; Purkinje Calculator</a>
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/tools/contrast-checker/" class="link-button">WCAG Contrast Checker</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    (function () {
+        const PAIRS = [
+            { coolName: 'PB29 French Ultramarine', coolHex: '#1836B2', warmName: 'PBr7 Burnt Umber', warmHex: '#4E3322' },
+            { coolName: 'PG7 Phthalo Green BS', coolHex: '#006B54', warmName: 'PR179 Perylene Crimson', warmHex: '#7A1C28' },
+            { coolName: 'PB27 Prussian Blue', coolHex: '#0F335C', warmName: 'PR101 Venetian Red', warmHex: '#98352B' },
+            { coolName: 'PV23 Dioxazine Purple', coolHex: '#3D1959', warmName: 'PY150 Nickel Azo Gold', warmHex: '#B88400' },
+            { coolName: 'PB15:3 Phthalo Blue GS', coolHex: '#004E98', warmName: 'PBr7 Burnt Sienna', warmHex: '#8E3B24' }
+        ];
+
+        function srgbToLinear(c) {
+            c = Math.max(0, Math.min(1, c));
+            return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        }
+
+        function linearToSrgb(c) {
+            c = Math.max(0, Math.min(1, c));
+            return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+        }
+
+        function parseHex(str) {
+            const clean = String(str || '').trim().replace(/^#/, '');
+            if (/^[0-9a-fA-F]{3}$/.test(clean)) return [0, 1, 2].map(i => parseInt(clean[i] + clean[i], 16));
+            if (/^[0-9a-fA-F]{6}$/.test(clean)) return [0, 2, 4].map(i => parseInt(clean.slice(i, i + 2), 16));
+            return null;
+        }
+
+        function rgbToHex(rgb) {
+            return '#' + rgb.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        function rgbToHsb(rgb) {
+            const r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h = 0;
+            if (d !== 0) {
+                if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
+                else if (max === g) h = ((b - r) / d + 2) * 60;
+                else h = ((r - g) / d + 4) * 60;
+            }
+            return [Math.round(h) % 360, max === 0 ? 0 : d / max, max];
+        }
+
+        function hsbToRgb(h, s, v) {
+            h = ((h % 360) + 360) % 360;
+            const c = v * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = v - c;
+            let r = 0, g = 0, b = 0;
+            if (h < 60) { r = c; g = x; }
+            else if (h < 120) { r = x; g = c; }
+            else if (h < 180) { g = c; b = x; }
+            else if (h < 240) { g = x; b = c; }
+            else if (h < 300) { r = x; b = c; }
+            else { r = c; b = x; }
+            return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+        }
+
+        function rgbToOklab(rgb) {
+            const r = srgbToLinear(rgb[0] / 255), g = srgbToLinear(rgb[1] / 255), b = srgbToLinear(rgb[2] / 255);
+            const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+            const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+            const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+            return [
+                0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+                1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+                0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s
+            ];
+        }
+
+        function oklabToRgb(lab) {
+            const [L, a, b] = lab;
+            const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+            const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+            const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+            const l = l_ ** 3, m = m_ ** 3, s = s_ ** 3;
+            return [
+                Math.round(linearToSrgb(+4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s) * 255),
+                Math.round(linearToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s) * 255),
+                Math.round(linearToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s) * 255)
+            ];
+        }
+
+        function relativeLuminance(rgb) {
+            return 0.2126 * srgbToLinear(rgb[0] / 255) + 0.7152 * srgbToLinear(rgb[1] / 255) + 0.0722 * srgbToLinear(rgb[2] / 255);
+        }
+
+        function artistValue10(rgb) {
+            const Y = relativeLuminance(rgb);
+            const Lstar = Y <= 0.008856 ? 903.3 * Y : 116 * Math.cbrt(Y) - 16;
+            return (Lstar / 10).toFixed(1);
+        }
+
+        // Subtractive masstone dark mixture + Titanium White drawdown
+        function mixChromaticDark(coolRgb, warmRgb, warmShare, depthPct, whiteTint) {
+            const labC = rgbToOklab(coolRgb);
+            const labW = rgbToOklab(warmRgb);
+            // Opponent a,b cancel when complementary pigments meet; masstone concentration deepens L
+            const a = (1 - warmShare) * labC[1] + warmShare * labW[1];
+            const b = (1 - warmShare) * labC[2] + warmShare * labW[2];
+            const baseL = (1 - warmShare) * labC[0] + warmShare * labW[0];
+            // Subtractive concentration pulls masstone lightness down toward deep chromatic black (0.14 - 0.34)
+            const depth = depthPct / 100;
+            const darkL = Math.max(0.13, baseL * (1 - 0.68 * depth));
+            const darkChromaScale = 1 - 0.45 * depth;
+
+            // Add Titanium White (PW6: L=0.975, a=0, b=-0.002) which expands lightness and reveals undertone!
+            const w = whiteTint;
+            const finalL = (1 - w) * darkL + w * 0.97;
+            // White tint reveals latent pigment bias peaking around 30-50% white
+            const reveal = w === 0 ? darkChromaScale : (1 - w) * 1.35 * (1 - 0.25 * depth);
+            return oklabToRgb([finalL, a * reveal, b * reveal]);
+        }
+
+        const state = {
+            pairIdx: 0,
+            coolHsb: rgbToHsb(parseHex(PAIRS[0].coolHex)),
+            warmHsb: rgbToHsb(parseHex(PAIRS[0].warmHex)),
+            coolTitle: PAIRS[0].coolName,
+            warmTitle: PAIRS[0].warmName,
+            balance: 48, // % warm
+            depth: 88
+        };
+
+        const WHITE_STEPS = [
+            { label: 'Masstone (0% W)', w: 0 },
+            { label: '+12% White', w: 0.12 },
+            { label: '+28% White', w: 0.28 },
+            { label: '+48% White', w: 0.48 },
+            { label: '+68% White', w: 0.68 },
+            { label: '+85% White', w: 0.85 }
+        ];
+
+        const toast = document.getElementById('toast');
+        let toastTimer = null;
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 1600);
+        }
+
+        function copyText(txt, customMsg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(txt).catch(() => {});
+            }
+            showToast(customMsg || ('Copied ' + txt));
+        }
+
+        function describeUndertone(midTintRgb) {
+            const [, a, b] = rgbToOklab(midTintRgb);
+            const chroma = Math.hypot(a, b);
+            if (chroma < 0.014) return 'Dead-Center Achromatic Neutral Gray';
+            const angle = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
+            if (angle >= 200 && angle < 285) return 'Cool Sapphire-Slate Undertone';
+            if (angle >= 135 && angle < 200) return 'Cool Emerald-Sea Undertone';
+            if (angle >= 285 && angle < 345) return 'Cool Plum-Violet Undertone';
+            if (angle >= 345 || angle < 45) return 'Warm Crimson-Rose Undertone';
+            return 'Warm Espresso-Taupe Undertone';
+        }
+
+        function snapDeadNeutral() {
+            const coolRgb = hsbToRgb(state.coolHsb[0], state.coolHsb[1], state.coolHsb[2]);
+            const warmRgb = hsbToRgb(state.warmHsb[0], state.warmHsb[1], state.warmHsb[2]);
+            let bestT = 50, minC = Infinity;
+            for (let t = 5; t <= 95; t++) {
+                const testRgb = mixChromaticDark(coolRgb, warmRgb, t / 100, state.depth, 0.45);
+                const [, a, b] = rgbToOklab(testRgb);
+                const c = Math.hypot(a, b);
+                if (c < minC) { minC = c; bestT = t; }
+            }
+            state.balance = bestT;
+            render();
+            showToast('Snapped to closest neutral balance (' + (100 - bestT) + ':' + bestT + ')');
+        }
+
+        function render(skipHex) {
+            const coolRgb = hsbToRgb(state.coolHsb[0], state.coolHsb[1], state.coolHsb[2]);
+            const warmRgb = hsbToRgb(state.warmHsb[0], state.warmHsb[1], state.warmHsb[2]);
+            const t = state.balance / 100;
+
+            const masstoneRgb = mixChromaticDark(coolRgb, warmRgb, t, state.depth, 0);
+            const midTintRgb = mixChromaticDark(coolRgb, warmRgb, t, state.depth, 0.48);
+            const masstoneHex = rgbToHex(masstoneRgb);
+
+            const stage = document.getElementById('masstone-stage');
+            stage.style.backgroundColor = masstoneHex;
+            document.getElementById('masstone-hex').textContent = masstoneHex;
+
+            const coolPct = 100 - state.balance;
+            document.getElementById('balance-slider').value = state.balance;
+            document.getElementById('depth-slider').value = state.depth;
+            document.getElementById('balance-label').textContent = 'Pigment Temperature Balance: ' + coolPct + '% Cool / ' + state.balance + '% Warm';
+            document.getElementById('depth-label').textContent = 'Masstone Concentration (Darkness): ' + state.depth + '%';
+
+            document.getElementById('masstone-explain').textContent =
+                'Chromatic Dark ' + masstoneHex + ' (Value ' + artistValue10(masstoneRgb) + '/10) — White Drawdown Reveals: ' + describeUndertone(midTintRgb) + '.';
+
+            document.querySelectorAll('.pair-btn').forEach((btn, i) => {
+                btn.classList.toggle('is-active', i === state.pairIdx);
+            });
+
+            // 6-Step Titanium White Drawdown
+            const strip = document.getElementById('drawdown-strip');
+            strip.innerHTML = '';
+            WHITE_STEPS.forEach(step => {
+                const sRgb = mixChromaticDark(coolRgb, warmRgb, t, state.depth, step.w);
+                const sHex = rgbToHex(sRgb);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'drawdown-cell';
+                btn.style.backgroundColor = sHex;
+                btn.title = 'Click to copy ' + sHex;
+
+                const top = document.createElement('span');
+                top.className = 'dd-tag';
+                top.textContent = step.label;
+
+                const bot = document.createElement('span');
+                bot.className = 'dd-tag';
+                bot.textContent = sHex + ' · V' + artistValue10(sRgb);
+
+                btn.appendChild(top);
+                btn.appendChild(bot);
+                btn.addEventListener('click', () => copyText(sHex));
+                strip.appendChild(btn);
+            });
+
+            // Parent Pigment Wells
+            const cHex = rgbToHex(coolRgb), wHex = rgbToHex(warmRgb);
+            document.getElementById('cool-well').style.backgroundColor = cHex;
+            document.getElementById('warm-well').style.backgroundColor = wHex;
+            document.getElementById('cool-label').textContent = 'Cool Parent: ' + state.coolTitle;
+            document.getElementById('warm-label').textContent = 'Warm Counter: ' + state.warmTitle;
+            if (skipHex !== 'cool') document.getElementById('cool-hex').value = cHex;
+            if (skipHex !== 'warm') document.getElementById('warm-hex').value = wHex;
+            document.getElementById('cool-hue').value = state.coolHsb[0];
+            document.getElementById('warm-hue').value = state.warmHsb[0];
+        }
+
+        document.querySelectorAll('.pair-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.pair, 10);
+                const p = PAIRS[idx];
+                state.pairIdx = idx;
+                state.coolHsb = rgbToHsb(parseHex(p.coolHex));
+                state.warmHsb = rgbToHsb(parseHex(p.warmHex));
+                state.coolTitle = p.coolName;
+                state.warmTitle = p.warmName;
+                snapDeadNeutral();
+            });
+        });
+
+        document.getElementById('balance-slider').addEventListener('input', e => {
+            state.balance = parseInt(e.target.value, 10);
+            render();
+        });
+
+        document.getElementById('depth-slider').addEventListener('input', e => {
+            state.depth = parseInt(e.target.value, 10);
+            render();
+        });
+
+        document.getElementById('cool-hue').addEventListener('input', e => {
+            state.pairIdx = -1;
+            state.coolTitle = 'Custom Cool Hue';
+            state.coolHsb = [parseFloat(e.target.value), Math.max(0.55, state.coolHsb[1]), state.coolHsb[2]];
+            render();
+        });
+
+        document.getElementById('warm-hue').addEventListener('input', e => {
+            state.pairIdx = -1;
+            state.warmTitle = 'Custom Warm Hue';
+            state.warmHsb = [parseFloat(e.target.value), Math.max(0.45, state.warmHsb[1]), state.warmHsb[2]];
+            render();
+        });
+
+        document.getElementById('cool-hex').addEventListener('input', e => {
+            const rgb = parseHex(e.target.value);
+            if (rgb) {
+                state.pairIdx = -1;
+                state.coolTitle = 'Custom Cool';
+                state.coolHsb = rgbToHsb(rgb);
+                render('cool');
+            }
+        });
+        document.getElementById('cool-hex').addEventListener('blur', () => render());
+
+        document.getElementById('warm-hex').addEventListener('input', e => {
+            const rgb = parseHex(e.target.value);
+            if (rgb) {
+                state.pairIdx = -1;
+                state.warmTitle = 'Custom Warm';
+                state.warmHsb = rgbToHsb(rgb);
+                render('warm');
+            }
+        });
+        document.getElementById('warm-hex').addEventListener('blur', () => render());
+
+        document.getElementById('snap-neutral-btn').addEventListener('click', snapDeadNeutral);
+        document.getElementById('copy-masstone').addEventListener('click', () => copyText(document.getElementById('masstone-hex').textContent));
+        document.getElementById('copy-cool').addEventListener('click', () => copyText(document.getElementById('cool-hex').value));
+        document.getElementById('copy-warm').addEventListener('click', () => copyText(document.getElementById('warm-hex').value));
+
+        document.getElementById('copy-ui-css').addEventListener('click', () => {
+            const coolRgb = hsbToRgb(state.coolHsb[0], state.coolHsb[1], state.coolHsb[2]);
+            const warmRgb = hsbToRgb(state.warmHsb[0], state.warmHsb[1], state.warmHsb[2]);
+            const names = ['950', '900', '800', '700', '500', '300'];
+            const tints = [0, 0.06, 0.14, 0.24, 0.48, 0.76];
+            const lines = tints.map((w, i) => '  --surface-' + names[i] + ': ' + rgbToHex(mixChromaticDark(coolRgb, warmRgb, state.balance / 100, state.depth, w)) + ';');
+            copyText(':root {\n' + lines.join('\n') + '\n}', 'Copied Dark-Mode CSS Surface Scale');
+        });
+
+        snapDeadNeutral();
+    })();
+    </script>
+</body>
+</html>
