@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Harmony Calculator – Split-Complementary &amp; RYB</title>
+    <meta name="description" content="Generate Split-Complementary, Triadic, Analogous, and Tetradic palettes from any HEX code using RYB Painter, Perceptual OKLCH, or RGB color wheels.">
+    <link rel="canonical" href="https://colorwheel.app/tools/color-harmony-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://colorwheel.app/tools/color-harmony-calculator/">
+    <meta property="og:title" content="Free Color Harmony Calculator – RYB Painter, OKLCH &amp; RGB Schemes">
+    <meta property="og:description" content="Calculate Split-Complementary, Triadic, Analogous, and Tetradic palettes on the RYB artist wheel or perceptual OKLCH space, complete with a live 60-30-10 proportion preview.">
+    <meta property="og:site_name" content="Color Wheel">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Color Harmony Calculator – Split-Complementary &amp; Triadic Finder">
+    <meta name="twitter:description" content="Interactive color harmony calculator for painters and UI designers supporting RYB, OKLCH, and RGB color wheels.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Free Color Harmony Calculator (RYB Painter, OKLCH & RGB)",
+          "url": "https://colorwheel.app/tools/color-harmony-calculator/",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Interactive color wheel harmony calculator generating Split-Complementary, Triadic, Analogous, Tetradic, Square, and Monochromatic palettes across Traditional RYB Painter, Perceptual OKLCH, and Digital RGB color wheels."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Color Wheel",
+              "item": "https://colorwheel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Tools",
+              "item": "https://colorwheel.app/tools/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Color Harmony Calculator",
+              "item": "https://colorwheel.app/tools/color-harmony-calculator/"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the difference between Split-Complementary and Triadic color schemes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A Triadic color scheme spaces three colors evenly around the color wheel at 120° intervals for bold, energetic contrast. A Split-Complementary scheme pairs your base color with the two colors flanking its direct opposite (typically +150° and +210°), delivering strong visual contrast without the harsh optical vibration of direct complements."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I use the RYB, OKLCH, or RGB color wheel?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use the RYB Painter Wheel for oil, acrylic, watercolor, and illustration where Red opposes Green and Blue opposes Orange. Use Perceptual OKLCH for UI/UX design and branding so every generated harmony color shares consistent perceived lightness and readability. Use Digital RGB/HSL for standard web CSS hue rotations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you apply the 60-30-10 color rule to a 3-color harmony?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Assign 60% of the composition or interface to your dominant base color (often muted or neutral-leaning), 30% to the secondary supporting harmony color, and reserve 10% for the highest-chroma accent color to guide the viewer's focal point."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Color Wheel">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        /* === Global ColorWheel.app Styles (Inlined styles.v1.css) === */
+        :root {
+            --color-bg: #FAECF6;
+            --color-text: #1D1D1F;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--color-bg);
+            padding-top: 50px;
+        }
+
+        .top-nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            width: 100%;
+            background-color: var(--color-text);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .top-nav-left-block {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: 20px;
+            margin-left: 20px;
+        }
+
+        .top-nav-right-block {
+            display: flex;
+            margin-right: 20px;
+        }
+
+        .top-nav-btn {
+            font-size: 18px;
+            font-weight: 300;
+            color: white;
+            text-decoration: none;
+        }
+
+        .link-button {
+            font-size: 20px;
+            font-weight: 300;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--color-text);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tool-button {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 10px 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            min-width: 110px;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+            user-select: none;
+        }
+
+        .tool-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tool-button.is-active {
+            background-color: var(--color-text);
+            color: white;
+        }
+
+        .tool-text-box {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 10px 10px;
+            cursor: default;
+            font-weight: 600;
+            font-size: 14px;
+            width: 120px;
+            text-align: center;
+        }
+
+        .tool-text-field {
+            all: unset;
+            box-sizing: border-box;
+            background-color: white;
+            color: var(--color-text);
+            padding: 10px 10px;
+            font-weight: 500;
+            font-size: 14px;
+            width: 120px;
+            transition: background-color 0.2s;
+            text-align: center;
+            cursor: text;
+        }
+
+        .tool-text-field:focus {
+            box-shadow: 0 0 0 2px var(--color-text);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-text);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.35s;
+            pointer-events: none;
+            font-size: 14px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+            outline: none;
+            margin: 6px 0;
+            display: block;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+        }
+
+        .slider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            cursor: pointer;
+            border-radius: 0px;
+            border: none;
+        }
+
+        .slider-label {
+            background-color: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 4px;
+            user-select: none;
+        }
+
+        .ultra-light .tool-button:not(.is-active),
+        .ultra-light .tool-text-box,
+        .ultra-light .tool-text-field,
+        .ultra-light .slider-label {
+            box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.16);
+        }
+
+        .ultra-light .slider {
+            background: #1D1D1F;
+        }
+
+        .ultra-light .slider::-webkit-slider-thumb {
+            background: #1D1D1F;
+        }
+
+        .ultra-light .slider::-moz-range-thumb {
+            background: #1D1D1F;
+        }
+
+        /* === Multi-Column Harmony Layout (Exact 100vh - 50px fit) === */
+        .harmony-workspace {
+            height: calc(100vh - 50px);
+            height: calc(100dvh - 50px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .control-stage {
+            flex: 0 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .top-controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .selector-clusters {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .base-hex-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .harmony-explain {
+            text-align: center;
+            font-size: 17px;
+            line-height: 1.3;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .sliders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 24px;
+        }
+
+        .slider-group {
+            width: 100%;
+            margin: 2px 0;
+        }
+
+        /* Multi-Swatch Palette Columns */
+        .palette-columns {
+            flex: 1 1 0;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        }
+
+        .swatch-col {
+            padding: 14px 12px;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .swatch-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .swatch-value-note {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .swatch-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 60-30-10 Proportion Strip */
+        .proportion-section {
+            flex: 0 0 auto;
+            background-color: #1D1D1F;
+            padding: 8px 20px 10px;
+        }
+
+        .proportion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #d4d4d8;
+            font-size: 12px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .proportion-bar {
+            display: flex;
+            width: 100%;
+            height: 34px;
+        }
+
+        .prop-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* === Below-the-fold SEO Content === */
+        .seo-section {
+            background-color: #18181b;
+            color: #f4f4f5;
+            padding: 60px 20px;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #27272a;
+        }
+
+        .seo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        .seo-container h1 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .seo-container h2 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .seo-container h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 22px;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .seo-container p,
+        .seo-container li {
+            font-size: 15px;
+            font-weight: 300;
+            color: #d4d4d8;
+            margin-bottom: 14px;
+        }
+
+        .seo-container code {
+            background: #27272a;
+            padding: 2px 6px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .seo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .seo-table th,
+        .seo-table td {
+            border: 1px solid #3f3f46;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .seo-table th {
+            background-color: #27272a;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .seo-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 760px), (max-height: 580px) {
+            .harmony-workspace {
+                height: auto;
+                min-height: calc(100vh - 50px);
+                overflow: visible;
+            }
+            .sliders-grid {
+                grid-template-columns: 1fr;
+            }
+            .palette-columns {
+                grid-template-columns: 1fr 1fr;
+                min-height: 260px;
+            }
+            .harmony-explain {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="top-nav-left-block">
+            <a href="/tools/" class="top-nav-btn">Tools</a>
+        </div>
+        <div class="top-nav-right-block">
+            <a href="/" class="top-nav-btn">Download App</a>
+        </div>
+    </nav>
+
+    <main class="harmony-workspace">
+        <!-- Base Color & Harmony Selector Stage -->
+        <section id="control-stage" class="control-stage" aria-label="Base Color and Harmony Controls">
+            <div class="top-controls-row">
+                <div class="selector-clusters">
+                    <div class="button-row" role="group" aria-label="Harmony Type">
+                        <button class="tool-button harmony-btn is-active" data-harmony="split" type="button">SPLIT-COMP</button>
+                        <button class="tool-button harmony-btn" data-harmony="triadic" type="button">TRIADIC</button>
+                        <button class="tool-button harmony-btn" data-harmony="analogous" type="button">ANALOGOUS</button>
+                        <button class="tool-button harmony-btn" data-harmony="tetradic" type="button">TETRADIC</button>
+                        <button class="tool-button harmony-btn" data-harmony="square" type="button">SQUARE</button>
+                        <button class="tool-button harmony-btn" data-harmony="mono" type="button">MONOCHROMATIC</button>
+                    </div>
+                    <div class="button-row" role="group" aria-label="Color Wheel Model">
+                        <button class="tool-button wheel-btn is-active" data-wheel="ryb" type="button">RYB PAINTER WHEEL</button>
+                        <button class="tool-button wheel-btn" data-wheel="oklch" type="button">OKLCH PERCEPTUAL</button>
+                        <button class="tool-button wheel-btn" data-wheel="rgb" type="button">RGB DIGITAL</button>
+                    </div>
+                </div>
+
+                <div class="base-hex-actions">
+                    <input type="text" id="base-hex" class="tool-text-field" value="#2457C5" aria-label="Base HEX Color">
+                    <button id="copy-base-btn" class="tool-button" type="button">COPY</button>
+                    <button id="copy-css-btn" class="tool-button" type="button">COPY CSS</button>
+                </div>
+            </div>
+
+            <div id="harmony-explain" class="harmony-explain"></div>
+
+            <div class="sliders-grid">
+                <div class="slider-group">
+                    <span class="slider-label">Base Hue</span>
+                    <input type="range" class="slider" id="base-hue" min="0" max="360" step="1" aria-label="Base Hue">
+                </div>
+                <div class="slider-group">
+                    <span class="slider-label">Base Saturation</span>
+                    <input type="range" class="slider" id="base-sat" min="0" max="1" step="0.01" aria-label="Base Saturation">
+                </div>
+                <div class="slider-group">
+                    <span class="slider-label">Base Brightness</span>
+                    <input type="range" class="slider" id="base-bri" min="0" max="1" step="0.01" aria-label="Base Brightness">
+                </div>
+                <div class="slider-group">
+                    <span id="spread-label" class="slider-label">Harmony Angle / Spread: 30°</span>
+                    <input type="range" class="slider" id="spread-slider" min="12" max="60" step="1" value="30" aria-label="Harmony Spread Angle">
+                </div>
+            </div>
+        </section>
+
+        <!-- Multi-Swatch Generated Harmony Columns -->
+        <section id="palette-columns" class="palette-columns" aria-label="Generated Color Harmony Swatches"></section>
+
+        <!-- Live 60-30-10 Composition Balance Preview -->
+        <div class="proportion-section">
+            <div class="proportion-header">
+                <span><strong>60–30–10 Visual Balance Preview</strong> (Dominant · Secondary · Accent)</span>
+                <span>Click any bar segment to copy HEX</span>
+            </div>
+            <div id="proportion-bar" class="proportion-bar"></div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">Copied</div>
+
+    <section class="seo-section">
+        <div class="seo-container">
+            <h1>Free Color Harmony Calculator – Split-Complementary, Triadic, Analogous &amp; Tetradic</h1>
+            <p>
+                Our free <strong>Color Harmony Calculator</strong> builds multi-color palettes from any starting HEX code across three distinct color models: the traditional <strong>RYB Painter’s Color Wheel</strong>, modern <strong>Perceptual OKLCH</strong>, and standard <strong>RGB Digital</strong>. Explore <strong>Split-Complementary</strong>, <strong>Triadic</strong>, <strong>Analogous</strong>, <strong>Tetradic (Rectangle)</strong>, <strong>Square</strong>, and <strong>Monochromatic</strong> schemes with artist tonal values and instant CSS export.
+            </p>
+
+            <h2>Geometric Color Harmonies Reference Chart</h2>
+            <table class="seo-table">
+                <thead>
+                    <tr>
+                        <th>Harmony Scheme</th>
+                        <th>Wheel Angles</th>
+                        <th>Visual Character</th>
+                        <th>Ideal Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Split-Complementary</strong></td>
+                        <td>0°, +150°, +210°</td>
+                        <td>High contrast without harsh edge vibration</td>
+                        <td>Illustration focal lighting, brand hero sections, beginners</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Triadic</strong></td>
+                        <td>0°, +120°, +240°</td>
+                        <td>Vibrant, balanced three-primary tension</td>
+                        <td>Editorial graphics, character design, poster art</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analogous</strong></td>
+                        <td>−60°, −30°, 0°, +30°, +60°</td>
+                        <td>Cohesive, serene temperature flow</td>
+                        <td>Landscape painting, calm UI themes, gradients</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tetradic (Rectangle)</strong></td>
+                        <td>0°, +30°, +180°, +210°</td>
+                        <td>Dual complementary pairs (warm vs. cool)</td>
+                        <td>Complex dashboards, rich narrative environments</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Square</strong></td>
+                        <td>0°, +90°, +180°, +270°</td>
+                        <td>Even four-quadrant chromatic diversity</td>
+                        <td>Data visualization categories, bold packaging</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Why RYB, OKLCH, and RGB Give Different Harmony Colors</h2>
+            <p>
+                On a standard digital <strong>RGB wheel</strong>, pure Blue (<code>240°</code>) sits opposite Yellow (<code>60°</code>), whereas on Johannes Itten’s traditional <strong>RYB Painter Wheel</strong>, Blue sits opposite Orange and Red sits opposite Green. Meanwhile, <strong>OKLCH</strong> rotates hues inside a perceptually uniform space so a Triadic yellow, magenta, and cyan share consistent perceived lightness instead of jumping wildly in visual weight.
+            </p>
+
+            <h2>Frequently Asked Questions</h2>
+            <h3>What is the difference between Split-Complementary and Triadic color schemes?</h3>
+            <p>
+                A Triadic scheme spaces three colors equally at <code>120°</code> intervals around the wheel, creating bold energy across all three primaries. A Split-Complementary scheme takes your base color and flanks its opposite at <code>180° ± 30°</code>, preserving strong warm/cool contrast while keeping two of the colors closely related.
+            </p>
+
+            <h3>Should I use the RYB, OKLCH, or RGB color wheel?</h3>
+            <p>
+                Choose <strong>RYB Painter Wheel</strong> for fine art, oil/acrylic painting, and classic illustration color scripts. Choose <strong>OKLCH Perceptual</strong> for accessible web apps, UI kits, and design tokens. Choose <strong>RGB Digital</strong> when matching standard CSS <code>hsl()</code> hue angles.
+            </p>
+
+            <h3>How do you apply the 60-30-10 color rule to a harmony?</h3>
+            <p>
+                Dedicate <strong>60%</strong> of your canvas or screen area to a calm dominant color, <strong>30%</strong> to a supporting secondary hue, and <strong>10%</strong> to your most saturated accent color. Check the live <strong>60–30–10 Visual Balance Preview</strong> bar above to test how your palette reads in realistic proportions.
+            </p>
+
+            <h2>Explore More Free Color Tools</h2>
+            <div class="seo-links">
+                <a href="/tools/complementary-finder/" class="link-button">Complementary Finder</a>
+                <a href="/tools/paint-color-mixer/" class="link-button">Paint Color Mixer</a>
+                <a href="/tools/pigment-finder/" class="link-button">Pigment &amp; RAL Finder</a>
+                <a href="/tools/color-blindness-simulator/" class="link-button">Color Blindness Simulator</a>
+                <a href="/tools/oklch-converter/" class="link-button">OKLCH Converter</a>
+                <a href="/tools/value-checker/" class="link-button">Value Checker</a>
+                <a href="/" class="link-button">Download Color Wheel App</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    (function () {
+        // === sRGB / HSB / RYB / OKLCH Color Math ===
+        function srgbToLinear(c) {
+            c = Math.max(0, Math.min(1, c));
+            return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        }
+
+        function linearToSrgb(c) {
+            c = Math.max(0, Math.min(1, c));
+            return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+        }
+
+        function rgbToHex(rgb) {
+            return '#' + rgb.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        function parseHex(str) {
+            const clean = String(str || '').trim().replace(/^#/, '');
+            if (/^[0-9a-fA-F]{3}$/.test(clean)) {
+                return [
+                    parseInt(clean[0] + clean[0], 16),
+                    parseInt(clean[1] + clean[1], 16),
+                    parseInt(clean[2] + clean[2], 16)
+                ];
+            }
+            if (/^[0-9a-fA-F]{6}$/.test(clean)) {
+                return [
+                    parseInt(clean.slice(0, 2), 16),
+                    parseInt(clean.slice(2, 4), 16),
+                    parseInt(clean.slice(4, 6), 16)
+                ];
+            }
+            return null;
+        }
+
+        function rgbToHsb(rgb) {
+            const r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h = 0;
+            if (d !== 0) {
+                if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
+                else if (max === g) h = ((b - r) / d + 2) * 60;
+                else h = ((r - g) / d + 4) * 60;
+            }
+            return [Math.round(h) % 360, max === 0 ? 0 : d / max, max];
+        }
+
+        function hsbToRgb(h, s, v) {
+            h = ((h % 360) + 360) % 360;
+            s = Math.max(0, Math.min(1, s));
+            v = Math.max(0, Math.min(1, v));
+            const c = v * s;
+            const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+            const m = v - c;
+            let r = 0, g = 0, b = 0;
+            if (h < 60) { r = c; g = x; }
+            else if (h < 120) { r = x; g = c; }
+            else if (h < 180) { g = c; b = x; }
+            else if (h < 240) { g = x; b = c; }
+            else if (h < 300) { r = x; b = c; }
+            else { r = c; b = x; }
+            return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+        }
+
+        function relativeLuminance(rgb) {
+            return 0.2126 * srgbToLinear(rgb[0] / 255) + 0.7152 * srgbToLinear(rgb[1] / 255) + 0.0722 * srgbToLinear(rgb[2] / 255);
+        }
+
+        function artistValue10(rgb) {
+            const Y = relativeLuminance(rgb);
+            const Lstar = Y <= 0.008856 ? 903.3 * Y : 116 * Math.cbrt(Y) - 16;
+            return (Lstar / 10).toFixed(1);
+        }
+
+        // Piecewise Itten Artist Wheel mapping: RGB Hue <-> RYB Hue
+        // Anchors: Red(0->0), Orange(30->60), Yellow(60->120), Green(120->180), Blue(240->240), Violet(300->300), Red(360->360)
+        const RGB_NODES = [0, 30, 60, 120, 240, 300, 360];
+        const RYB_NODES = [0, 60, 120, 180, 240, 300, 360];
+
+        function rgbHueToRyb(h) {
+            h = ((h % 360) + 360) % 360;
+            for (let i = 0; i < RGB_NODES.length - 1; i++) {
+                if (h >= RGB_NODES[i] && h <= RGB_NODES[i + 1]) {
+                    const t = (h - RGB_NODES[i]) / (RGB_NODES[i + 1] - RGB_NODES[i]);
+                    return RYB_NODES[i] + t * (RYB_NODES[i + 1] - RYB_NODES[i]);
+                }
+            }
+            return h;
+        }
+
+        function rybHueToRgb(ryb) {
+            ryb = ((ryb % 360) + 360) % 360;
+            for (let i = 0; i < RYB_NODES.length - 1; i++) {
+                if (ryb >= RYB_NODES[i] && ryb <= RYB_NODES[i + 1]) {
+                    const t = (ryb - RYB_NODES[i]) / (RYB_NODES[i + 1] - RYB_NODES[i]);
+                    return RGB_NODES[i] + t * (RGB_NODES[i + 1] - RGB_NODES[i]);
+                }
+            }
+            return ryb;
+        }
+
+        // OKLCH conversion with sRGB gamut binary search
+        function rgbToOklch(rgb) {
+            const r = srgbToLinear(rgb[0] / 255);
+            const g = srgbToLinear(rgb[1] / 255);
+            const b = srgbToLinear(rgb[2] / 255);
+            const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+            const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+            const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+            const L = 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s;
+            const A = 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s;
+            const B = 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s;
+            const C = Math.sqrt(A * A + B * B);
+            const H = ((Math.atan2(B, A) * 180 / Math.PI) + 360) % 360;
+            return [L, C, H];
+        }
+
+        function oklchLinearRgb(L, C, H) {
+            const rad = H * Math.PI / 180;
+            const a = C * Math.cos(rad), b = C * Math.sin(rad);
+            const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+            const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+            const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+            const l = l_ * l_ * l_, m = m_ * m_ * m_, s = s_ * s_ * s_;
+            return [
+                +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+                -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+                -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+            ];
+        }
+
+        function oklchToRgbGamut(L, C, H) {
+            L = Math.max(0.02, Math.min(0.98, L));
+            let lo = 0, hi = C;
+            const inGamut = (lin) => lin[0] >= -0.001 && lin[0] <= 1.001 && lin[1] >= -0.001 && lin[1] <= 1.001 && lin[2] >= -0.001 && lin[2] <= 1.001;
+            let lin = oklchLinearRgb(L, C, H);
+            if (!inGamut(lin)) {
+                for (let i = 0; i < 14; i++) {
+                    const mid = 0.5 * (lo + hi);
+                    if (inGamut(oklchLinearRgb(L, mid, H))) lo = mid;
+                    else hi = mid;
+                }
+                lin = oklchLinearRgb(L, lo, H);
+            }
+            return [
+                Math.round(linearToSrgb(lin[0]) * 255),
+                Math.round(linearToSrgb(lin[1]) * 255),
+                Math.round(linearToSrgb(lin[2]) * 255)
+            ];
+        }
+
+        function rotateColor(baseHsb, angleDeg, wheel, satScale, briDelta) {
+            const baseRgb = hsbToRgb(baseHsb[0], baseHsb[1], baseHsb[2]);
+            if (angleDeg === 0 && satScale === 1 && briDelta === 0) return baseRgb;
+
+            if (wheel === 'oklch') {
+                const [L, C, H] = rgbToOklch(baseRgb);
+                return oklchToRgbGamut(
+                    Math.max(0.08, Math.min(0.95, L + briDelta * 0.5)),
+                    C * satScale,
+                    (H + angleDeg + 360) % 360
+                );
+            }
+            let newHue;
+            if (wheel === 'ryb') {
+                const rybH = rgbHueToRyb(baseHsb[0]);
+                newHue = rybHueToRgb((rybH + angleDeg + 360) % 360);
+            } else {
+                newHue = (baseHsb[0] + angleDeg + 360) % 360;
+            }
+            return hsbToRgb(
+                newHue,
+                Math.max(0, Math.min(1, baseHsb[1] * satScale)),
+                Math.max(0.06, Math.min(1, baseHsb[2] + briDelta))
+            );
+        }
+
+        // === State ===
+        const state = {
+            hsb: rgbToHsb([36, 87, 197]), // #2457C5 Cobalt Blue
+            harmony: 'split',
+            wheel: 'ryb',
+            spread: 30
+        };
+
+        const HARMONY_DESCRIPTIONS = {
+            split: 'Split-Complementary — Base color paired with two flanking opposites for vibrant contrast without harsh edge tension.',
+            triadic: 'Triadic Harmony — Three evenly spaced colors (120° apart) forming an equilateral triangle around the wheel.',
+            analogous: 'Analogous Harmony — Neighboring hues flowing smoothly across warm/cool transitions.',
+            tetradic: 'Tetradic (Double-Complementary) — Two complementary pairs creating rich four-color contrast.',
+            square: 'Square Harmony — Four colors spaced evenly at 90° intervals around the wheel.',
+            mono: 'Monochromatic Scale — Tints, halftones, and deep shades anchored to a single hue.'
+        };
+
+        function computeSwatches() {
+            const sp = state.spread;
+            const w = state.wheel;
+            const hsb = state.hsb;
+            if (state.harmony === 'split') {
+                return [
+                    { role: 'Dominant Base (0°)', weight: 60, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                    { role: 'Split Accent 1 (+' + (180 - sp) + '°)', weight: 30, rgb: rotateColor(hsb, 180 - sp, w, 1, 0) },
+                    { role: 'Split Accent 2 (+' + (180 + sp) + '°)', weight: 10, rgb: rotateColor(hsb, 180 + sp, w, 1, 0) }
+                ];
+            }
+            if (state.harmony === 'triadic') {
+                return [
+                    { role: 'Primary Base (0°)', weight: 60, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                    { role: 'Triad 2 (+120°)', weight: 30, rgb: rotateColor(hsb, 120, w, 1, 0) },
+                    { role: 'Triad 3 (+240°)', weight: 10, rgb: rotateColor(hsb, 240, w, 1, 0) }
+                ];
+            }
+            if (state.harmony === 'analogous') {
+                return [
+                    { role: 'Outer Left (−' + (sp * 2) + '°)', weight: 10, rgb: rotateColor(hsb, -sp * 2, w, 0.92, 0.04) },
+                    { role: 'Inner Left (−' + sp + '°)', weight: 20, rgb: rotateColor(hsb, -sp, w, 0.96, 0.02) },
+                    { role: 'Dominant Base (0°)', weight: 45, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                    { role: 'Inner Right (+' + sp + '°)', weight: 15, rgb: rotateColor(hsb, sp, w, 0.96, -0.02) },
+                    { role: 'Outer Right (+' + (sp * 2) + '°)', weight: 10, rgb: rotateColor(hsb, sp * 2, w, 0.92, -0.04) }
+                ];
+            }
+            if (state.harmony === 'tetradic') {
+                return [
+                    { role: 'Dominant Base (0°)', weight: 50, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                    { role: 'Secondary (+' + (sp * 2) + '°)', weight: 25, rgb: rotateColor(hsb, sp * 2, w, 0.95, 0) },
+                    { role: 'Direct Opposite (+180°)', weight: 15, rgb: rotateColor(hsb, 180, w, 1, 0) },
+                    { role: 'Counter Accent (+' + (180 + sp * 2) + '°)', weight: 10, rgb: rotateColor(hsb, 180 + sp * 2, w, 0.95, 0) }
+                ];
+            }
+            if (state.harmony === 'square') {
+                return [
+                    { role: 'Base (0°)', weight: 55, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                    { role: 'Quarter (+90°)', weight: 20, rgb: rotateColor(hsb, 90, w, 1, 0) },
+                    { role: 'Opposite (+180°)', weight: 15, rgb: rotateColor(hsb, 180, w, 1, 0) },
+                    { role: 'Three-Quarter (+270°)', weight: 10, rgb: rotateColor(hsb, 270, w, 1, 0) }
+                ];
+            }
+            // Monochromatic
+            const step = sp / 100;
+            return [
+                { role: 'High Tint', weight: 20, rgb: rotateColor(hsb, 0, w, 0.35, 0.32) },
+                { role: 'Light Halftone', weight: 25, rgb: rotateColor(hsb, 0, w, 0.68, step * 0.5) },
+                { role: 'Core Base', weight: 35, rgb: rotateColor(hsb, 0, w, 1, 0) },
+                { role: 'Deep Shade', weight: 20, rgb: rotateColor(hsb, 0, w, 1.05, -0.32) }
+            ];
+        }
+
+        // === DOM ===
+        const controlStage = document.getElementById('control-stage');
+        const baseHex = document.getElementById('base-hex');
+        const baseHue = document.getElementById('base-hue');
+        const baseSat = document.getElementById('base-sat');
+        const baseBri = document.getElementById('base-bri');
+        const spreadSlider = document.getElementById('spread-slider');
+        const spreadLabel = document.getElementById('spread-label');
+        const harmonyExplain = document.getElementById('harmony-explain');
+        const paletteColumns = document.getElementById('palette-columns');
+        const proportionBar = document.getElementById('proportion-bar');
+        const toast = document.getElementById('toast');
+
+        let toastTimer = null;
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 1600);
+        }
+
+        function copyText(txt, customMsg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(txt).catch(() => {});
+            }
+            showToast(customMsg || ('Copied ' + txt));
+        }
+
+        function render(skipHexInput) {
+            const baseRgb = hsbToRgb(state.hsb[0], state.hsb[1], state.hsb[2]);
+            const hexStr = rgbToHex(baseRgb);
+            const baseY = relativeLuminance(baseRgb);
+
+            controlStage.style.backgroundColor = hexStr;
+            controlStage.classList.toggle('ultra-light', baseY > 0.86);
+            harmonyExplain.style.color = baseY > 0.36 ? '#000000' : '#FFFFFF';
+            harmonyExplain.textContent = HARMONY_DESCRIPTIONS[state.harmony];
+
+            if (!skipHexInput) baseHex.value = hexStr;
+            baseHue.value = state.hsb[0];
+            baseSat.value = state.hsb[1].toFixed(2);
+            baseBri.value = state.hsb[2].toFixed(2);
+
+            const hasSpread = state.harmony === 'split' || state.harmony === 'analogous' || state.harmony === 'tetradic';
+            spreadSlider.disabled = !hasSpread;
+            spreadSlider.style.opacity = hasSpread ? '1' : '0.35';
+            spreadLabel.textContent = hasSpread
+                ? ('Harmony Angle / Spread: ' + state.spread + '°')
+                : 'Harmony Angle: Fixed Geometry';
+
+            document.querySelectorAll('.harmony-btn').forEach(btn => {
+                btn.classList.toggle('is-active', btn.dataset.harmony === state.harmony);
+            });
+            document.querySelectorAll('.wheel-btn').forEach(btn => {
+                btn.classList.toggle('is-active', btn.dataset.wheel === state.wheel);
+            });
+
+            const swatches = computeSwatches();
+            paletteColumns.innerHTML = '';
+            proportionBar.innerHTML = '';
+
+            swatches.forEach((sw, i) => {
+                const swHex = rgbToHex(sw.rgb);
+                const swY = relativeLuminance(sw.rgb);
+                const fg = swY > 0.36 ? '#000000' : '#FFFFFF';
+
+                const col = document.createElement('div');
+                col.className = 'swatch-col' + (swY > 0.86 ? ' ultra-light' : '');
+                col.style.backgroundColor = swHex;
+
+                const meta = document.createElement('div');
+                meta.className = 'swatch-meta';
+                const roleTag = document.createElement('span');
+                roleTag.className = 'slider-label';
+                roleTag.textContent = sw.role;
+                const valNote = document.createElement('div');
+                valNote.className = 'swatch-value-note';
+                valNote.style.color = fg;
+                valNote.textContent = 'Value ' + artistValue10(sw.rgb) + ' / 10';
+                meta.appendChild(roleTag);
+                meta.appendChild(valNote);
+
+                const actions = document.createElement('div');
+                actions.className = 'swatch-actions';
+                const hexBox = document.createElement('div');
+                hexBox.className = 'tool-text-box';
+                hexBox.textContent = swHex;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.type = 'button';
+                copyBtn.className = 'tool-button';
+                copyBtn.textContent = 'COPY';
+                copyBtn.addEventListener('click', () => copyText(swHex));
+
+                actions.appendChild(hexBox);
+                actions.appendChild(copyBtn);
+
+                if (i > 0) {
+                    const promoteBtn = document.createElement('button');
+                    promoteBtn.type = 'button';
+                    promoteBtn.className = 'tool-button';
+                    promoteBtn.textContent = 'SET AS BASE';
+                    promoteBtn.addEventListener('click', () => {
+                        state.hsb = rgbToHsb(sw.rgb);
+                        render();
+                    });
+                    actions.appendChild(promoteBtn);
+                }
+
+                col.appendChild(meta);
+                col.appendChild(actions);
+                paletteColumns.appendChild(col);
+
+                // Proportion bar segment
+                const seg = document.createElement('div');
+                seg.className = 'prop-segment';
+                seg.style.width = sw.weight + '%';
+                seg.style.backgroundColor = swHex;
+                seg.style.color = fg;
+                seg.textContent = sw.weight + '% ' + swHex;
+                seg.title = 'Click to copy ' + swHex;
+                seg.addEventListener('click', () => copyText(swHex));
+                proportionBar.appendChild(seg);
+            });
+        }
+
+        // === Listeners ===
+        [baseHue, baseSat, baseBri].forEach(el => {
+            el.addEventListener('input', () => {
+                state.hsb = [parseFloat(baseHue.value), parseFloat(baseSat.value), parseFloat(baseBri.value)];
+                render();
+            });
+        });
+
+        spreadSlider.addEventListener('input', () => {
+            state.spread = parseInt(spreadSlider.value, 10);
+            render();
+        });
+
+        baseHex.addEventListener('input', () => {
+            const rgb = parseHex(baseHex.value);
+            if (rgb) {
+                state.hsb = rgbToHsb(rgb);
+                render(true);
+            }
+        });
+        baseHex.addEventListener('blur', () => render());
+
+        document.getElementById('copy-base-btn').addEventListener('click', () => copyText(baseHex.value));
+
+        document.getElementById('copy-css-btn').addEventListener('click', () => {
+            const swatches = computeSwatches();
+            const cssVars = ':root {\n' + swatches.map((s, idx) => '  --harmony-' + (idx + 1) + ': ' + rgbToHex(s.rgb) + ';').join('\n') + '\n}';
+            copyText(cssVars, 'Copied CSS Palette Variables');
+        });
+
+        document.querySelectorAll('.harmony-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.harmony = btn.dataset.harmony;
+                render();
+            });
+        });
+
+        document.querySelectorAll('.wheel-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.wheel = btn.dataset.wheel;
+                render();
+            });
+        });
+
+        render();
+    })();
+    </script>
+</body>
+</html>
