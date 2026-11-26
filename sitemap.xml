@@ -62,36 +62,29 @@
   </url>
   <url>
     <loc>https://colorwheel.app/tools/paint-color-mixer/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/color-harmony-calculator/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/pigment-finder/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/color-blindness-simulator/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <loc>https://colorwheel.app/tools/gradient-generator/</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.8</priority>
+  <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/kelvin-light-calculator/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/chromatic-black-mixer/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-26</lastmod>
   </url>
 </urlset>
