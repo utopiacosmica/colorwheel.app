@@ -76,8 +76,9 @@
     <loc>https://colorwheel.app/tools/color-blindness-simulator/</loc>
     <lastmod>2026-11-26</lastmod>
   </url>
-  <loc>https://colorwheel.app/tools/gradient-generator/</loc>
-  <lastmod>2026-11-26</lastmod>
+  <url>
+    <loc>https://colorwheel.app/tools/gradient-generator/</loc>
+    <lastmod>2026-11-26</lastmod>
   </url>
   <url>
     <loc>https://colorwheel.app/tools/kelvin-light-calculator/</loc>
